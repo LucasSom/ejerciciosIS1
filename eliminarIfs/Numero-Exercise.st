@@ -543,10 +543,10 @@ multiplicacionConEntero: unEntero
 
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 18:00:49'!
-multiplicacionConFraccion: unEntero
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/15/2019 23:11:15'!
+multiplicacionConFraccion: unaFraccion
 
-	^Fraccion with: ( self numerator * unEntero ) over: self denominator.
+	^Fraccion with: ( self numerator * unaFraccion numerator) over: (self denominator * unaFraccion denominator).
 	
 
 	! !
