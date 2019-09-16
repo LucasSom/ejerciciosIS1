@@ -381,18 +381,29 @@ Numero subclass: #Entero
 	
 	^self + aSubtrahend negated.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 16:54:03'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:36:35'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Fraccion ) ifTrue: [ ^Fraccion with: ( self * aDivisor denominator ) over: aDivisor numerator ]. 	
-
+	"(aDivisor isKindOf: Fraccion ) ifTrue: [ ^Fraccion with: ( self * aDivisor denominator ) over: aDivisor numerator ]. "	
 	
-	^Fraccion with: self over: aDivisor! !
+	^aDivisor dividiendoAUnEntero: self
+	
+	"^Fraccion with: self over: aDivisor"! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:55'!
 // aDivisor 
 	
 	^self class with: value // aDivisor integerValue! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:38:31'!
+dividiendoAUnEntero: unEntero
+
+	^Fraccion with: unEntero over: self.! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:43:31'!
+dividiendoAUnaFraccion: unaFraccion
+
+	^Fraccion with: (unaFraccion numerator) over: (unaFraccion denominator  * self).! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
 fibonacci
@@ -528,12 +539,24 @@ Numero subclass: #Fraccion
 	^self + aSubtrahend negated.
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 16:55:31'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:44:32'!
 / aDivisor 
 
-	(aDivisor isKindOf: Entero ) ifTrue: [ ^Fraccion with: ( numerator) over: aDivisor  * denominator ]. 	
+	"(aDivisor isKindOf: Entero ) ifTrue: [ ^Fraccion with: ( numerator) over: aDivisor  * denominator ]. 	
 	
-	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator)! !
+	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator)"
+	
+	^aDivisor  dividiendoAUnaFraccion: self.! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:39:59'!
+dividiendoAUnEntero: unEntero
+
+	^Fraccion with: (unEntero * self denominator) over: self numerator .! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:42:39'!
+dividiendoAUnaFraccion: unaFraccion
+
+	^Fraccion with: (unaFraccion numerator  * self denominator) over: (unaFraccion denominator  * self numerator).! !
 
 !Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:56:44'!
 multiplicacionConEntero: unEntero
