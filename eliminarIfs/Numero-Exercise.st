@@ -405,12 +405,12 @@ dividiendoAUnaFraccion: unaFraccion
 
 	^Fraccion with: (unaFraccion numerator) over: (unaFraccion denominator  * self).! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 13:30:47'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
 fibonacci
 
 	| one two |
 	
-	one := Uno.
+	one := Entero with: 1.
 	two := Entero with: 2.
 	
 	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
@@ -512,88 +512,6 @@ with: aValue
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
 	^self new initalizeWith: aValue! !
-
-
-!classDefinition: #Cero category: #'Numero-Exercise'!
-Entero subclass: #Cero
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numero-Exercise'!
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:26:47'!
-fibonacci
-
-	^Uno! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:35:08'!
-integerValue
-	^0! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:25:29'!
-isNegative
-
-	^false! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:36:52'!
-isOne
-	^false! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:25:12'!
-isZero
-
-	^true! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'chris m 9/16/2019 14:51:47'!
-negated
-	
-	^self! !
-
-!Cero methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:36:06'!
-printOn: aStream
-
-	aStream print: value! !
-
-
-!classDefinition: #Uno category: #'Numero-Exercise'!
-Entero subclass: #Uno
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numero-Exercise'!
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:26:10'!
-fibonacci
-
-	^self! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:35:29'!
-integerValue
-	^1.! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:25:52'!
-isNegative
-
-	^false! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:36:39'!
-isOne
-	^true! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:25:45'!
-isZero
-
-	^false! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'chris m 9/16/2019 14:52:22'!
-negated
-	
-	^Entero with: -1.! !
-
-!Uno methodsFor: 'as yet unclassified' stamp: 'LS 9/16/2019 13:36:12'!
-printOn: aStream
-
-	aStream print: value! !
 
 
 !classDefinition: #Fraccion category: #'Numero-Exercise'!
