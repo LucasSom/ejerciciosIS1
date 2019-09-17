@@ -147,44 +147,50 @@ TestCase subclass: #SentenceFinderByPrefixTest
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'elementosEnLaPila'
+	instanceVariableNames: 'elementosEnLaPila xxxxxstackInternoAbstracto xxxtope'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:36:16'!
 initialize
 
-	elementosEnLaPila _ OrderedCollection new.
+	xxxtope _ Celda nuevaCeldaVacia.
 	^self.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:42:41'!
 isEmpty
-	^elementosEnLaPila isEmpty.
+	^xxxtope isEmpty.
 	 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
-pop 
-	
-	self isEmpty ifTrue: [ ^self class error: self class stackEmptyErrorDescription ].
-	^elementosEnLaPila removeFirst. ! !
+!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:40:35'!
+pop
+	| yyyytopeViejo |
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
+	yyyytopeViejo := xxxtope content. 
+ 	xxxtope := xxxtope anterior.
+	^yyyytopeViejo.
+	 
+	! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:19:14'!
 push: aNewTopElement
-
-	elementosEnLaPila addFirst: aNewTopElement. ! !
+	
+	|viejoTope|
+	
+	viejoTope _ xxxtope.
+	xxxtope := Celda with: aNewTopElement conAnterior: viejoTope.! !
 
 !OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
 size
 	
 	^ elementosEnLaPila size.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:39:15'!
 top
 	
-	self isEmpty ifTrue: [ ^self class error: self class stackEmptyErrorDescription  ].
-	^ elementosEnLaPila first.
-
+	^xxxtope content.
+	
 	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -198,6 +204,160 @@ stackEmptyErrorDescription
 	
 	^ 'Stack is empty'! !
 
+
+!classDefinition: #Celda category: #'Stack-Exercise'!
+OOStack subclass: #Celda
+	instanceVariableNames: 'contenido anterior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmm 9/16/2019 21:35:42'!
+add: aNewTopElement
+
+	contenido _ aNewTopElement .! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:13:45'!
+anterior
+	^ self subclassResponsibility.! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:11:56'!
+content
+	^ self subclassResponsibility.! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmm 9/16/2019 21:32:32'!
+initialize
+	anterior _ self.
+	size _ 0.
+	^self.! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:21'!
+isEmpty
+	^ self subclassResponsibility.! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:34:28'!
+nuevaCeldaVacia
+	^CeldaVacia new.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Celda class' category: #'Stack-Exercise'!
+Celda class
+	instanceVariableNames: ''!
+
+!Celda class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:47:02'!
+nuevaCeldaVacia
+	^CeldaVacia new.! !
+
+!Celda class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:21:44'!
+with: unElemento conAnterior: xxxxxx
+	! !
+
+
+!classDefinition: #CeldaNoVacia category: #'Stack-Exercise'!
+Celda subclass: #CeldaNoVacia
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:14:00'!
+anterior
+	^ anterior.! !
+
+!CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:12:39'!
+content
+	^contenido.! !
+
+!CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:55'!
+isEmpty
+	^ false.! !
+
+
+!classDefinition: #CeldaVacia category: #'Stack-Exercise'!
+Celda subclass: #CeldaVacia
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:14:32'!
+anterior
+	^ self error: 'celda vacia no tiene anterior'.! !
+
+!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:13:03'!
+content 
+	^ self error: 'celda vacia'.! !
+
+!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:43'!
+isEmpty
+	^ true.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CeldaVacia class' category: #'Stack-Exercise'!
+CeldaVacia class
+	instanceVariableNames: 'uniqueInstance'!
+
+!CeldaVacia class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:45:33'!
+initialize
+	
+	uniqueInstance := self basicNew.! !
+
+!CeldaVacia class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:45:44'!
+new
+	
+	^uniqueInstance.! !
+
+
+!classDefinition: #OOStackAbstracto category: #'Stack-Exercise'!
+Object subclass: #OOStackAbstracto
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+
+!classDefinition: #OOStackAbstractoNoVacio category: #'Stack-Exercise'!
+OOStackAbstracto subclass: #OOStackAbstractoNoVacio
+	instanceVariableNames: 'elementosEnLaPila'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackAbstractoNoVacio methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:54:20'!
+pop: anOrderedCollection
+
+	^anOrderedCollection removeFirst. ! !
+
+
+!classDefinition: #OOStackAbstractoVacio category: #'Stack-Exercise'!
+OOStackAbstracto subclass: #OOStackAbstractoVacio
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackAbstractoVacio methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:55:16'!
+pop: anOrderedCollection
+
+	 ^self class error: self class stackEmptyErrorDescription.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOStackAbstractoVacio class' category: #'Stack-Exercise'!
+OOStackAbstractoVacio class
+	instanceVariableNames: 'uniqueInstance'!
+
+!OOStackAbstractoVacio class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:40:23'!
+initialize
+	
+	uniqueInstance := self basicNew.! !
+
+!OOStackAbstractoVacio class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:41:10'!
+new
+	
+	^uniqueInstance.! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: #'Stack-Exercise'!
@@ -206,3 +366,6 @@ Object subclass: #SentenceFinderByPrefix
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+CeldaVacia initialize!
+OOStackAbstractoVacio initialize!
