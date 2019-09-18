@@ -147,7 +147,7 @@ TestCase subclass: #SentenceFinderByPrefixTest
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'elementosEnLaPila xxxxxstackInternoAbstracto xxxtope'
+	instanceVariableNames: 'elementosEnLaPila xxxtope'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
@@ -249,9 +249,10 @@ Celda class
 nuevaCeldaVacia
 	^CeldaVacia new.! !
 
-!Celda class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:21:44'!
-with: unElemento conAnterior: xxxxxx
-	! !
+!Celda class methodsFor: 'as yet unclassified' stamp: 'LS 9/17/2019 23:30:36'!
+with: unElemento conAnterior: celdaAnterior
+	
+	^CeldaNoVacia safeWithElement: unElemento conAnterior: celdaAnterior ! !
 
 
 !classDefinition: #CeldaNoVacia category: #'Stack-Exercise'!
@@ -269,9 +270,27 @@ anterior
 content
 	^contenido.! !
 
+!CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'LS 9/17/2019 23:27:55'!
+initializeSafeWith: unElemento conAnterior: celdaAnterior 
+
+	contenido _ unElemento.
+	anterior _ celdaAnterior.
+	! !
+
 !CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:55'!
 isEmpty
 	^ false.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CeldaNoVacia class' category: #'Stack-Exercise'!
+CeldaNoVacia class
+	instanceVariableNames: ''!
+
+!CeldaNoVacia class methodsFor: 'as yet unclassified' stamp: 'LS 9/17/2019 23:25:33'!
+safeWithElement: unElemento conAnterior: celdaAnterior
+
+	^self new initializeSafeWith: unElemento conAnterior: celdaAnterior .! !
 
 
 !classDefinition: #CeldaVacia category: #'Stack-Exercise'!
@@ -310,56 +329,6 @@ new
 	^uniqueInstance.! !
 
 
-!classDefinition: #OOStackAbstracto category: #'Stack-Exercise'!
-Object subclass: #OOStackAbstracto
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-
-!classDefinition: #OOStackAbstractoNoVacio category: #'Stack-Exercise'!
-OOStackAbstracto subclass: #OOStackAbstractoNoVacio
-	instanceVariableNames: 'elementosEnLaPila'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!OOStackAbstractoNoVacio methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:54:20'!
-pop: anOrderedCollection
-
-	^anOrderedCollection removeFirst. ! !
-
-
-!classDefinition: #OOStackAbstractoVacio category: #'Stack-Exercise'!
-OOStackAbstracto subclass: #OOStackAbstractoVacio
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!OOStackAbstractoVacio methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:55:16'!
-pop: anOrderedCollection
-
-	 ^self class error: self class stackEmptyErrorDescription.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'OOStackAbstractoVacio class' category: #'Stack-Exercise'!
-OOStackAbstractoVacio class
-	instanceVariableNames: 'uniqueInstance'!
-
-!OOStackAbstractoVacio class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:40:23'!
-initialize
-	
-	uniqueInstance := self basicNew.! !
-
-!OOStackAbstractoVacio class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 17:41:10'!
-new
-	
-	^uniqueInstance.! !
-
-
 !classDefinition: #SentenceFinderByPrefix category: #'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
 	instanceVariableNames: ''
@@ -368,4 +337,3 @@ Object subclass: #SentenceFinderByPrefix
 	category: 'Stack-Exercise'!
 
 CeldaVacia initialize!
-OOStackAbstractoVacio initialize!
