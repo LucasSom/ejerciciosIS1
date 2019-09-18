@@ -147,44 +147,57 @@ TestCase subclass: #SentenceFinderByPrefixTest
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'elementosEnLaPila xxxtope'
+	instanceVariableNames: 'xxxtope size'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:36:16'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 13:43:06'!
+incrementarSize
+	size := size + 1.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:28:36'!
 initialize
 
 	xxxtope _ Celda nuevaCeldaVacia.
+	size _ 0.
 	^self.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:42:41'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:28:08'!
 isEmpty
-	^xxxtope isEmpty.
+	^size = 0.
 	 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:40:35'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 09:00:57'!
 pop
-	| yyyytopeViejo |
-
-	yyyytopeViejo := xxxtope content. 
- 	xxxtope := xxxtope anterior.
-	^yyyytopeViejo.
+	
+	^xxxtope popEnStack: self.
 	 
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:19:14'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:37:33'!
 push: aNewTopElement
 	
 	|viejoTope|
 	
 	viejoTope _ xxxtope.
-	xxxtope := Celda with: aNewTopElement conAnterior: viejoTope.! !
+	xxxtope := Celda with: aNewTopElement conAnterior: viejoTope enStack: self.
+	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/16/2019 20:14:00'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 09:01:29'!
+sacarTope
+	
+	| yyyytopeViejo |
+
+	size _ size-1.
+	yyyytopeViejo := xxxtope content. 
+ 	xxxtope := xxxtope anterior.
+	^yyyytopeViejo.! !
+
+!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:27:34'!
 size
 	
-	^ elementosEnLaPila size.! !
+	^ size.! !
 
 !OOStack methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:39:15'!
 top
@@ -225,10 +238,9 @@ anterior
 content
 	^ self subclassResponsibility.! !
 
-!Celda methodsFor: 'as yet unclassified' stamp: 'cmmm 9/16/2019 21:32:32'!
+!Celda methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:27:07'!
 initialize
 	anterior _ self.
-	size _ 0.
 	^self.! !
 
 !Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:21'!
@@ -238,6 +250,11 @@ isEmpty
 !Celda methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:34:28'!
 nuevaCeldaVacia
 	^CeldaVacia new.! !
+
+!Celda methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:56:55'!
+popEnStack: unStack
+
+	^self subclassResponsibility ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -249,10 +266,10 @@ Celda class
 nuevaCeldaVacia
 	^CeldaVacia new.! !
 
-!Celda class methodsFor: 'as yet unclassified' stamp: 'LS 9/17/2019 23:30:36'!
-with: unElemento conAnterior: celdaAnterior
+!Celda class methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:41:35'!
+with: unElemento conAnterior: celdaAnterior enStack: unStack
 	
-	^CeldaNoVacia safeWithElement: unElemento conAnterior: celdaAnterior ! !
+	^CeldaNoVacia safeWithElement: unElemento conAnterior: celdaAnterior enStack: unStack .! !
 
 
 !classDefinition: #CeldaNoVacia category: #'Stack-Exercise'!
@@ -281,15 +298,21 @@ initializeSafeWith: unElemento conAnterior: celdaAnterior
 isEmpty
 	^ false.! !
 
+!CeldaNoVacia methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:58:37'!
+popEnStack: unStack
+
+	^unStack sacarTope.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'CeldaNoVacia class' category: #'Stack-Exercise'!
 CeldaNoVacia class
 	instanceVariableNames: ''!
 
-!CeldaNoVacia class methodsFor: 'as yet unclassified' stamp: 'LS 9/17/2019 23:25:33'!
-safeWithElement: unElemento conAnterior: celdaAnterior
-
+!CeldaNoVacia class methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:42:51'!
+safeWithElement: unElemento conAnterior: celdaAnterior enStack: unStack.
+	
+	unStack incrementarSize.
 	^self new initializeSafeWith: unElemento conAnterior: celdaAnterior .! !
 
 
@@ -304,13 +327,18 @@ Celda subclass: #CeldaVacia
 anterior
 	^ self error: 'celda vacia no tiene anterior'.! !
 
-!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:13:03'!
+!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 16:48:39'!
 content 
-	^ self error: 'celda vacia'.! !
+	^ self error: OOStack stackEmptyErrorDescription.! !
 
 !CeldaVacia methodsFor: 'as yet unclassified' stamp: 'cmmmmm 9/17/2019 18:09:43'!
 isEmpty
 	^ true.! !
+
+!CeldaVacia methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 16:45:43'!
+popEnStack: unStack
+
+	^self error: OOStack stackEmptyErrorDescription.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
