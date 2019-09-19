@@ -144,7 +144,7 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:04:14'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:04:14'!
 test01BuscarConPrefijoVacioDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -154,7 +154,7 @@ test01BuscarConPrefijoVacioDevuelveColeccionVacia
 	
 	self assert: [ sentenceFinder find: '' isEmpty .].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:07:50'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:07:50'!
 test02BuscarConPrefijoVacioEnStackCon1ElementoDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -165,7 +165,7 @@ test02BuscarConPrefijoVacioEnStackCon1ElementoDevuelveColeccionVacia
 	
 	self assert: [ (sentenceFinder find: '') isEmpty .].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:07:29'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:07:29'!
 test03BuscarConPrefijoEnStackCon1ElementoDiferenteDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -176,7 +176,7 @@ test03BuscarConPrefijoEnStackCon1ElementoDiferenteDevuelveColeccionVacia
 	self assert: [ (sentenceFinder find: 'sofi') isEmpty .].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:07:17'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:07:17'!
 test04BuscarConPrefijoEnStackConVacioDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -187,7 +187,7 @@ test04BuscarConPrefijoEnStackConVacioDevuelveColeccionVacia
 	self assert: [ (sentenceFinder find: 'sofi') isEmpty .].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:06:27'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:06:27'!
 test05BuscarConPrefijoEnStackCon1ElementoDiferenteDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -201,7 +201,7 @@ test05BuscarConPrefijoEnStackCon1ElementoDiferenteDevuelveColeccionVacia
 	
 	 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:10:01'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:10:01'!
 test06BuscarConPrefijoEnStackCon1ElementoMasCortoDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -213,7 +213,7 @@ test06BuscarConPrefijoEnStackCon1ElementoMasCortoDevuelveColeccionVacia
 	self assert: [ (sentenceFinder find: 'sofi') isEmpty .].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:10:05'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:10:05'!
 test07BuscarConPrefijoEnStackCon1ElementoIgualDevuelveColeccionConElemento
 	
 	| stack sentenceFinder |
@@ -225,7 +225,7 @@ test07BuscarConPrefijoEnStackCon1ElementoIgualDevuelveColeccionConElemento
 	self assert: [ (sentenceFinder find: 'sofi') = (OrderedCollection with: 'sofia').].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:12:59'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:12:59'!
 test08BuscarConPrefijoEnStackCon1ElementoMasLargoDevuelveColeccionConElemento
 	
 	| stack sentenceFinder |
@@ -237,7 +237,7 @@ test08BuscarConPrefijoEnStackCon1ElementoMasLargoDevuelveColeccionConElemento
 	self assert: [ (sentenceFinder find: 'sofia') = (OrderedCollection with: 'sofia Velez').].
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:13:22'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:13:22'!
 test09BuscarConPrefijoEnStackCon2Elementos1PrefijoDevuelveColeccionConElemento
 	
 	| stack sentenceFinder |
@@ -251,7 +251,7 @@ test09BuscarConPrefijoEnStackCon2Elementos1PrefijoDevuelveColeccionConElemento
 	self assert: [ (sentenceFinder find: 'sofia') = (OrderedCollection with: 'sofia Velez').].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:13:59'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:13:59'!
 test10BuscarConPrefijoEnStackCon2ElementosDiferentesDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -265,7 +265,7 @@ test10BuscarConPrefijoEnStackCon2ElementosDiferentesDevuelveColeccionVacia
 	self assert: [ (sentenceFinder find: 'gerardo') isEmpty .].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:14:38'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:14:38'!
 test11BuscarConPrefijoEnStackCon2Elementos2PrefijoDevuelveColeccionConLos2Elementos
 	
 	| stack sentenceFinder |
@@ -279,7 +279,7 @@ test11BuscarConPrefijoEnStackCon2Elementos2PrefijoDevuelveColeccionConLos2Elemen
 	self assert: [ (sentenceFinder find: 'so') = (OrderedCollection with: 'sofia Velez' with: 'sorrentinos de verdura').].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:18:05'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:18:05'!
 test12BuscarConPrefijoQueNoEsteEnStackConVariosElementosDevuelveColeccionVacia
 	
 	| stack sentenceFinder |
@@ -295,7 +295,7 @@ test12BuscarConPrefijoQueNoEsteEnStackConVariosElementosDevuelveColeccionVacia
 	
 	self assert: [ (sentenceFinder find: 'rac') isEmpty .].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:18:33'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'asdfasf 9/19/2019 16:18:33'!
 test13BuscarConPrefijoQueEstaRepetidoEnStackConVariosElementosDevuelveColeccionConElementos
 	
 	| stack sentenceFinder |
@@ -311,10 +311,10 @@ test13BuscarConPrefijoQueEstaRepetidoEnStackConVariosElementosDevuelveColeccionC
 	
 	self assert: [ (sentenceFinder find: 'so') = (OrderedCollection with: 'sofia Velez' with: 'sorrentinos de verdura').].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 16:10:34'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'casdc 9/19/2019 16:48:27'!
 test14BuscarNoDestruyeElStack
 	
-	| stack stack2 sentenceFinder |
+	| stack stackToCompareEqual sentenceFinder |
 	
 	stack := OOStack new.
 	stack push: 'sofia Velez'.
@@ -327,14 +327,38 @@ test14BuscarNoDestruyeElStack
 	
 	sentenceFinder find: 'so'.
 	
-	stack2 := OOStack new.
-	stack2 push: 'sofia Velez'.
-	stack2 push: 'sorrentinos de verdura'.
-	stack2 push: 'Araoz y la Verdad'.
-	stack2 push: 'Esperandolo a Tito'.
-	stack2 push: 'La odisea de los Giles'.
+	stackToCompareEqual := OOStack new.
+	stackToCompareEqual push: 'sofia Velez'.
+	stackToCompareEqual push: 'sorrentinos de verdura'.
+	stackToCompareEqual push: 'Araoz y la Verdad'.
+	stackToCompareEqual push: 'Esperandolo a Tito'.
+	stackToCompareEqual push: 'La odisea de los Giles'.
 	
-	self assert: [ stack = stack2] = true.! !
+	self assert: stack isEqualTo: stackToCompareEqual.
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'casdc 9/19/2019 16:37:47'!
+test15BuscarPrefijoQueParcialmenteCoincide
+    
+    | stack sentenceFinder |
+    
+    stack := OOStack new.
+    stack push: 'sofia Velez'.
+    stack push: 'sorrentinos de verdura'.
+    stack push: 'Araoz y la Verdad'.
+    stack push: 'Esperandolo a Tito'.
+    stack push: 'La odisea de los Giles'.
+    
+    sentenceFinder := SentenceFinderByPrefix with: stack .
+    
+    self assert: [ (sentenceFinder find: 'sol') isEmpty .].! !
+
+
+!SentenceFinderByPrefixTest methodsFor: 'assert' stamp: 'casdc 9/19/2019 16:46:18'!
+assert: aStack isEqualTo: anotherStack
+	
+	self assert: aStack size equals: anotherStack size.
+	aStack size timesRepeat: [ self assert: aStack pop equals: anotherStack pop ].! !
 
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
@@ -344,30 +368,19 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 13:43:06'!
-incrementarSize
-	size := size + 1.! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/19/2019 14:26:12'!
-initialize
-
-	celdaSuperior _ Celda nuevaCeldaVacia.
-	size _ 0.
-	^self.! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:28:08'!
+!OOStack methodsFor: 'operations' stamp: 'LS 9/18/2019 08:28:08'!
 isEmpty
 	^size = 0.
 	 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/19/2019 14:26:12'!
+!OOStack methodsFor: 'operations' stamp: 'LS 9/19/2019 14:26:12'!
 pop
 	
 	^celdaSuperior popEnStack: self.
 	 
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/19/2019 14:27:05'!
+!OOStack methodsFor: 'operations' stamp: 'LS 9/19/2019 14:27:05'!
 push: aNewTopElement
 	
 	|viejaCeldaSuperior|
@@ -376,7 +389,24 @@ push: aNewTopElement
 	celdaSuperior := Celda with: aNewTopElement conAnterior: viejaCeldaSuperior enStack: self.
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/19/2019 14:27:51'!
+!OOStack methodsFor: 'operations' stamp: 'LS 9/18/2019 08:27:34'!
+size
+	
+	^ size.! !
+
+!OOStack methodsFor: 'operations' stamp: 'LS 9/19/2019 14:26:12'!
+top
+	
+	^celdaSuperior content.
+	
+	! !
+
+
+!OOStack methodsFor: 'private' stamp: 'LS 9/18/2019 13:43:06'!
+incrementarSize
+	size := size + 1.! !
+
+!OOStack methodsFor: 'private' stamp: 'LS 9/19/2019 14:27:51'!
 sacarTope
 	
 	| celdaSuperiorVieja |
@@ -386,17 +416,13 @@ sacarTope
  	celdaSuperior := celdaSuperior anterior.
 	^celdaSuperiorVieja.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/18/2019 08:27:34'!
-size
-	
-	^ size.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'LS 9/19/2019 14:26:12'!
-top
-	
-	^celdaSuperior content.
-	
-	! !
+!OOStack methodsFor: 'initialize' stamp: 'LS 9/19/2019 14:26:12'!
+initialize
+
+	celdaSuperior _ Celda nuevaCeldaVacia.
+	size _ 0.
+	^self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -555,7 +581,7 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'asdfasf 9/19/2019 15:59:55'!
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'casdc 9/19/2019 16:23:30'!
 find: aPrefix
 	
 	| stringToCompare resCollection |
@@ -568,7 +594,9 @@ find: aPrefix
 	
 	(stringToCompare beginsWith: aPrefix) ifTrue: [resCollection addLast: stringToCompare] .
 		
-	stackToReorder push: stringToCompare.].	
+	stackToReorder push: stringToCompare.].
+
+	self reorderStacks.	
 
 	^resCollection! !
 
@@ -576,6 +604,17 @@ find: aPrefix
 initializeWith: aStack
 	stackxxxxxxxx := aStack .
 	stackToReorder := OOStack new.! !
+
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'casdc 9/19/2019 16:26:27'!
+reorderStacks
+
+	| stringToCompare |
+
+	stackToReorder size timesRepeat: [
+	
+	stringToCompare := stackToReorder pop.
+		
+	stackxxxxxxxx push: stringToCompare.].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
