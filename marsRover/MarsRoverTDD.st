@@ -99,7 +99,7 @@ initializeIn: aPoint oriented: aDirection
 	position := aPoint.
 	direction := aDirection.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:54:22'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'LS 10/4/2019 17:39:56'!
 move: aString
 	aString = 'f' ifTrue: [position := position + (0@1)] ifFalse: [
 	aString = 'b' ifTrue: [position := position - (0@1)] ifFalse: [
@@ -113,7 +113,17 @@ move: aString
 						  direction = $S ifTrue: [direction := $E].
 						  direction = $O ifTrue: [direction := $S]]] ifFalse: [				
 				
-	aString = 'ff' ifTrue: [position := position + (0@2)] ifFalse: [^MarsRover invalidCommandMessage ] ]]]] 
+	aString = 'ff' ifTrue: [position := position + (0@2)] ifFalse: [ aString = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
+	
+	]
+
+]
+
+]
+
+] 
+
+	
 	
 	
 	
@@ -135,6 +145,6 @@ in: aPoint oriented: aDirection
 	^MarsRover new initializeIn: aPoint oriented: aDirection! !
 
 
-!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:48:08'!
+!MarsRover class methodsFor: 'error description' stamp: 'LS 10/4/2019 17:36:46'!
 invalidCommandMessage
 	^'Invalid command'! !
