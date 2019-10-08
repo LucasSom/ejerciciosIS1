@@ -1,118 +1,94 @@
 !classDefinition: #MarsRoverTest category: #MarsRoverTDD!
 TestCase subclass: #MarsRoverTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'marsRover'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:08:21'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:28:01'!
 test01EmptyStringDoesNotChange
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: Norte. 
-	
-	rover move: ''.
-	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: Norte.
+	marsRover move: ''.
+	self assert: marsRover position equals: 1@1.
+	self assert: Norte new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:09:45'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:28:58'!
 test02StringWithFMovesForwardAndDoesNotChangeDirection
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: Norte. 
-	
-	rover move: 'f'.
-	self assert: rover position equals: 1@2.
-	self assert: rover direction equals: Norte.
+	marsRover move: 'f'.
+	self assert: marsRover position equals: 1@2.
+	self assert: Norte new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:09:59'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:11'!
 test03StringWithBMovesBackwardsAndDoesNotChangeDirection
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: Norte. 
-	
-	rover move: 'b'.
-	self assert: rover position equals: 1@0.
-	self assert: rover direction equals: Norte.
+	marsRover move: 'b'.
+	self assert: marsRover position equals: 1@0.
+	self assert: Norte new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:10:09'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:16'!
 test04StringWithRRotatesRightAndDoesNotChangePosition
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: Norte. 
-	
-	rover move: 'r'.
-	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: Este.
+	marsRover move: 'r'.
+	self assert: marsRover position equals: 1@1.
+	self assert: Este new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:38:36'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:26'!
 test05StringWithLRotatesLeftAndDoesNotChangePosition
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	rover move: 'l'.
-	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: $O.
+	marsRover move: 'l'.
+	self assert: marsRover position equals: 1@1.
+	self assert: Oeste new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:46:40'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:34'!
 test06InvalidStringRaiseError
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	self should: [ rover move: 'x'. ]
+	self should: [ marsRover move: 'x'. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: MarsRover invalidCommandMessage.! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:41:47'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:40'!
 test07StringWithManyFMovesSeveralPositionsForwardAndDoesNotChangeDirection
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	rover move: 'ff'.
-	self assert: rover position equals: 1@3.
-	self assert: rover direction equals: $N .
+	marsRover move: 'ff'.
+	self assert: marsRover position equals: 1@3.
+	self assert: Norte new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 17:33:00'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:48'!
 test08StringWithManyBMovesSeveralPositionsBackwardsAndDoesNotChangeDirection
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	rover move: 'bb'.
-	self assert: rover position equals: 1@-1.
-	self assert: rover direction equals: $N.
+	marsRover move: 'bb'.
+	self assert: marsRover position equals: 1@-1.
+	self assert: Norte new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 17:37:52'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:29:57'!
 test09StringWithManyRRotatesSeveralDirectionsRightAndDoesNotChangePosition
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	rover move: 'rrr'.
-	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: $O.
+	marsRover move: 'rrr'.
+	self assert: marsRover position equals: 1@1.
+	self assert: Oeste new equals: marsRover direction.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 17:40:05'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:30:04'!
 test10StringWithManyLRotatesSeveralDirectionsLeftAndDoesNotChangePosition
 	
-	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
-	
-	rover move: 'lll'.
-	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: $E.
+	marsRover move: 'lll'.
+	self assert: marsRover position equals: 1@1.
+	self assert: Este new equals: marsRover direction.
 ! !
+
+
+!MarsRoverTest methodsFor: 'setUp/tearDown' stamp: 'cmmmmm 10/8/2019 20:27:35'!
+setUp
+	
+	marsRover _ MarsRover in: 1@1 oriented: Norte new. ! !
 
 
 !classDefinition: #MarsRover category: #MarsRoverTDD!
@@ -228,10 +204,20 @@ initialize
 
 	uniqueInstance := self basicNew ! !
 
+!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:12'!
+l
+	
+	^Norte new! !
+
 !Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:02'!
 new 
 	
 	^uniqueInstance ! !
+
+!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:01'!
+r
+	
+	^Sur new! !
 
 
 !classDefinition: #Norte category: #MarsRoverTDD!
@@ -246,10 +232,12 @@ l
 	
 	^Oeste new! !
 
-!Norte methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:40'!
+!Norte methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:12:25'!
 r
-	
-	^Este new! !
+	| nuevaDireccion |
+	nuevaDireccion := Este new.
+	^nuevaDireccion.
+	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -262,15 +250,22 @@ initialize
 
 	uniqueInstance := self basicNew ! !
 
+!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:21'!
+l
+	
+	^Oeste new! !
+
 !Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:22'!
 new
 
 	^uniqueInstance ! !
 
-!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:13:34'!
+!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:13:36'!
 r
+	| xxxx |
 	
-	^Este new! !
+	xxxx := Este new.
+	^xxxx. ! !
 
 
 !classDefinition: #Oeste category: #MarsRoverTDD!
@@ -301,10 +296,20 @@ initialize
 
 	uniqueInstance := self basicNew ! !
 
+!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:31'!
+l
+	
+	^Sur new! !
+
 !Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:40'!
 new
 
 	^uniqueInstance ! !
+
+!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:37'!
+r
+	
+	^Norte new! !
 
 
 !classDefinition: #Sur category: #MarsRoverTDD!
@@ -335,10 +340,20 @@ initialize
 
 	uniqueInstance := self basicNew ! !
 
+!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:54'!
+l
+	
+	^Este new! !
+
 !Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:54'!
 new
 
 	^uniqueInstance ! !
+
+!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:46'!
+r
+	
+	^Oeste new! !
 
 Este initialize!
 Norte initialize!
