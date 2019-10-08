@@ -5,48 +5,48 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:12:32'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:08:21'!
 test01EmptyStringDoesNotChange
 	
 	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
+	rover _ MarsRover in: 1@1 oriented: Norte. 
 	
 	rover move: ''.
 	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: $N.
+	self assert: rover direction equals: Norte.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:13:37'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:09:45'!
 test02StringWithFMovesForwardAndDoesNotChangeDirection
 	
 	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
+	rover _ MarsRover in: 1@1 oriented: Norte. 
 	
 	rover move: 'f'.
 	self assert: rover position equals: 1@2.
-	self assert: rover direction equals: $N.
+	self assert: rover direction equals: Norte.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:19:47'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:09:59'!
 test03StringWithBMovesBackwardsAndDoesNotChangeDirection
 	
 	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
+	rover _ MarsRover in: 1@1 oriented: Norte. 
 	
 	rover move: 'b'.
 	self assert: rover position equals: 1@0.
-	self assert: rover direction equals: $N.
+	self assert: rover direction equals: Norte.
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:35:24'!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:10:09'!
 test04StringWithRRotatesRightAndDoesNotChangePosition
 	
 	|rover|
-	rover _ MarsRover in: 1@1 oriented: $N. 
+	rover _ MarsRover in: 1@1 oriented: Norte. 
 	
 	rover move: 'r'.
 	self assert: rover position equals: 1@1.
-	self assert: rover direction equals: $E.
+	self assert: rover direction equals: Este.
 ! !
 
 !MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:38:36'!
@@ -148,20 +148,14 @@ position
 
 	^position! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:45:52'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:19:11'!
 xxxxxxx: aChar
 
 	aChar = $f ifTrue: [position := position + (0@1)] ifFalse: [
 	aChar = $b ifTrue: [position := position - (0@1)] ifFalse: [
-	aChar = $r ifTrue: [direction = $N ifTrue: [direction := $E] ifFalse:[ 
-						  direction = $O ifTrue: [direction := $N].
-						  direction = $S ifTrue: [direction := $O].
-						  direction = $E ifTrue: [direction := $S]]] ifFalse: [
+	aChar = $r ifTrue: [direction := (direction r) ] ifFalse: [
 				
-	aChar = $l ifTrue: [direction = $N ifTrue: [direction := $O] ifFalse:[ 
-						  direction = $E ifTrue: [direction := $N].
-						  direction = $S ifTrue: [direction := $E].
-						  direction = $O ifTrue: [direction := $S]]]
+	aChar = $l ifTrue: [direction = direction l ]
 					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
 					
 					]]]! !
@@ -189,6 +183,16 @@ Object subclass: #PuntoCardinal
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
+!PuntoCardinal methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:05:41'!
+l 
+
+	^self subclassResponsibility.! !
+
+!PuntoCardinal methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:05:47'!
+r 
+
+	^self subclassResponsibility.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'PuntoCardinal class' category: #MarsRoverTDD!
@@ -202,6 +206,16 @@ PuntoCardinal subclass: #Este
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
+
+!Este methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:11'!
+l
+	
+	^Norte new! !
+
+!Este methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:02'!
+r
+	
+	^Sur new! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -227,6 +241,16 @@ PuntoCardinal subclass: #Norte
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
+!Norte methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:31'!
+l
+	
+	^Oeste new! !
+
+!Norte methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:40'!
+r
+	
+	^Este new! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Norte class' category: #MarsRoverTDD!
@@ -243,6 +267,11 @@ new
 
 	^uniqueInstance ! !
 
+!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:13:34'!
+r
+	
+	^Este new! !
+
 
 !classDefinition: #Oeste category: #MarsRoverTDD!
 PuntoCardinal subclass: #Oeste
@@ -250,6 +279,16 @@ PuntoCardinal subclass: #Oeste
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
+
+!Oeste methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:07:05'!
+l
+	
+	^Sur new! !
+
+!Oeste methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:59'!
+r
+	
+	^Norte new! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -274,6 +313,16 @@ PuntoCardinal subclass: #Sur
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
+
+!Sur methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:07:16'!
+l
+	
+	^Este new! !
+
+!Sur methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:07:22'!
+r
+	
+	^Oeste new! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
