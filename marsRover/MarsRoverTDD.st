@@ -103,15 +103,22 @@ direction
 
 	^direction! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/3/2019 21:04:25'!
-initializeIn: aPoint oriented: aDirection 
-	position := aPoint.
-	direction := aDirection.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'chris m 10/9/2019 00:52:34'!
+executeMovement: aChar
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:46:23'!
+	aChar = $f ifTrue: [position := position + (0@1)] ifFalse: [
+	aChar = $b ifTrue: [position := position - (0@1)] ifFalse: [
+	aChar = $r ifTrue: [direction := (direction r) ] ifFalse: [
+				
+	aChar = $l ifTrue: [direction := (direction l) ]
+					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
+					
+					]]]! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'chris m 10/9/2019 00:52:34'!
 move: aString
 	
-	aString do: [:a | self xxxxxxx: a.].
+	aString do: [:a | self executeMovement: a.].
 
 	
 	
@@ -124,17 +131,11 @@ position
 
 	^position! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:19:11'!
-xxxxxxx: aChar
 
-	aChar = $f ifTrue: [position := position + (0@1)] ifFalse: [
-	aChar = $b ifTrue: [position := position - (0@1)] ifFalse: [
-	aChar = $r ifTrue: [direction := (direction r) ] ifFalse: [
-				
-	aChar = $l ifTrue: [direction = direction l ]
-					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
-					
-					]]]! !
+!MarsRover methodsFor: 'initialization' stamp: 'cmmmmm 10/3/2019 21:04:25'!
+initializeIn: aPoint oriented: aDirection 
+	position := aPoint.
+	direction := aDirection.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -175,6 +176,16 @@ r
 PuntoCardinal class
 	instanceVariableNames: 'uniqueInstance'!
 
+!PuntoCardinal class methodsFor: 'as yet unclassified' stamp: 'chris m 10/8/2019 22:07:42'!
+initialize
+
+	uniqueInstance := self basicNew ! !
+
+!PuntoCardinal class methodsFor: 'as yet unclassified' stamp: 'chris m 10/8/2019 22:07:53'!
+new 
+	
+	^uniqueInstance ! !
+
 
 !classDefinition: #Este category: #MarsRoverTDD!
 PuntoCardinal subclass: #Este
@@ -199,25 +210,15 @@ r
 Este class
 	instanceVariableNames: ''!
 
-!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 17:59:51'!
+!Este class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 17:59:51'!
 initialize
 
 	uniqueInstance := self basicNew ! !
 
-!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:12'!
-l
-	
-	^Norte new! !
-
-!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:02'!
+!Este class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:02'!
 new 
 	
 	^uniqueInstance ! !
-
-!Este class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:01'!
-r
-	
-	^Sur new! !
 
 
 !classDefinition: #Norte category: #MarsRoverTDD!
@@ -245,27 +246,15 @@ r
 Norte class
 	instanceVariableNames: ''!
 
-!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:13'!
+!Norte class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:13'!
 initialize
 
 	uniqueInstance := self basicNew ! !
 
-!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:21'!
-l
-	
-	^Oeste new! !
-
-!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:22'!
+!Norte class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:22'!
 new
 
 	^uniqueInstance ! !
-
-!Norte class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:13:36'!
-r
-	| xxxx |
-	
-	xxxx := Este new.
-	^xxxx. ! !
 
 
 !classDefinition: #Oeste category: #MarsRoverTDD!
@@ -291,25 +280,15 @@ r
 Oeste class
 	instanceVariableNames: ''!
 
-!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:29'!
+!Oeste class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:29'!
 initialize
 
 	uniqueInstance := self basicNew ! !
 
-!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:31'!
-l
-	
-	^Sur new! !
-
-!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:40'!
+!Oeste class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:40'!
 new
 
 	^uniqueInstance ! !
-
-!Oeste class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:37'!
-r
-	
-	^Norte new! !
 
 
 !classDefinition: #Sur category: #MarsRoverTDD!
@@ -335,26 +314,17 @@ r
 Sur class
 	instanceVariableNames: ''!
 
-!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:48'!
+!Sur class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:48'!
 initialize
 
 	uniqueInstance := self basicNew ! !
 
-!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:54'!
-l
-	
-	^Este new! !
-
-!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 18:00:54'!
+!Sur class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:54'!
 new
 
 	^uniqueInstance ! !
 
-!Sur class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:20:46'!
-r
-	
-	^Oeste new! !
-
+PuntoCardinal initialize!
 Este initialize!
 Norte initialize!
 Oeste initialize!
