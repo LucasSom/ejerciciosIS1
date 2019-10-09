@@ -5,13 +5,14 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:28:01'!
+!MarsRoverTest methodsFor: 'empty tests' stamp: 'LS 10/9/2019 20:50:29'!
 test01EmptyStringDoesNotChange
 	
 	marsRover move: ''.
 	self assert: marsRover position equals: 1@1.
 	self assert: Norte new equals: marsRover direction.
 ! !
+
 
 !MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 20:28:58'!
 test02StringWithFMovesForwardAndDoesNotChangeDirection
@@ -148,26 +149,10 @@ direction
 
 	^direction! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'LS 10/9/2019 20:16:30'!
-executeMovement: aChar
-
-	aChar = $f ifTrue: [direction forward: self]
-	ifFalse: [
-	
-	aChar = $b ifTrue: [direction backward: self]
-	ifFalse: [
-	
-	aChar = $r ifTrue: [direction := (direction r) ] ifFalse: [
-				
-	aChar = $l ifTrue: [direction := (direction l) ]
-					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
-					
-					]]]! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'chris m 10/9/2019 00:52:34'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'LS 10/9/2019 20:24:54'!
 move: aString
 	
-	aString do: [:a | self executeMovement: a.].
+	aString do: [:a | self singleMove: a.].
 
 	
 	
@@ -185,11 +170,28 @@ position
 
 	^position! !
 
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'LS 10/9/2019 20:48:23'!
+singleMove: aChar
+
+	aChar = $f ifTrue: [self moveTo: direction forward]
+	ifFalse: [
+	
+	aChar = $b ifTrue: [self moveTo: direction backward]
+	ifFalse: [
+	
+	aChar = $r ifTrue: [direction := (direction r) ] ifFalse: [
+				
+	aChar = $l ifTrue: [direction := (direction l) ]
+					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
+					
+					]]]! !
+
 
 !MarsRover methodsFor: 'initialization' stamp: 'cmmmmm 10/3/2019 21:04:25'!
 initializeIn: aPoint oriented: aDirection 
 	position := aPoint.
 	direction := aDirection.! !
+
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -214,15 +216,16 @@ Object subclass: #PuntoCardinal
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!PuntoCardinal methodsFor: 'as yet unclassified' stamp: 'LS 10/9/2019 20:16:49'!
-backward: aMarsRover
+!PuntoCardinal methodsFor: 'movement' stamp: 'LS 10/9/2019 20:53:33'!
+backward
 
 	^self subclassResponsibility ! !
 
-!PuntoCardinal methodsFor: 'as yet unclassified' stamp: 'LS 10/9/2019 20:10:49'!
-forward: aMarsRover
+!PuntoCardinal methodsFor: 'movement' stamp: 'LS 10/9/2019 20:33:19'!
+forward
 
-	^self subclassResponsibility ! !
+	^self subclassResponsibility! !
+
 
 !PuntoCardinal methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:05:41'!
 l 
@@ -258,15 +261,15 @@ PuntoCardinal subclass: #Este
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:17:15'!
-backward: aMarsRover
+!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:58'!
+backward
+	
+	^(-1@0)! !
 
-	^aMarsRover moveTo: (-1@0)! !
+!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:44:19'!
+forward
 
-!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:12:33'!
-forward: aMarsRover
-
-	^aMarsRover moveTo: (1@0)! !
+	^(1@0)! !
 
 
 !Este methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:11'!
@@ -303,15 +306,15 @@ PuntoCardinal subclass: #Norte
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:17:38'!
-backward: aMarsRover
+!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:47'!
+backward
+	
+	^(0@-1)! !
 
-	^aMarsRover moveTo: (0@-1)! !
+!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:16'!
+forward
 
-!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:13:37'!
-forward: aMarsRover
-
-	^aMarsRover moveTo: (0@1)! !
+	^(0@1)! !
 
 
 !Norte methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:06:31'!
@@ -350,15 +353,15 @@ PuntoCardinal subclass: #Oeste
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:17:50'!
-backward: aMarsRover
+!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:23'!
+backward
 
-	^aMarsRover moveTo: (1@0)! !
+	^(1@0)! !
 
-!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:13:12'!
-forward: aMarsRover
+!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:43'!
+forward
 
-	^aMarsRover moveTo: (-1@0)! !
+	^(-1@0)! !
 
 
 !Oeste methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/8/2019 19:07:05'!
@@ -406,15 +409,15 @@ r
 	^Oeste new! !
 
 
-!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:18:01'!
-backward: aMarsRover
+!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:37'!
+backward
+	
+	^(0@1)! !
 
-	^aMarsRover moveTo: (0@1)! !
+!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:31'!
+forward
 
-!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:14:20'!
-forward: aMarsRover
-
-	^aMarsRover moveTo: (0@-1)! !
+	^(0@-1)! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
