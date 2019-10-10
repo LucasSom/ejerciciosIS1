@@ -138,7 +138,7 @@ assert: aRover IsIn: aPosition pointing: aDirection
 
 !classDefinition: #MarsRover category: #MarsRoverTDD!
 Object subclass: #MarsRover
-	instanceVariableNames: 'position direction'
+	instanceVariableNames: 'position direction commandToMovement'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
@@ -172,26 +172,27 @@ initializeIn: aPoint oriented: aDirection
 	direction := aDirection.! !
 
 
+!MarsRover methodsFor: 'private' stamp: 'cmmmmm 10/10/2019 16:47:25'!
+initialize
+	
+	commandToMovement := Dictionary new.
+	commandToMovement add: $f->[self moveTo: direction forward].
+	commandToMovement add: $b->[self moveTo: direction backward ].
+	commandToMovement add: $r->[direction := direction rotateRight ].
+	commandToMovement add: $l->[direction := direction rotateLeft ].
+	
+! !
+
 !MarsRover methodsFor: 'private' stamp: 'LS 10/9/2019 21:01:35'!
 moveTo: aRelativePosition
 	
 	^position := position + aRelativePosition.! !
 
-!MarsRover methodsFor: 'private' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+!MarsRover methodsFor: 'private' stamp: 'cmmmmm 10/10/2019 16:47:25'!
 singleMove: aChar
 
-	aChar = $f ifTrue: [self moveTo: direction forward]
-	ifFalse: [
-	
-	aChar = $b ifTrue: [self moveTo: direction backward]
-	ifFalse: [
-	
-	aChar = $r ifTrue: [direction := (direction rotateRight) ] ifFalse: [
-				
-	aChar = $l ifTrue: [direction := (direction rotateLeft) ]
-					ifFalse: [ aChar = '' ifFalse: [^ self error: MarsRover invalidCommandMessage.]] 
-					
-					]]]! !
+	(commandToMovement at: aChar ifAbsent: [^ self error: MarsRover invalidCommandMessage.]) value.	
+	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
