@@ -38,7 +38,7 @@ test03XPutsInTheCorrectPlace
 	self assert: true equals: (game hayXEn: 1@1).
 ! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:41:50'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:31:04'!
 test04OPlaysSecond
 	
 	| game |
@@ -46,10 +46,10 @@ test04OPlaysSecond
 	game putXAt: 1@1.
 	
 	self assert: true equals: game juegaO.
-	self assert: false equals: game juegaX.
+	self assert: false equals: game juegaX.	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:41:57'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:30:18'!
 test05CannotPlayIfNotMyTurn
 	
 	| game |
@@ -57,10 +57,11 @@ test05CannotPlayIfNotMyTurn
 	
 	self should: [ game putOAt: 1@1. ]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: TerniLapilli invalidPlayerTurn.	
+		withMessageText: TerniLapilli invalidPlayerTurn.
+	self assert: false equals: (game hayOEn: 1@1).			
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:42:08'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:30:02'!
 test06CannotPlayXSecond
 	
 	| game |
@@ -70,9 +71,9 @@ test06CannotPlayXSecond
 	self should: [ game putXAt: 2@1. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilli invalidPlayerTurn.	
-	! !
+	self assert: false equals: (game hayXEn: 2@1).	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:42:26'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:29:49'!
 test07XCannotPlayIfPositionIsOccuped
 	
 	| game |
@@ -82,10 +83,11 @@ test07XCannotPlayIfPositionIsOccuped
 	
 	self should: [ game putXAt: 1@1. ]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: TerniLapilli invalidPosition.	
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: true equals: (game hayOEn: 1@1).		
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:42:40'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:29:29'!
 test08OCannotPlayIfPositionIsOccuped
 	
 	| game |
@@ -94,10 +96,11 @@ test08OCannotPlayIfPositionIsOccuped
 	
 	self should: [ game putOAt: 1@1. ]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: TerniLapilli invalidPosition.	
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: true equals: (game hayXEn: 1@1).		
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmm 10/15/2019 15:42:48'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:29:06'!
 test09OCannotPlayIfPositionOfLimits
 	
 	| game |
@@ -106,10 +109,11 @@ test09OCannotPlayIfPositionOfLimits
 	
 	self should: [ game putOAt: 4@4. ]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: TerniLapilli invalidPosition.	
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: false equals: (game hayOEn: 4@4).		
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 19:26:14'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:28:40'!
 test10XCannotPlayIfPositionOfLimits
 	
 	| game |
@@ -118,9 +122,10 @@ test10XCannotPlayIfPositionOfLimits
 	self should: [ game putXAt: 0@0. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilli invalidPosition.
+	self assert: false equals: (game hayXEn: 0@0).	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 18:02:11'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:28:20'!
 test11CannotPlayIf6ThereAre6xxxOnTheGame
 	
 	| game |
@@ -129,10 +134,12 @@ test11CannotPlayIf6ThereAre6xxxOnTheGame
 	
 	self should: [ game putXAt: 3@3. ]
 		raise: Error - MessageNotUnderstood 
-		withMessageText: TerniLapilli invalidPlayBoardFull.	
+		withMessageText: TerniLapilli invalidPlayBoardFull.
+	self assert: false equals: (game hayXEn: 3@3).		
+	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 16:17:41'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:28:04'!
 test12CannotMovexxxIfThereAreLessThan6xxxOnTheGame
 	
 	| game |
@@ -142,7 +149,7 @@ test12CannotMovexxxIfThereAreLessThan6xxxOnTheGame
 	self should: [ game moveXFrom: 1@1 to:1@2. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilli invalidPlayBoardNotFull.
-	! !
+	self assert: false equals: (game hayXEn: 1@2).! !
 
 !TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 18:00:55'!
 test13AValidMoveIfThereAre6xxxxChangesThePositionOfThexxxx
@@ -168,7 +175,7 @@ test14OMAkesValidMoveIfThereAre6xxxxChangesThePositionOfThexxxx
 	self assert: true equals: (game hayOEn: 3@1).
 	self assert: false equals: (game hayOEn: 2@1).! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 19:46:33'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:26:43'!
 test15XCantMakeMoveToAPointWichIsNotANeighboar
 	
 	| game |
@@ -178,9 +185,9 @@ test15XCantMakeMoveToAPointWichIsNotANeighboar
 	self should: [ game moveXFrom: 1@1 to:3@2. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilli invalidMove .
-! !
+	self assert: false equals: (game hayXEn: 3@2).! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 19:47:45'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/15/2019 21:27:07'!
 test16OCantMakeMoveToAPointWichIsNotANeighboar
 	
 	| game |
@@ -191,6 +198,7 @@ test16OCantMakeMoveToAPointWichIsNotANeighboar
 	self should: [ game moveOFrom: 1@2 to:3@3. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilli invalidMove .
+	self assert: false equals: (game hayOEn: 3@3).		
 ! !
 
 
