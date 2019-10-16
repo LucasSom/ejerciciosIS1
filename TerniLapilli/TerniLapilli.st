@@ -241,10 +241,10 @@ hayXEn: aPoint
 
 	^fichasJugadasX includes: aPoint.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 22:02:11'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 01:07:19'!
 isEmpty: aPoint 
 
-	^(fichasJugadasO includes: aPoint) not and: (fichasJugadasX includes: aPoint) not.! !
+	^((fichasJugadasO includes: aPoint) or: (fichasJugadasX includes: aPoint)) not.! !
 
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/10/2019 18:58:29'!
 juegaO
