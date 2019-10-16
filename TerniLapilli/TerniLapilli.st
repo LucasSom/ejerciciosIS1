@@ -241,6 +241,11 @@ hayXEn: aPoint
 
 	^fichasJugadasX includes: aPoint.! !
 
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 22:02:11'!
+isEmpty: aPoint 
+
+	^(fichasJugadasO includes: aPoint) not and: (fichasJugadasX includes: aPoint) not.! !
+
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/10/2019 18:58:29'!
 juegaO
 
@@ -267,18 +272,29 @@ moveXFrom: aPointSource to: aPointDestination
 	fichasJugadasX remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
 	self putXAt: aPointDestination. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 17:46:15'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 01:04:03'!
+putAt: aPoint 
+
+	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+
+	(self cantFichasX + self cantFichasO) = 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].	
+	(self isEmpty: aPoint) ifTrue: [ self juegaX ifTrue: [fichasJugadasX add: aPoint ] ifFalse: [fichasJugadasO add: aPoint ]].
+
+	! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 00:54:31'!
 putOAt: aPoint 
 
 	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 	
 	self juegaO ifFalse: [ self error: TerniLapilli invalidPlayerTurn ].
-	(fichasJugadasO includes: aPoint) ifTrue: [ self error: TerniLapilli invalidPosition.] ifFalse: [(fichasJugadasX includes: aPoint) ifTrue: [ self error: TerniLapilli invalidPosition.] ifFalse: [fichasJugadasO add: aPoint.].].
+	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [fichasJugadasO add: aPoint.].
 	juegaX := true.
 	! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 17:46:28'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 00:55:11'!
 putXAt: aPoint 
 	
 	((fichasJugadasX size + fichasJugadasO size) > 5) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
@@ -286,7 +302,7 @@ putXAt: aPoint
 	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].	
 	
 	self juegaX ifFalse: [ self error: TerniLapilli invalidPlayerTurn ].
-	(fichasJugadasO includes: aPoint) ifTrue: [ self error: TerniLapilli invalidPosition.] ifFalse: [(fichasJugadasX includes: aPoint) ifTrue: [ self error: TerniLapilli invalidPosition.] ifFalse: [fichasJugadasX add: aPoint.].].
+	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [fichasJugadasX add: aPoint.].
 	juegaX := false.! !
 
 
@@ -304,22 +320,21 @@ initialize
 TerniLapilli class
 	instanceVariableNames: ''!
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 17:37:26'!
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 17:37:26'!
 invalidMove
 	^'invalid move'.! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 16:14:46'!
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 16:14:46'!
 invalidPlayBoardFull
 	^'Invalid Play board is Full'! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 16:15:09'!
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 16:15:09'!
 invalidPlayBoardNotFull
 	^'Invalid move board not full'.! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/10/2019 20:10:16'!
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmmm 10/10/2019 20:10:16'!
 invalidPlayerTurn
 	^'invalidPlayerTurn'! !
-
 
 !TerniLapilli class methodsFor: 'error handling' stamp: 'cmmm 10/15/2019 00:38:41'!
 invalidPosition
