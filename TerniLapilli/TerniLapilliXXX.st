@@ -49,9 +49,10 @@ test04OPlaysSecond
 	self assert: false equals: game juegaX.	
 	! !
 
-!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'LS 10/17/2019 01:24:21'!
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:41:19'!
 test05CannotPlayIfNotMyTurn
 	
+"  Este Test ya no tiene sentido porque cambio la interfaz
 	| game |
 	game := TerniLapilliXXX new.
 	
@@ -59,11 +60,12 @@ test05CannotPlayIfNotMyTurn
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilliXXX invalidPlayerTurn.
 	self assert: false equals: (game jugadorO tieneFichaEn: 1@1).			
-	! !
+	"! !
 
-!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'LS 10/17/2019 01:24:21'!
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:41:31'!
 test06CannotPlayXSecond
-	
+
+"  Este Test ya no tiene sentido porque cambio la interfaz	
 	| game |
 	game := TerniLapilliXXX new.
 	game putAt: 1@1.
@@ -71,7 +73,7 @@ test06CannotPlayXSecond
 	self should: [ game putAt: 2@1. ]
 		raise: Error - MessageNotUnderstood 
 		withMessageText: TerniLapilliXXX invalidPlayerTurn.	
-	self assert: false equals: (game jugadorX tieneFichaEn: 2@1).	! !
+	self assert: false equals: (game jugadorX tieneFichaEn: 2@1)."! !
 
 !TerniLapilliXXXTest methodsFor: 'testing' stamp: 'LS 10/17/2019 01:24:21'!
 test07XCannotPlayIfPositionIsOccuped
@@ -201,6 +203,103 @@ test16OCantMakeMoveToAPointWichIsNotANeighboar
 	self assert: false equals: (game jugadorO tieneFichaEn: 3@3).		
 ! !
 
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 15:13:45'!
+test17GameIsNotOverAfter1PlayAndNobodyHasWon
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 1@1.
+	
+	self assert: false equals: (game isOver).
+	self assert: false equals: (game hasPlayerXWon).
+	self assert: false equals: (game hasPlayerOWon).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 15:48:06'!
+test18OWinsByMaking3PlaysInALineAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 3@3.
+	game putAt: 1@1.
+	game putAt: 2@1.
+	game putAt: 1@2.
+	game putAt: 2@2.
+	game putAt: 1@3.
+
+	self assert: true equals: (game hasPlayerOWon).
+	self assert: true equals: (game isOver).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 15:52:24'!
+test19XWinsByMaking3PlaysInTheMiddleLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 2@1.
+	game putAt: 1@1.
+	game putAt: 2@2.
+	game putAt: 1@2.
+	game putAt: 2@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 15:57:49'!
+test20XWinsByMaking3PlaysInTheTopLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 3@1.
+	game putAt: 1@2.
+	game putAt: 3@2.
+	game putAt: 1@3.
+	game putAt: 3@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 15:56:30'!
+test21XWinsByMaking3PlaysInTheDiagonalAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 1@1.
+	game putAt: 1@2.
+	game putAt: 2@2.
+	game putAt: 1@3.
+	game putAt: 3@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:00:36'!
+test22XWinsByMaking3PlaysInBottomLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 1@1.
+	game putAt: 1@2.
+	game putAt: 2@1.
+	game putAt: 1@3.
+	game putAt: 3@1.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+
+!TerniLapilliXXXTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:38:02'!
+test23XWinsByMaking3PlaysInBottomLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilliXXX new.
+	self fillBoard: game.
+	game moveFrom: 2@2 to: 3@3. 
+	
+	
+	self should: [ game moveFrom: 2@3 to: 3@2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilliXXX invalidMove .
+	self assert: false equals: (game jugadorO tieneFichaEn: 3@2).
+! !
+
 
 !TerniLapilliXXXTest methodsFor: 'setUp/tearDown' stamp: 'LS 10/17/2019 01:00:05'!
 fillBoard: aGame
@@ -275,11 +374,13 @@ jugadorX
 	^jugadorX ! !
 
 
-!TerniLapilliXXX methodsFor: 'plays' stamp: 'LS 10/17/2019 01:24:21'!
+!TerniLapilliXXX methodsFor: 'plays' stamp: 'cmmmm 10/17/2019 16:40:29'!
 moveFrom: aPointSource to: aPointDestination
 	
-	self cantidadTotalDeFichas > 5 ifFalse: [self error: TerniLapilliXXX invalidPlayBoardNotFull].
-	(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilliXXX invalidMove].
+	self cantidadTotalDeFichas = 6 ifFalse: [self error: TerniLapilliXXX invalidPlayBoardNotFull].
+	(self estaEnDiagonal: aPointSource) ifTrue: [(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilliXXX invalidMove].]
+									ifFalse:[(aPointSource fourNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilliXXX invalidMove].].
+	
 	
 	jugadorActual moveFrom: aPointSource to: aPointDestination.
 	self cambiarJugadorActual.! !
@@ -329,6 +430,70 @@ cambiarJugadorActual
 cantidadTotalDeFichas
 	
 	^jugadorX cantFichas + jugadorO cantFichas.! !
+
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 15:45:43'!
+OHizoLinea
+	^self hizoLinea: jugadorO 	
+	! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 15:45:54'!
+XHizoLinea
+	^self hizoLinea: jugadorX 	
+	! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 16:31:18'!
+estaEnDiagonal: aPoint 
+	^(aPoint x + aPoint y) even.! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 15:36:50'!
+hasPlayerOWon
+	^self OHizoLinea.! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 15:35:59'!
+hasPlayerXWon
+	^self XHizoLinea.! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 16:19:51'!
+hizoLinea: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	"^#(1@1 1@2 1@3) allSatisfy: [:a | b includes: a]."
+	^(self hizoLineaDiagonal: aPlayer) or: (self hizoLineaVertical: aPlayer) or: (self hizoLineaHorizontal: aPlayer).
+	! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 16:11:01'!
+hizoLineaDiagonal: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 2@2) and: (b includes: 3@3))or:
+	((b includes: 1@3) and: (b includes: 2@2) and: (b includes: 3@1)).! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 16:19:12'!
+hizoLineaHorizontal: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 2@1) and: (b includes: 3@1))or:
+	((b includes: 1@2) and: (b includes: 2@2) and: (b includes: 3@2)) or:
+	((b includes: 1@3) and: (b includes: 2@3) and: (b includes: 3@3)).! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 16:16:16'!
+hizoLineaVertical: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 1@2) and: (b includes: 1@3))or:
+	((b includes: 2@1) and: (b includes: 2@2) and: (b includes: 2@3)) or:
+	((b includes: 3@1) and: (b includes: 3@2) and: (b includes: 3@3)).! !
+
+!TerniLapilliXXX methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 15:17:16'!
+isOver
+	self XHizoLinea ifTrue: [^true]. 
+	self OHizoLinea ifTrue: [^true]. 
+	^false.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
