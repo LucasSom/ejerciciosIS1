@@ -247,53 +247,59 @@ Object subclass: #TerniLapilli
 	poolDictionaries: ''
 	category: 'TerniLapilliLucas'!
 
+!TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/16/2019 21:49:52'!
+jugadorO
+	^jugadorO ! !
+
 !TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/16/2019 20:35:55'!
 jugadorX
 	^jugadorX ! !
 
 
-!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 20:05:32'!
+!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 21:54:20'!
 moveOFrom: aPointSource to: aPointDestination
 	
-	(jugadorX cantFichas + self cantFichasO) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
+	(jugadorX cantFichas + jugadorO cantFichas) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
 	(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilli invalidMove].
-	fichasJugadasO remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
+	jugadorO fichasJugadas remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
 	self putOAt: aPointDestination. ! !
 
-!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 20:05:46'!
+!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 21:53:38'!
 moveXFrom: aPointSource to: aPointDestination
 	
-	(jugadorX cantFichas + self cantFichasO) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
+	(jugadorX cantFichas + jugadorO cantFichas) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
 	(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilli invalidMove].
 	jugadorX fichasJugadas remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
 	self putXAt: aPointDestination. ! !
 
-!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 20:06:04'!
+!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 21:54:59'!
 putAt: aPoint 
 
 	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 
-	(jugadorX cantFichas + self cantFichasO) = 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].	
-	(self isEmpty: aPoint) ifTrue: [ self juegaX ifTrue: [jugadorX fichasJugadas add: aPoint ] ifFalse: [fichasJugadasO add: aPoint ]].
+	(jugadorX cantFichas + jugadorO cantFichas) = 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].	
+	(self isEmpty: aPoint) ifTrue: [ self juegaX ifTrue: [jugadorX fichasJugadas add: aPoint ] ifFalse: [jugadorO fichasJugadas add: aPoint ]].
 
 	! !
 
-!TerniLapilli methodsFor: 'plays' stamp: 'cmmmm 10/16/2019 00:54:31'!
+!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 23:31:26'!
 putOAt: aPoint 
+
+	((jugadorX fichasJugadas size + jugadorO fichasJugadas size) > 5) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
 
 	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
-	
 	self juegaO ifFalse: [ self error: TerniLapilli invalidPlayerTurn ].
-	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [fichasJugadasO add: aPoint.].
+	
+	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [jugadorO fichasJugadas add: aPoint.].
 	juegaX := true.
-	! !
+! !
 
-!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 20:03:49'!
+!TerniLapilli methodsFor: 'plays' stamp: 'LS 10/16/2019 21:55:33'!
 putXAt: aPoint 
 	
-	((jugadorX fichasJugadas size + fichasJugadasO size) > 5) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
+	((jugadorX fichasJugadas size + jugadorO fichasJugadas size) > 5) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
 	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
 	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].	
 	
@@ -312,34 +318,38 @@ initialize
 	! !
 
 
-!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:23:53'!
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 21:51:02'!
 cantFichasO
 
-	^fichasJugadasO size.! !
+	^jugadorO cantFichas.! !
 
 !TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:24:03'!
 cantFichasX
 
 	^jugadorX cantFichas.! !
 
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 21:51:43'!
+fichasJugadasO
+	^jugadorO fichasJugadas.! !
+
 !TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:24:45'!
 fichasJugadasX
 	^jugadorX fichasJugadas.! !
 
-!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:25:32'!
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 21:51:52'!
 hayOEn: aPoint 
 
-	^fichasJugadasO includes: aPoint.! !
+	^jugadorO tieneFichaEn: aPoint.! !
 
 !TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:25:41'!
 hayXEn: aPoint 
 
 	^jugadorX tieneFichaEn: aPoint.! !
 
-!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:25:50'!
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 21:52:08'!
 isEmpty: aPoint 
 
-	^(fichasJugadasO includes: aPoint) not and: (jugadorX tieneFichaEn: aPoint) not.! !
+	^(jugadorO tieneFichaEn: aPoint) not and: (jugadorX tieneFichaEn: aPoint) not.! !
 
 !TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 20:26:05'!
 juegaO
