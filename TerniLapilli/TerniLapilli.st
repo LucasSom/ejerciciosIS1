@@ -202,15 +202,15 @@ test16OCantMakeMoveToAPointWichIsNotANeighboar
 ! !
 
 
-!TerniLapilliTest methodsFor: 'setUp/tearDown' stamp: 'cmmmm 10/15/2019 18:00:25'!
+!TerniLapilliTest methodsFor: 'setUp/tearDown' stamp: 'cmmmm 10/16/2019 21:07:09'!
 fillBoard: aGame
 	
-	aGame putXAt: 1@1.
-	aGame putOAt: 1@2.
-	aGame putXAt: 1@3.
-	aGame putOAt: 2@1.
-	aGame putXAt: 2@2.
-	aGame putOAt: 2@3.		
+	aGame putAt: 1@1.
+	aGame putAt: 1@2.
+	aGame putAt: 1@3.
+	aGame putAt: 2@1.
+	aGame putAt: 2@2.
+	aGame putAt: 2@3.		
 ! !
 
 
@@ -256,7 +256,36 @@ juegaX
 		
 	^juegaX.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 19:48:29'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 21:06:27'!
+moveFrom: aPointSource to: aPointDestination
+	
+	(self cantFichasX + self cantFichasO) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
+	(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilli invalidMove].
+	juegaX ifTrue: [ self moveXFrom: aPointSource to: aPointDestination ] ifFalse: [ self moveOFrom: aPointSource to: aPointDestination ].
+! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 21:12:47'!
+putAt: aPoint 
+
+	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+
+	(self cantFichasX + self cantFichasO) < 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].	
+	(self isEmpty: aPoint) ifTrue: [ self juegaX ifTrue: [ self putXAt: aPoint ] ifFalse: [self putOAt: aPoint ]].
+
+	! !
+
+
+!TerniLapilli methodsFor: 'initialization' stamp: 'cmmmm 10/15/2019 17:45:03'!
+initialize
+	
+	fichasJugadasX := Bag new.
+	fichasJugadasO := Bag new.
+	juegaX := true. 
+	! !
+
+
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/15/2019 19:48:29'!
 moveOFrom: aPointSource to: aPointDestination
 	
 	(self cantFichasX + self cantFichasO) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
@@ -264,7 +293,7 @@ moveOFrom: aPointSource to: aPointDestination
 	fichasJugadasO remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
 	self putOAt: aPointDestination. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/15/2019 19:38:59'!
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/15/2019 19:38:59'!
 moveXFrom: aPointSource to: aPointDestination
 	
 	(self cantFichasX + self cantFichasO) > 5 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
@@ -272,18 +301,7 @@ moveXFrom: aPointSource to: aPointDestination
 	fichasJugadasX remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
 	self putXAt: aPointDestination. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 01:04:03'!
-putAt: aPoint 
-
-	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
-	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
-
-	(self cantFichasX + self cantFichasO) = 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].	
-	(self isEmpty: aPoint) ifTrue: [ self juegaX ifTrue: [fichasJugadasX add: aPoint ] ifFalse: [fichasJugadasO add: aPoint ]].
-
-	! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 00:54:31'!
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/16/2019 00:54:31'!
 putOAt: aPoint 
 
 	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
@@ -294,7 +312,7 @@ putOAt: aPoint
 	juegaX := true.
 	! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/16/2019 00:55:11'!
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/16/2019 00:55:11'!
 putXAt: aPoint 
 	
 	((fichasJugadasX size + fichasJugadasO size) > 5) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
@@ -304,15 +322,6 @@ putXAt: aPoint
 	self juegaX ifFalse: [ self error: TerniLapilli invalidPlayerTurn ].
 	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [fichasJugadasX add: aPoint.].
 	juegaX := false.! !
-
-
-!TerniLapilli methodsFor: 'initialization' stamp: 'cmmmm 10/15/2019 17:45:03'!
-initialize
-	
-	fichasJugadasX := Bag new.
-	fichasJugadasO := Bag new.
-	juegaX := true. 
-	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
