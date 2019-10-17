@@ -1,9 +1,9 @@
-!classDefinition: #TerniLapilliTest category: #TerniLapilliLucas!
+!classDefinition: #TerniLapilliTest category: #TerniLapilli!
 TestCase subclass: #TerniLapilliTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'TerniLapilliLucas'!
+	category: 'TerniLapilli'!
 
 !TerniLapilliTest methodsFor: 'testing' stamp: 'LS 10/16/2019 23:51:36'!
 test01NewGameIsEmpty
@@ -214,12 +214,12 @@ fillBoard: aGame
 ! !
 
 
-!classDefinition: #Jugador category: #TerniLapilliLucas!
+!classDefinition: #Jugador category: #TerniLapilli!
 Object subclass: #Jugador
 	instanceVariableNames: 'fichasJugadas'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'TerniLapilliLucas'!
+	category: 'TerniLapilli'!
 
 !Jugador methodsFor: 'as yet unclassified' stamp: 'LS 10/16/2019 18:00:48'!
 cantFichas
@@ -240,12 +240,12 @@ tieneFichaEn: aPoint
 	^fichasJugadas includes: aPoint! !
 
 
-!classDefinition: #TerniLapilli category: #TerniLapilliLucas!
+!classDefinition: #TerniLapilli category: #TerniLapilli!
 Object subclass: #TerniLapilli
 	instanceVariableNames: 'juegaX jugadorX jugadorO'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'TerniLapilliLucas'!
+	category: 'TerniLapilli'!
 
 !TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/16/2019 21:49:52'!
 jugadorO
@@ -343,7 +343,7 @@ juegaX
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TerniLapilli class' category: #TerniLapilliLucas!
+!classDefinition: 'TerniLapilli class' category: #TerniLapilli!
 TerniLapilli class
 	instanceVariableNames: ''!
 
