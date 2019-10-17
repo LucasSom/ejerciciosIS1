@@ -455,7 +455,7 @@ XHizoLinea
 	^self hizoLinea: jugadorX 	
 	! !
 
-!TerniLapilli methodsFor: 'private' stamp: 'LS 10/17/2019 01:20:19'!
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:56:10'!
 cambiarJugadorActual
 
 	jugadorActual == jugadorX ifTrue: [jugadorActual := jugadorO] ifFalse: [jugadorActual := jugadorX].! !
@@ -477,12 +477,9 @@ hasPlayerOWon
 hasPlayerXWon
 	^self XHizoLinea.! !
 
-!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:19:51'!
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:58:07'!
 hizoLinea: aPlayer
-	| b |
-	b := aPlayer fichasJugadas.
-	
-	"^#(1@1 1@2 1@3) allSatisfy: [:a | b includes: a]."
+
 	^(self hizoLineaDiagonal: aPlayer) or: (self hizoLineaVertical: aPlayer) or: (self hizoLineaHorizontal: aPlayer).
 	! !
 
