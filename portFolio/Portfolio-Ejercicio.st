@@ -5,17 +5,18 @@ TestCase subclass: #PortfolioTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 18:45:44'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:13:56'!
 test01PortfolioHaveZeroAsBalanceWhenCreated 
 
 	| portfolio |
 	
 	portfolio := Portfolio new.
 
-	self assert: 0 equals: portfolio balance .
+	self assert: 0 equals: portfolio balance.
+	self assert: portfolio transactions isEmpty.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 18:51:26'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:43:28'!
 test02PortfolioHaveSameBalanceThanAccountWhenAddAccount
 
 	| portfolio account |
@@ -24,10 +25,11 @@ test02PortfolioHaveSameBalanceThanAccountWhenAddAccount
 	account := ReceptiveAccount new.
 	portfolio addAccount: account.
 
-	self assert: account balance equals: portfolio balance .
+	self assert: account balance equals: portfolio balance.
+	self assert: account transactions = portfolio transactions.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:09:00'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:44:37'!
 test03PortfolioHaveSameBalanceThanAccountWithATransactionWhenAdded
 
 	| portfolio account deposit |
@@ -38,10 +40,11 @@ test03PortfolioHaveSameBalanceThanAccountWithATransactionWhenAdded
 	
 	portfolio addAccount: account.
 	
-	self assert: account balance equals: portfolio balance .
+	self assert: account balance equals: portfolio balance.
+	self assert: account transactions = portfolio transactions.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:20:36'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:54:59'!
 test04PortfolioHaveSameBalanceThan2AccountsWithATransactionWhenAdded
 
 	| portfolio account account2 deposit withdraw |
@@ -56,7 +59,9 @@ test04PortfolioHaveSameBalanceThan2AccountsWithATransactionWhenAdded
 	portfolio addAccount: account.
 	portfolio addAccount: account2.	
 
-	self assert: 60 equals: portfolio balance .
+	self assert: 60 equals: portfolio balance.
+	self assertTransactionsOf: portfolio includes: account.
+	self assertTransactionsOf: portfolio includes: account2.
 ! !
 
 !PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:19:16'!
@@ -120,6 +125,13 @@ test08CantAddARepeatedPortfolioToPortfolio
 		raise: Error - MessageNotUnderstood 
 		withMessageText: Portfolio portfolioAlreadyExists.
 	! !
+
+
+!PortfolioTest methodsFor: 'assertions' stamp: 'LS 10/17/2019 20:54:30'!
+assertTransactionsOf: aPortfolio includes: aReceptiveAccount
+	
+	aReceptiveAccount transactions do: [:transaction | (aPortfolio transactions includes: transaction) ifFalse: [^false]].
+	^true.! !
 
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
@@ -358,6 +370,15 @@ initialize
 	accounts := Set new.
 
 	portfolios := Set new.	! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:40:59'!
+transactions
+
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	accounts do: [:anAccount | anAccount transactions do: [:aTransaction | transactions add: aTransaction] ].
+	^transactions.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
