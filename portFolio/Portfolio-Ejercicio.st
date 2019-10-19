@@ -5,8 +5,8 @@ TestCase subclass: #PortfolioTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:13:56'!
-test01PortfolioHaveZeroAsBalanceWhenCreated 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:01:33'!
+test01PortfolioHaveZeroAsBalanceAndHasntTransactionsWhenCreated 
 
 	| portfolio |
 	
@@ -16,8 +16,8 @@ test01PortfolioHaveZeroAsBalanceWhenCreated
 	self assert: portfolio transactions isEmpty.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:43:28'!
-test02PortfolioHaveSameBalanceThanAccountWhenAddAccount
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:01:52'!
+test02PortfolioHaveSameBalanceAndTransactionsThanAccountWhenAddAccount
 
 	| portfolio account |
 	
@@ -29,8 +29,8 @@ test02PortfolioHaveSameBalanceThanAccountWhenAddAccount
 	self assert: account transactions = portfolio transactions.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:44:37'!
-test03PortfolioHaveSameBalanceThanAccountWithATransactionWhenAdded
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:02:40'!
+test03PortfolioHaveSameBalanceAndTransactionsThanAccountWithATransactionWhenAdded
 
 	| portfolio account deposit |
 	
@@ -44,8 +44,8 @@ test03PortfolioHaveSameBalanceThanAccountWithATransactionWhenAdded
 	self assert: account transactions = portfolio transactions.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:54:59'!
-test04PortfolioHaveSameBalanceThan2AccountsWithATransactionWhenAdded
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:02:34'!
+test04PortfolioHaveSameBalanceAndTransactionsThan2AccountsWithATransactionWhenAdded
 
 	| portfolio account account2 deposit withdraw |
 	
@@ -64,8 +64,23 @@ test04PortfolioHaveSameBalanceThan2AccountsWithATransactionWhenAdded
 	self assertTransactionsOf: portfolio includes: account2.
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:19:16'!
-test05CantAddARepeatedAccountToPortfolio
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 16:58:19'!
+test05ReceptiveAccountKnowsRegisteredTransactions 
+
+	|portfolio account deposit withdraw |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	
+	portfolio addAccount: account.
+		
+	self assert: (portfolio hasRegistered: deposit).
+	self assert: (portfolio hasRegistered: withdraw).! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:09:31'!
+test06CantAddARepeatedAccountToPortfolio
 
 	| portfolio account |
 	
@@ -79,8 +94,8 @@ test05CantAddARepeatedAccountToPortfolio
 		withMessageText: Portfolio accountAlreadyExists.
 	! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:38:55'!
-test06CanAddAPortfolioToAnotherPortfolio
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:10:33'!
+test07CanAddAPortfolioToAnotherPortfolio
 
 	| portfolio portfolioToAdd |
 	
@@ -90,11 +105,12 @@ test06CanAddAPortfolioToAnotherPortfolio
 	portfolio addPortfolio: portfolioToAdd.
 	
 	self assert: 0 equals: portfolio balance.
+	self assert: portfolio transactions isEmpty.
 
 		! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:44:56'!
-test07BalanceOfAPortfolioWithAccountAddedToAnotherPortfolioIsCorrect
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:15:11'!
+test08BalanceOfAPortfolioWithAccountAddedToAnotherPortfolioIsCorrectAndIsRegistered
 
 	| portfolio portfolioToAdd account deposit |
 	
@@ -108,11 +124,12 @@ test07BalanceOfAPortfolioWithAccountAddedToAnotherPortfolioIsCorrect
 	portfolio addPortfolio: portfolioToAdd.
 		
 	self assert: 100 equals: portfolio balance.
-
+	self assertTransactionsOf: portfolio includes: portfolioToAdd.
+	self assert: (portfolio hasRegistered: deposit).
 		! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:53:54'!
-test08CantAddARepeatedPortfolioToPortfolio
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:12:08'!
+test09CantAddARepeatedPortfolioToPortfolio
 
 	| portfolio portfolioToAdd |
 	
@@ -363,6 +380,12 @@ balance
 	| suma |
 	suma _ accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 ].
 	^suma := suma + (portfolios sum: [ :anPortfolio | anPortfolio balance ] ifEmpty: [ 0 ] ).! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:18:45'!
+hasRegistered: aDeposit 
+	accounts do: [:anAccount | (anAccount hasRegistered: aDeposit) ifTrue: [^true]].
+	portfolios do: [:aPortfolio | (aPortfolio hasRegistered: aDeposit) ifTrue: [^true]].
+	^false.! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:41:54'!
 initialize
