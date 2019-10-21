@@ -143,6 +143,137 @@ test09CantAddARepeatedPortfolioToPortfolio
 		withMessageText: Portfolio portfolioAlreadyExists.
 	! !
 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:11:20'!
+test10CantAddARepeatedAccountToAnAddedPortfolio
+
+	| portfolio portfolioToAdd  account|
+	
+	portfolio := Portfolio new.
+	portfolioToAdd := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio addAccount: account.
+	portfolio addPortfolio: portfolioToAdd .
+
+	self should: [ portfolioToAdd addAccount: account . ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:16:35'!
+test11CantAddAPortfolioWithRepeatedAccountToPortfolio
+
+	| portfolio1 portfolio2 portfolio3 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio1 addAccount: account.
+	portfolio2 addAccount: account.
+	portfolio2 addPortfolio: portfolio3.
+
+	self should: [ portfolio3 addPortfolio: portfolio1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:19:15'!
+test12CantAddAnAccountOfAPortfolioChild
+
+	| portfolio1 portfolio2 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio2 addAccount: account.
+	portfolio1 addPortfolio: portfolio2.
+
+	self should: [ portfolio1 addAccount: account. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:21:06'!
+test13CantAddAPortfolioWithSameAccount
+
+	| portfolio1 portfolio2 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio1 addAccount: account.
+	portfolio2 addAccount: account.
+	
+	self should: [ portfolio1 addPortfolio: portfolio2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:24:37'!
+test14CantAddARepeatedAccountToPortfolioWithManyParents
+
+	| portfolio1 portfolio2 portfolio3 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio2 addAccount: account.
+	portfolio1 addPortfolio: portfolio3.
+	portfolio2 addPortfolio: portfolio3.
+	
+	self should: [ portfolio3 addAccount: account. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:35:04'!
+test15AParentHasBalanceAndAllTransactionsRegisteredOfChildren
+
+	| portfolio1 portfolio2 portfolio3 portfolio4 account1 account2 account3 account4 deposit1 deposit2 deposit3 deposit4 withdraw1 withdraw2 |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	account3 := ReceptiveAccount new.
+	account4 := ReceptiveAccount new.
+		
+	portfolio2 addAccount: account1.
+	portfolio3 addAccount: account2.
+	portfolio3 addAccount: account3.
+	portfolio4 addAccount: account4.
+	
+	portfolio1 addPortfolio: portfolio2.
+	portfolio2 addPortfolio: portfolio3.
+	portfolio2 addPortfolio: portfolio4.
+	
+	deposit1 := Deposit  register: 100 on: account1.
+	deposit2 := Deposit  register: 110 on: account2.
+	deposit3 := Deposit  register: 120 on: account3.
+	deposit4 := Deposit  register: 130 on: account4.
+	withdraw1 := Withdraw register: 50 on: account2.
+	withdraw2 := Withdraw register: 45 on: account2.
+		
+	self assert: (100+110+120+130-50-45) equals: portfolio1 balance.
+	self assertTransactionsOf: portfolio1 includes: portfolio1.
+	self assertTransactionsOf: portfolio1 includes: portfolio2.
+	self assertTransactionsOf: portfolio1 includes: portfolio3.
+	self assertTransactionsOf: portfolio1 includes: portfolio4.
+	self assert: (portfolio1 hasRegistered: deposit1).
+	self assert: (portfolio1 hasRegistered: deposit2).
+	self assert: (portfolio1 hasRegistered: deposit3).
+	self assert: (portfolio1 hasRegistered: deposit4).
+	self assert: (portfolio1 hasRegistered: withdraw1).
+	self assert: (portfolio1 hasRegistered: withdraw2).! !
+
 
 !PortfolioTest methodsFor: 'assertions' stamp: 'LS 10/17/2019 20:54:30'!
 assertTransactionsOf: aPortfolio includes: aReceptiveAccount
