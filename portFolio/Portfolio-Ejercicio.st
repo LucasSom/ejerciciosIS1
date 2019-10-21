@@ -488,15 +488,22 @@ for: aValue
 
 !classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
 Object subclass: #Portfolio
-	instanceVariableNames: 'accounts portfolios'
+	instanceVariableNames: 'accounts portfolios father'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:18:37'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:22:13'!
+aFatherHas: aReceptiveAccount 
+
+	father detect: [ :aFather | aFather hasAccount: aReceptiveAccount ] ifNone: [ ^false ].
+	^true
+	! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:25:33'!
 addAccount: aReceptiveAccount 
 
-	(accounts includes: aReceptiveAccount) ifFalse: [accounts add: aReceptiveAccount] ifTrue: [ self error: Portfolio accountAlreadyExists ]
+	(accounts includes: aReceptiveAccount) ifFalse: [ (self aFatherHas: aReceptiveAccount) ifFalse: [ self addToMyFathers: aReceptiveAccount ] ifTrue: [ self error: Portfolio accountAlreadyExists ] ]
 	
 	! !
 
@@ -506,11 +513,22 @@ addPortfolio: aPortfolio
 	(portfolios includes: aPortfolio ) ifFalse: [portfolios add: aPortfolio ] ifTrue: [ self error: Portfolio portfolioAlreadyExists ]
 	! !
 
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:27:19'!
+addToMyFathers: aReceptiveAccount 
+
+	accounts add: aReceptiveAccount.
+	father do: [ :aFather | aFather addAccount: aReceptiveAccount ].! !
+
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:50:36'!
 balance
 	| suma |
 	suma _ accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 ].
 	^suma := suma + (portfolios sum: [ :anPortfolio | anPortfolio balance ] ifEmpty: [ 0 ] ).! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:24:05'!
+hasAccount: aReceptiveAccount 
+
+	^accounts includes: aReceptiveAccount! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:18:45'!
 hasRegistered: aDeposit 
@@ -518,12 +536,17 @@ hasRegistered: aDeposit
 	portfolios do: [:aPortfolio | (aPortfolio hasRegistered: aDeposit) ifTrue: [^true]].
 	^false.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:41:54'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:13:41'!
 initialize
 
 	accounts := Set new.
 
-	portfolios := Set new.	! !
+	father := Set new.! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 17:16:12'!
+setFather: aFather
+
+	father add: aFather. ! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/17/2019 20:40:59'!
 transactions
