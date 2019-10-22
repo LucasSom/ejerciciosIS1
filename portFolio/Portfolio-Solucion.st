@@ -5,6 +5,283 @@ TestCase subclass: #PortfolioTest
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:01:33'!
+test01PortfolioHaveZeroAsBalanceAndHasntTransactionsWhenCreated 
+
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self assert: 0 equals: portfolio balance.
+	self assert: portfolio transactions isEmpty.
+! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:01:52'!
+test02PortfolioHaveSameBalanceAndTransactionsThanAccountWhenAddAccount
+
+	| portfolio account |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	portfolio addAccount: account.
+
+	self assert: account balance equals: portfolio balance.
+	self assert: account transactions = portfolio transactions.
+! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 17:02:40'!
+test03PortfolioHaveSameBalanceAndTransactionsThanAccountWithATransactionWhenAdded
+
+	| portfolio account deposit |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account .
+	
+	portfolio addAccount: account.
+	
+	self assert: account balance equals: portfolio balance.
+	self assert: account transactions = portfolio transactions.
+! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:02:34'!
+test04PortfolioHaveSameBalanceAndTransactionsThan2AccountsWithATransactionWhenAdded
+
+	| portfolio account account2 deposit withdraw |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account .
+	
+	account2 := ReceptiveAccount new.
+	withdraw := Withdraw  register: 40 on: account2 .
+	
+	portfolio addAccount: account.
+	portfolio addAccount: account2.	
+
+	self assert: 60 equals: portfolio balance.
+	self assertTransactionsOf: portfolio includes: account.
+	self assertTransactionsOf: portfolio includes: account2.
+! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/18/2019 16:58:19'!
+test05ReceptiveAccountKnowsRegisteredTransactions 
+
+	|portfolio account deposit withdraw |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	
+	portfolio addAccount: account.
+		
+	self assert: (portfolio hasRegistered: deposit).
+	self assert: (portfolio hasRegistered: withdraw).! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:09:31'!
+test06CantAddARepeatedAccountToPortfolio
+
+	| portfolio account |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio addAccount: account.	
+
+	self should: [ portfolio addAccount: account ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:10:33'!
+test07CanAddAPortfolioToAnotherPortfolio
+
+	| portfolio portfolioToAdd |
+	
+	portfolio := Portfolio new.
+	portfolioToAdd := Portfolio new.
+	
+	portfolio addPortfolio: portfolioToAdd.
+	
+	self assert: 0 equals: portfolio balance.
+	self assert: portfolio transactions isEmpty.
+
+		! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:15:11'!
+test08BalanceOfAPortfolioWithAccountAddedToAnotherPortfolioIsCorrectAndIsRegistered
+
+	| portfolio portfolioToAdd account deposit |
+	
+	portfolio := Portfolio new.
+	portfolioToAdd := Portfolio new.
+		
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account .
+	
+	portfolioToAdd addAccount: account.
+	portfolio addPortfolio: portfolioToAdd.
+		
+	self assert: 100 equals: portfolio balance.
+	self assertTransactionsOf: portfolio includes: portfolioToAdd.
+	self assert: (portfolio hasRegistered: deposit).
+		! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/19/2019 13:12:08'!
+test09CantAddARepeatedPortfolioToPortfolio
+
+	| portfolio portfolioToAdd |
+	
+	portfolio := Portfolio new.
+	portfolioToAdd := Portfolio new.
+	
+	portfolio addPortfolio: portfolioToAdd .	
+
+	self should: [ portfolio addPortfolio: portfolioToAdd . ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio portfolioAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:11:20'!
+test10CantAddARepeatedAccountToAnAddedPortfolio
+
+	| portfolio portfolioToAdd  account|
+	
+	portfolio := Portfolio new.
+	portfolioToAdd := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio addAccount: account.
+	portfolio addPortfolio: portfolioToAdd .
+
+	self should: [ portfolioToAdd addAccount: account . ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:16:35'!
+test11CantAddAPortfolioWithRepeatedAccountToPortfolio
+
+	| portfolio1 portfolio2 portfolio3 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio1 addAccount: account.
+	portfolio2 addAccount: account.
+	portfolio2 addPortfolio: portfolio3.
+
+	self should: [ portfolio3 addPortfolio: portfolio1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:19:15'!
+test12CantAddAnAccountOfAPortfolioChild
+
+	| portfolio1 portfolio2 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio2 addAccount: account.
+	portfolio1 addPortfolio: portfolio2.
+
+	self should: [ portfolio1 addAccount: account. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:21:06'!
+test13CantAddAPortfolioWithSameAccount
+
+	| portfolio1 portfolio2 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio1 addAccount: account.
+	portfolio2 addAccount: account.
+	
+	self should: [ portfolio1 addPortfolio: portfolio2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:24:37'!
+test14CantAddARepeatedAccountToPortfolioWithManyParents
+
+	| portfolio1 portfolio2 portfolio3 account |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	portfolio2 addAccount: account.
+	portfolio1 addPortfolio: portfolio3.
+	portfolio2 addPortfolio: portfolio3.
+	
+	self should: [ portfolio3 addAccount: account. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Portfolio accountAlreadyExists.
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'LS 10/21/2019 12:35:04'!
+test15AParentHasBalanceAndAllTransactionsRegisteredOfChildren
+
+	| portfolio1 portfolio2 portfolio3 portfolio4 account1 account2 account3 account4 deposit1 deposit2 deposit3 deposit4 withdraw1 withdraw2 |
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	account3 := ReceptiveAccount new.
+	account4 := ReceptiveAccount new.
+		
+	portfolio2 addAccount: account1.
+	portfolio3 addAccount: account2.
+	portfolio3 addAccount: account3.
+	portfolio4 addAccount: account4.
+	
+	portfolio1 addPortfolio: portfolio2.
+	portfolio2 addPortfolio: portfolio3.
+	portfolio2 addPortfolio: portfolio4.
+	
+	deposit1 := Deposit  register: 100 on: account1.
+	deposit2 := Deposit  register: 110 on: account2.
+	deposit3 := Deposit  register: 120 on: account3.
+	deposit4 := Deposit  register: 130 on: account4.
+	withdraw1 := Withdraw register: 50 on: account2.
+	withdraw2 := Withdraw register: 45 on: account2.
+		
+	self assert: (100+110+120+130-50-45) equals: portfolio1 balance.
+	self assertTransactionsOf: portfolio1 includes: portfolio1.
+	self assertTransactionsOf: portfolio1 includes: portfolio2.
+	self assertTransactionsOf: portfolio1 includes: portfolio3.
+	self assertTransactionsOf: portfolio1 includes: portfolio4.
+	self assert: (portfolio1 hasRegistered: deposit1).
+	self assert: (portfolio1 hasRegistered: deposit2).
+	self assert: (portfolio1 hasRegistered: deposit3).
+	self assert: (portfolio1 hasRegistered: deposit4).
+	self assert: (portfolio1 hasRegistered: withdraw1).
+	self assert: (portfolio1 hasRegistered: withdraw2).! !
+
+
+!PortfolioTest methodsFor: 'assertions' stamp: 'LS 10/17/2019 20:54:30'!
+assertTransactionsOf: aPortfolio includes: aReceptiveAccount
+	
+	aReceptiveAccount transactions do: [:transaction | (aPortfolio transactions includes: transaction) ifFalse: [^false]].
+	^true.! !
+
+
 !PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:16:26'!
 test01BalanceOfPortfolioWithoutAccountsIsZero
 
@@ -305,15 +582,14 @@ test07AccountKnowsItsTransactions
 ! !
 
 
-!classDefinition: #TransferenciaTest category: #'Portfolio-Solucion'!
-TestCase subclass: #TransferenciaTest
+!classDefinition: #TransferenceTest category: #'Portfolio-Solucion'!
+TestCase subclass: #TransferenceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 19:45:35'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
 test01MakingATransferMakesADepositAndWithdraw
 
 	| accountSource accountDestiny deposit |
@@ -322,12 +598,12 @@ test01MakingATransferMakesADepositAndWithdraw
 	accountDestiny := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: accountSource .
 	
-	TransFernet from: accountSource to: accountDestiny of: 10.		
+	Transference from: accountSource to: accountDestiny of: 10.		
 	
 	self assert: 90 equals: accountSource balance.
 	self assert: 10 equals: accountDestiny balance.! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 19:45:35'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 17:18:49'!
 test02CannotMakeANegativeTransaction
 
 	| accountSource accountDestiny deposit |
@@ -337,14 +613,14 @@ test02CannotMakeANegativeTransaction
 	deposit := Deposit register: 100 on: accountSource .
 	
 		self 
-		should: [ TransFernet from: accountSource to: accountDestiny of: -10. ]
+		should: [ Transference from: accountSource to: accountDestiny of: -10. ]
 		raise: Error - MessageNotUnderstood 
 		withExceptionDo: [ :anError |
-			self assert: TransFernet canNotCreateNegativeTransfer equals: anError messageText.
+			self assert: Transference cannotTransferNegativeAmount equals: anError messageText.
 			self assert: 100 equals: accountSource balance.
 			self assert: 0 equals: accountDestiny balance. ]! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 19:50:42'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
 test03ValueOfTransactionIsCorrect
 
 	| accountSrc accountDst transactionValue deposit |
@@ -354,10 +630,10 @@ test03ValueOfTransactionIsCorrect
 	deposit := Deposit register: 100 on: accountSrc.
 	transactionValue := 10.
 	
-	self assert: transactionValue equals: (TransFernet from: accountSrc to: accountDst of: transactionValue ) value
+	self assert: transactionValue equals: (Transference from: accountSrc to: accountDst of: transactionValue ) value
 ! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 20:24:13'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
 test04BalanceOfTransactionIsCorrect
 
 	| accountSrc accountDst transactionValue deposit |
@@ -366,12 +642,12 @@ test04BalanceOfTransactionIsCorrect
 	accountDst := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: accountSrc.
 	transactionValue := 10.
-	TransFernet from: accountSrc to: accountDst of: transactionValue.
+	Transference from: accountSrc to: accountDst of: transactionValue.
 	
 	self assert: 90 equals: accountSrc balance.
 	self assert: 10 equals: accountDst balance.! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 20:58:24'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 20:58:24'!
 test05MakeAReportOfAnEmptyAccount
 
 	| accountSrc |
@@ -381,7 +657,7 @@ test05MakeAReportOfAnEmptyAccount
 	self assert: 'Balance = 0' equals: accountSrc report.
 	! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:01:03'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:01:03'!
 test06MakeAReportOfAnAccountWithADeposit
 
 	| deposit account |
@@ -392,7 +668,7 @@ test06MakeAReportOfAnAccountWithADeposit
 	self assert: 'Deposito por 100. Balance = 100' equals: account report.
 	! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:24:48'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:24:48'!
 test07MakeAReportOfAnAccountWithADepositAndAWithdraw
 
 	| deposit account withdraw |
@@ -404,7 +680,7 @@ test07MakeAReportOfAnAccountWithADepositAndAWithdraw
 	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: account report.
 	! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:30:28'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:30:28'!
 test08MakeAReportOfAnEmptyPortfolio
 
 	| portfolio deposit account withdraw |
@@ -417,7 +693,7 @@ test08MakeAReportOfAnEmptyPortfolio
 	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: portfolio report.
 	! !
 
-!TransferenciaTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:40:50'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
 test09MakeAReportOfAnAccountWithADepositAndATransaction
 
 	| deposit accountSrc accountDst transaction |
@@ -425,7 +701,7 @@ test09MakeAReportOfAnAccountWithADepositAndATransaction
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: accountSrc.
-	TransFernet from: accountSrc to: accountDst of: 20.
+	Transference from: accountSrc to: accountDst of: 20.
 	
 	self assert: 'Deposito por 100. Salida por transferencia de 20. Balance = 80' equals: accountSrc report.
 	self assert: 'Entrada por transferencia de 20. Balance = 20' equals: accountSrc report.
@@ -479,6 +755,30 @@ Account subclass: #Portfolio
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:18:37'!
+addAccount: aReceptiveAccount 
+
+	(accounts includes: aReceptiveAccount) ifFalse: [accounts add: aReceptiveAccount] ifTrue: [ self error: Portfolio accountAlreadyExists ]
+	
+	! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/17/2019 19:57:56'!
+addPortfolio: aPortfolio 
+	
+	(portfolios includes: aPortfolio ) ifFalse: [portfolios add: aPortfolio ] ifTrue: [ self error: Portfolio portfolioAlreadyExists ]
+	! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:35:39'!
+report
+
+	| report |
+	report := String new.
+	report := accounts inject: ''
+		into: [ :currentReport :account | currentReport, account report ].
+	report := report,'Balance = ', self balance asString.
+	^report! !
+
 
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
 accountsIncludes: anAccount
@@ -584,22 +884,20 @@ signalCanNotAddAccount
 	
 	self error: self class canNotAddAccountErrorMessage! !
 
-
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:35:39'!
-report
-
-	| report |
-	report := String new.
-	report := accounts inject: ''
-		into: [ :currentReport :account | currentReport, account report ].
-	report := report,'Balance = ', self balance asString.
-	^report! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Portfolio class' category: #'Portfolio-Solucion'!
 Portfolio class
 	instanceVariableNames: ''!
+
+!Portfolio class methodsFor: 'error handling' stamp: 'cmmmm 10/17/2019 19:15:20'!
+accountAlreadyExists
+	^'account Already Exists'! !
+
+!Portfolio class methodsFor: 'error handling' stamp: 'cmmmm 10/17/2019 19:55:10'!
+portfolioAlreadyExists
+	^'portfolio alredy exists'! !
+
 
 !Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:48:55'!
 canNotAddAccountErrorMessage
@@ -698,6 +996,11 @@ Object subclass: #AccountTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
+!AccountTransaction methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:28:36'!
+updateBalance: aBalance
+
+	^self subclassResponsibility ! !
+
 !AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
 value 
 
@@ -739,6 +1042,16 @@ initializeFor: aValue
 	value := aValue ! !
 
 
+!Deposit methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:27:56'!
+updateBalance: aBalance
+
+	^ aBalance + value! !
+
+!Deposit methodsFor: 'value' stamp: 'cmmmm 10/17/2019 18:42:54'!
+valorParaBalance
+
+	^ value! !
+
 !Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
 value
 
@@ -751,7 +1064,7 @@ affectBalance: aBalance
 	^aBalance + value ! !
 
 
-!Deposit methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:22:18'!
+!Deposit methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:22:18'!
 affectReport: aReport 
 	^aReport, 'Deposito por ', self value asString, '. '.! !
 
@@ -769,19 +1082,42 @@ for: aValue
 
 !classDefinition: #TransferDeposit category: #'Portfolio-Solucion'!
 AccountTransaction subclass: #TransferDeposit
-	instanceVariableNames: 'transfernet'
+	instanceVariableNames: 'transference'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:50:51'!
+!TransferDeposit methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:50:51'!
 affectReport: aReport 
 	^aReport, 'Entrada por Transferencia de ', self value asString, '. '.! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:53:12'!
+
+!TransferDeposit methodsFor: 'initialization' stamp: 'LS 10/22/2019 16:58:58'!
 initializeFor: aTransfer
 
-	transfernet := aTransfer ! !
+	transference := aTransfer ! !
+
+
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 17:01:37'!
+updateBalance: aBalance
+
+	^ aBalance + self value! !
+
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:18'!
+valorParaBalance
+
+	^ self value! !
+
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 16:59:14'!
+value
+
+	^ transference value.! !
+
+
+!TransferDeposit methodsFor: 'balance' stamp: 'LS 10/22/2019 17:02:14'!
+affectBalance: aBalance
+
+	^aBalance + self value ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -797,19 +1133,41 @@ for: aValue
 
 !classDefinition: #TransferWithdraw category: #'Portfolio-Solucion'!
 AccountTransaction subclass: #TransferWithdraw
-	instanceVariableNames: 'transfernet'
+	instanceVariableNames: 'transference'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:51:07'!
+!TransferWithdraw methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:51:07'!
 affectReport: aReport 
 	^aReport, 'Salida por Transferencia de ', self value asString, '. '.! !
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:53:05'!
+
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:40'!
+updateBalance: aBalance
+
+	^ aBalance - self value! !
+
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:11'!
+valorParaBalance
+	^ self value negated ! !
+
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:03:46'!
+value
+
+	^ transference value! !
+
+
+!TransferWithdraw methodsFor: 'balance' stamp: 'LS 10/22/2019 17:05:03'!
+affectBalance: aBalance
+
+	^aBalance - self value! !
+
+
+!TransferWithdraw methodsFor: 'initialization' stamp: 'LS 10/22/2019 17:00:25'!
 initializeFor: aTransfer
 
-	transfernet := aTransfer ! !
+	transference := aTransfer ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -836,6 +1194,15 @@ initializeFor: aValue
 	value := aValue ! !
 
 
+!Withdraw methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:28:10'!
+updateBalance: aBalance
+
+	^ aBalance - value! !
+
+!Withdraw methodsFor: 'value' stamp: 'cmmmm 10/17/2019 18:42:47'!
+valorParaBalance
+	^ value negated ! !
+
 !Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
 value
 
@@ -848,7 +1215,7 @@ affectBalance: aBalance
 	^aBalance - value! !
 
 
-!Withdraw methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:26:01'!
+!Withdraw methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:26:01'!
 affectReport: aReport 
 	^aReport, 'Extraccion por ', self value asString, '. '.! !
 
@@ -864,38 +1231,37 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #TransFernet category: #'Portfolio-Solucion'!
-Object subclass: #TransFernet
+!classDefinition: #Transference category: #'Portfolio-Solucion'!
+Object subclass: #Transference
 	instanceVariableNames: 'value transferDeposit transferWithdraw'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransFernet methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:47:06'!
+!Transference methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:47:06'!
 initializeFrom: anAccountSource to: anAccountDestiny of: anAmount 
 
 	transferDeposit := TransferDeposit register: anAmount on: anAccountDestiny. 
 	transferWithdraw := TransferWithdraw register: anAmount on: anAccountSource .
 	value  := anAmount.! !
 
-!TransFernet methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 19:52:25'!
+!Transference methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 19:52:25'!
 value
 
 	^value! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TransFernet class' category: #'Portfolio-Solucion'!
-TransFernet class
+!classDefinition: 'Transference class' category: #'Portfolio-Solucion'!
+Transference class
 	instanceVariableNames: ''!
 
-!TransFernet class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:43:01'!
+!Transference class methodsFor: 'initialization' stamp: 'LS 10/22/2019 17:10:05'!
 from: anAccountSource to: anAccountDestiny of: anAmount 
-	self assert: anAmount positive .
-	^TransFernet new initializeFrom: anAccountSource to: anAccountDestiny of: anAmount.! !
+	self assertAmountPositive: anAmount.
+	^Transference new initializeFrom: anAccountSource to: anAccountDestiny of: anAmount.! !
 
-
-!TransFernet class methodsFor: 'nil' stamp: 'cmmmm 10/21/2019 20:38:07'!
+!Transference class methodsFor: 'initialization' stamp: 'cmmmm 10/21/2019 20:38:07'!
 register: aValue from: anAccountSource to: anAccountDestiny
 
 	| transaction |
@@ -905,3 +1271,13 @@ register: aValue from: anAccountSource to: anAccountDestiny
 	anAccountDestiny register: transaction.
 		
 	^ transaction! !
+
+
+!Transference class methodsFor: 'error messages' stamp: 'LS 10/22/2019 17:18:49'!
+cannotTransferNegativeAmount
+	^'Cannot transfer negative amount'! !
+
+
+!Transference class methodsFor: 'assertions' stamp: 'LS 10/22/2019 17:21:04'!
+assertAmountPositive: anAmount
+	anAmount <1 ifTrue: [self error: Transference cannotTransferNegativeAmount].! !
