@@ -693,10 +693,10 @@ test08MakeAReportOfAnEmptyPortfolio
 	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: portfolio report.
 	! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
+!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/23/2019 21:17:06'!
 test09MakeAReportOfAnAccountWithADepositAndATransaction
 
-	| deposit accountSrc accountDst transaction |
+	| deposit accountSrc accountDst |
 	
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
@@ -704,7 +704,7 @@ test09MakeAReportOfAnAccountWithADepositAndATransaction
 	Transference from: accountSrc to: accountDst of: 20.
 	
 	self assert: 'Deposito por 100. Salida por transferencia de 20. Balance = 80' equals: accountSrc report.
-	self assert: 'Entrada por transferencia de 20. Balance = 20' equals: accountSrc report.
+	self assert: 'Entrada por transferencia de 20. Balance = 20' equals: accountDst report.
 	! !
 
 
@@ -769,14 +769,13 @@ addPortfolio: aPortfolio
 	(portfolios includes: aPortfolio ) ifFalse: [portfolios add: aPortfolio ] ifTrue: [ self error: Portfolio portfolioAlreadyExists ]
 	! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:35:39'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/23/2019 17:26:20'!
 report
 
 	| report |
 	report := String new.
 	report := accounts inject: ''
 		into: [ :currentReport :account | currentReport, account report ].
-	report := report,'Balance = ', self balance asString.
 	^report! !
 
 
@@ -1007,10 +1006,10 @@ value
 	self subclassResponsibility ! !
 
 
-!AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
+!AccountTransaction methodsFor: 'balance' stamp: 'cmmmm 10/23/2019 17:29:37'!
 affectBalance: aBalance
 
-	self subclassResponsibility ! !
+	^self subclassResponsibility ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1087,9 +1086,9 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:50:51'!
+!TransferDeposit methodsFor: 'report' stamp: 'cmmmm 10/23/2019 21:12:51'!
 affectReport: aReport 
-	^aReport, 'Entrada por Transferencia de ', self value asString, '. '.! !
+	^aReport, 'Entrada por transferencia de ', self value asString, '. '.! !
 
 
 !TransferDeposit methodsFor: 'initialization' stamp: 'LS 10/22/2019 16:58:58'!
@@ -1138,9 +1137,9 @@ AccountTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:51:07'!
+!TransferWithdraw methodsFor: 'report' stamp: 'cmmmm 10/23/2019 21:12:57'!
 affectReport: aReport 
-	^aReport, 'Salida por Transferencia de ', self value asString, '. '.! !
+	^aReport, 'Salida por transferencia de ', self value asString, '. '.! !
 
 
 !TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:40'!
