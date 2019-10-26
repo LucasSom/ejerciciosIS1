@@ -589,7 +589,7 @@ TestCase subclass: #TransferenceTest
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
 test01MakingATransferMakesADepositAndWithdraw
 
 	| accountSource accountDestiny deposit |
@@ -603,7 +603,7 @@ test01MakingATransferMakesADepositAndWithdraw
 	self assert: 90 equals: accountSource balance.
 	self assert: 10 equals: accountDestiny balance.! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 17:18:49'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 17:18:49'!
 test02CannotMakeANegativeTransaction
 
 	| accountSource accountDestiny deposit |
@@ -620,7 +620,7 @@ test02CannotMakeANegativeTransaction
 			self assert: 100 equals: accountSource balance.
 			self assert: 0 equals: accountDestiny balance. ]! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
 test03ValueOfTransactionIsCorrect
 
 	| accountSrc accountDst transactionValue deposit |
@@ -633,7 +633,7 @@ test03ValueOfTransactionIsCorrect
 	self assert: transactionValue equals: (Transference from: accountSrc to: accountDst of: transactionValue ) value
 ! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'LS 10/22/2019 16:40:52'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
 test04BalanceOfTransactionIsCorrect
 
 	| accountSrc accountDst transactionValue deposit |
@@ -647,7 +647,7 @@ test04BalanceOfTransactionIsCorrect
 	self assert: 90 equals: accountSrc balance.
 	self assert: 10 equals: accountDst balance.! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 20:58:24'!
+!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 20:58:24'!
 test05MakeAReportOfAnEmptyAccount
 
 	| accountSrc |
@@ -657,7 +657,7 @@ test05MakeAReportOfAnEmptyAccount
 	self assert: 'Balance = 0' equals: accountSrc report.
 	! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:01:03'!
+!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 21:01:03'!
 test06MakeAReportOfAnAccountWithADeposit
 
 	| deposit account |
@@ -668,7 +668,7 @@ test06MakeAReportOfAnAccountWithADeposit
 	self assert: 'Deposito por 100. Balance = 100' equals: account report.
 	! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:24:48'!
+!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 21:24:48'!
 test07MakeAReportOfAnAccountWithADepositAndAWithdraw
 
 	| deposit account withdraw |
@@ -680,7 +680,7 @@ test07MakeAReportOfAnAccountWithADepositAndAWithdraw
 	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: account report.
 	! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:30:28'!
+!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 21:30:28'!
 test08MakeAReportOfAnEmptyPortfolio
 
 	| portfolio deposit account withdraw |
@@ -693,10 +693,10 @@ test08MakeAReportOfAnEmptyPortfolio
 	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: portfolio report.
 	! !
 
-!TransferenceTest methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/23/2019 21:17:06'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
 test09MakeAReportOfAnAccountWithADepositAndATransaction
 
-	| deposit accountSrc accountDst |
+	| deposit accountSrc accountDst transaction |
 	
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
@@ -704,7 +704,17 @@ test09MakeAReportOfAnAccountWithADepositAndATransaction
 	Transference from: accountSrc to: accountDst of: 20.
 	
 	self assert: 'Deposito por 100. Salida por transferencia de 20. Balance = 80' equals: accountSrc report.
-	self assert: 'Entrada por transferencia de 20. Balance = 20' equals: accountDst report.
+	self assert: 'Entrada por transferencia de 20. Balance = 20' equals: accountSrc report.
+	! !
+
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/26/2019 11:22:20'!
+test10TransferNetOfAnEmptyAccountIsZero
+
+	| accountSrc |
+	
+	accountSrc := ReceptiveAccount new.
+	
+	self assert: 0 equals: accountSrc transferNet.
 	! !
 
 
@@ -748,6 +758,7 @@ addedTo: aPortfolio
 
 	self subclassResponsibility ! !
 
+
 
 !classDefinition: #Portfolio category: #'Portfolio-Solucion'!
 Account subclass: #Portfolio
@@ -769,13 +780,14 @@ addPortfolio: aPortfolio
 	(portfolios includes: aPortfolio ) ifFalse: [portfolios add: aPortfolio ] ifTrue: [ self error: Portfolio portfolioAlreadyExists ]
 	! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/23/2019 17:26:20'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:35:39'!
 report
 
 	| report |
 	report := String new.
 	report := accounts inject: ''
 		into: [ :currentReport :account | currentReport, account report ].
+	report := report,'Balance = ', self balance asString.
 	^report! !
 
 
@@ -987,6 +999,10 @@ report
 	report := report,'Balance = ', self balance asString.
 	^report! !
 
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/26/2019 11:52:51'!
+transferNet
+	^0.! !
+
 
 !classDefinition: #AccountTransaction category: #'Portfolio-Solucion'!
 Object subclass: #AccountTransaction
@@ -1006,10 +1022,10 @@ value
 	self subclassResponsibility ! !
 
 
-!AccountTransaction methodsFor: 'balance' stamp: 'cmmmm 10/23/2019 17:29:37'!
+!AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
 affectBalance: aBalance
 
-	^self subclassResponsibility ! !
+	self subclassResponsibility ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1086,9 +1102,9 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'report' stamp: 'cmmmm 10/23/2019 21:12:51'!
+!TransferDeposit methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:50:51'!
 affectReport: aReport 
-	^aReport, 'Entrada por transferencia de ', self value asString, '. '.! !
+	^aReport, 'Entrada por Transferencia de ', self value asString, '. '.! !
 
 
 !TransferDeposit methodsFor: 'initialization' stamp: 'LS 10/22/2019 16:58:58'!
@@ -1137,9 +1153,9 @@ AccountTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'report' stamp: 'cmmmm 10/23/2019 21:12:57'!
+!TransferWithdraw methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:51:07'!
 affectReport: aReport 
-	^aReport, 'Salida por transferencia de ', self value asString, '. '.! !
+	^aReport, 'Salida por Transferencia de ', self value asString, '. '.! !
 
 
 !TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:40'!
