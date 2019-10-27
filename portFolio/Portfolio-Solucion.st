@@ -717,6 +717,21 @@ test10TransferNetOfAnEmptyAccountIsZero
 	self assert: 0 equals: accountSrc transferNet.
 	! !
 
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/27/2019 18:45:12'!
+test11TransferNetOfAnAccountsWithATransferenceIsCorrect
+
+	| accountSrc accountDst deposit transactionValue |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	
+	deposit := Deposit register: 100 on: accountSrc.
+	transactionValue := 10.
+	Transference from: accountSrc to: accountDst of: transactionValue.
+		
+	self assert: -10 equals: accountSrc transferNet.
+	self assert: 10 equals: accountDst transferNet.! !
+
 
 !classDefinition: #Account category: #'Portfolio-Solucion'!
 Object subclass: #Account
@@ -999,9 +1014,12 @@ report
 	report := report,'Balance = ', self balance asString.
 	^report! !
 
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/26/2019 11:52:51'!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:33:40'!
 transferNet
-	^0.! !
+	
+	^transactions 
+		inject: 0
+		into: [ :currentTransference :transaction | transaction affectTransferNet: currentTransference ]! !
 
 
 !classDefinition: #AccountTransaction category: #'Portfolio-Solucion'!
@@ -1026,6 +1044,11 @@ value
 affectBalance: aBalance
 
 	self subclassResponsibility ! !
+
+
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:52'!
+affectTransferNet: aTransference
+	^self subclassResponsibility.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1083,6 +1106,11 @@ affectBalance: aBalance
 affectReport: aReport 
 	^aReport, 'Deposito por ', self value asString, '. '.! !
 
+
+!Deposit methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:43'!
+affectTransferNet: aTransference
+	^0.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Deposit class' category: #'Portfolio-Solucion'!
@@ -1134,6 +1162,11 @@ affectBalance: aBalance
 
 	^aBalance + self value ! !
 
+
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:35'!
+affectTransferNet: aTransference
+	^aTransference + self value.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'TransferDeposit class' category: #'Portfolio-Solucion'!
@@ -1184,6 +1217,11 @@ initializeFor: aTransfer
 
 	transference := aTransfer ! !
 
+
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:07'!
+affectTransferNet: aTransference
+	^aTransference - self value.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'TransferWithdraw class' category: #'Portfolio-Solucion'!
@@ -1233,6 +1271,11 @@ affectBalance: aBalance
 !Withdraw methodsFor: 'report' stamp: 'cmmmm 10/21/2019 21:26:01'!
 affectReport: aReport 
 	^aReport, 'Extraccion por ', self value asString, '. '.! !
+
+
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:20'!
+affectTransferNet: aTransference
+	^0.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
