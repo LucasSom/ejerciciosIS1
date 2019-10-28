@@ -378,91 +378,101 @@ test04BalanceOfTransactionIsCorrect
 	self assert: 90 equals: accountSrc balance.
 	self assert: 10 equals: accountDst balance.! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 20:58:24'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:45:56'!
 test05MakeAReportOfAnEmptyAccount
 
-	| accountSrc |
+	| accountSrc report |
 	
 	accountSrc := ReceptiveAccount new.
+	report := Report with: accountSrc.
 	
-	self assert: 'Balance = 0' equals: accountSrc report.
+	self assert: 'Balance = 0' equals: report makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 21:01:03'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:46:40'!
 test06MakeAReportOfAnAccountWithADeposit
 
-	| deposit account |
+	| deposit account report |
 	
 	account := ReceptiveAccount new.
-	deposit := Deposit register: 100 on: account.	
+	deposit := Deposit register: 100 on: account.
+	report := Report with: account.	
 	
-	self assert: 'Deposito por 100. Balance = 100' equals: account report.
+	self assert: 'Deposito por 100. Balance = 100' equals: report makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'cmmmm 10/21/2019 21:24:48'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:50:45'!
 test07MakeAReportOfAnAccountWithADepositAndAWithdraw
 
-	| deposit account withdraw |
+	| deposit account withdraw report|
 	
 	account := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: account.	
-	withdraw := Withdraw register: 20 on: account.	
+	withdraw := Withdraw register: 20 on: account.
+	report := Report with: account.	
 	
-	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: account report.
+	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: report makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:39:31'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:47:47'!
 test08MakeAReportOfAnEmptyPortfolio
 
-	| portfolio account |
+	| portfolio account report |
 	
 	account := ReceptiveAccount new.
 	portfolio := Portfolio with: account.	
+	report := Report with: portfolio.
 	
-	self assert: 'Balance = 0' equals: portfolio report.
+	self assert: 'Balance = 0' equals: report makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:37:11'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:49:23'!
 test09MakeAReportOfAnAccountWithADepositAndATransaction
 
-	| deposit accountSrc accountDst transaction |
+	| deposit accountSrc accountDst transaction reportSrc reportDst |
 	
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: accountSrc.
 	Transference from: accountSrc to: accountDst of: 20.
 	
-	self assert: 'Deposito por 100. Salida por Transferencia de 20. Balance = 80' equals: accountSrc report.
-	self assert: 'Entrada por Transferencia de 20. Balance = 20' equals: accountDst report.
+	reportSrc := Report with: accountSrc.
+	reportDst := Report with: accountDst.
+	
+	self assert: 'Deposito por 100. Salida por Transferencia de 20. Balance = 80' equals: reportSrc makeReport.
+	self assert: 'Entrada por Transferencia de 20. Balance = 20' equals: reportDst makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:39:21'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:49:57'!
 test10MakeAReportOfAPortfolioWithOneAccountWithADepositAndWithdraw
 
-	| portfolio deposit account withdraw |
+	| portfolio deposit account withdraw report |
 	
 	account := ReceptiveAccount new.
 	deposit := Deposit register: 100 on: account.	
 	withdraw := Withdraw register: 20 on: account.
-	portfolio := Portfolio with: account.	
+	portfolio := Portfolio with: account.
 	
-	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: portfolio report.
+	report := Report with: portfolio .	
+	
+	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: report makeReport.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:39:49'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:35:10'!
 test11TransferNetOfAnEmptyAccountIsZero
 
-	| accountSrc |
+	| account transferNet |
 	
-	accountSrc := ReceptiveAccount new.
+	account := ReceptiveAccount new.
+	transferNet := TransferNet with: account.
 	
-	self assert: 0 equals: accountSrc transferNet.
+	self assert: 0 equals: transferNet printTransferNet.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:40:12'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:36:34'!
 test12TransferNetOfAnAccountsWithATransferenceIsCorrect
 
-	| accountSrc accountDst deposit transactionValue |
+	| accountSrc accountDst deposit transactionValue transferNetSrc transferNetDst |
 	
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
@@ -470,24 +480,28 @@ test12TransferNetOfAnAccountsWithATransferenceIsCorrect
 	deposit := Deposit register: 100 on: accountSrc.
 	transactionValue := 10.
 	Transference from: accountSrc to: accountDst of: transactionValue.
+	
+	transferNetSrc := TransferNet with: accountSrc.
+	transferNetDst := TransferNet with: accountDst.
 		
-	self assert: transactionValue negated equals: accountSrc transferNet.
-	self assert: transactionValue equals: accountDst transferNet.! !
+	self assert: transactionValue negated equals: transferNetSrc printTransferNet .
+	self assert: transactionValue equals: transferNetDst printTransferNet .! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:40:31'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:37:16'!
 test13TransferNetOfAnEmptyPortfolioIsZero
 
-	| portfolio |
+	| portfolio transferNet |
 	
 	portfolio := Portfolio new.
+	transferNet := TransferNet with: portfolio .
 	
-	self assert: 0 equals: portfolio transferNet.
+	self assert: 0 equals: transferNet printTransferNet.
 	! !
 
-!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 11:43:38'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:45:33'!
 test14TransferNetOfAPortfolioWithAnAccountsWithATransferenceIsCorrect
 
-	| accountSrc accountDst deposit transactionValue portfolioSrc portfolioDst |
+	| accountSrc accountDst deposit transactionValue portfolioSrc portfolioDst transferNetAccSrc transferNetAccDst transferNetPortSrc transferNetPortDst |
 	
 	accountSrc := ReceptiveAccount new.
 	accountDst := ReceptiveAccount new.
@@ -499,8 +513,13 @@ test14TransferNetOfAPortfolioWithAnAccountsWithATransferenceIsCorrect
 	portfolioSrc := Portfolio with: accountSrc.
 	portfolioDst := Portfolio with: accountDst.
 	
-	self assert: accountSrc transferNet equals: portfolioSrc transferNet.
-	self assert: accountDst transferNet equals: portfolioDst transferNet.! !
+	transferNetAccSrc  := TransferNet with: accountSrc .
+	transferNetAccDst := TransferNet with: accountDst .
+	transferNetPortSrc := TransferNet with: portfolioSrc .
+	transferNetPortDst := TransferNet with: portfolioDst .
+	
+	self assert: transferNetAccSrc printTransferNet equals: transferNetPortSrc printTransferNet .
+	self assert: transferNetAccDst printTransferNet equals: transferNetPortDst printTransferNet.! !
 
 
 !classDefinition: #Account category: #'Portfolio-Solucion'!
@@ -544,6 +563,10 @@ addedTo: aPortfolio
 	self subclassResponsibility ! !
 
 
+!Account methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:56:39'!
+transferNet: aTransferNet
+	^self subclassResponsibility ! !
+
 
 !classDefinition: #Portfolio category: #'Portfolio-Solucion'!
 Account subclass: #Portfolio
@@ -552,19 +575,10 @@ Account subclass: #Portfolio
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Portfolio methodsFor: 'transFernet' stamp: 'LS 10/28/2019 11:56:03'!
-transferNet
-	^accounts sum: [ :anAccount | anAccount transferNet ] ifEmpty: [ 0 ]! !
+!Portfolio methodsFor: 'transFernet' stamp: 'LS 10/28/2019 16:41:45'!
+transferNet: aTransferNet
+	^accounts do: [ :anAccount | anAccount transferNet: aTransferNet ]! !
 
-
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 11:29:14'!
-report
-
-	| report |
-	report := String new.
-	report := self reportOperations.
-	report := report,'Balance = ', self balance asString.
-	^report! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 11:31:52'!
 reportOperations
@@ -573,6 +587,12 @@ reportOperations
 	report := accounts inject: ''
 		into: [ :currentReport :account | currentReport, account reportOperations ].
 	^report! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:21:11'!
+reportOperations: aReport
+	
+	accounts do: [ :anAccount | anAccount reportOperations: aReport ].
+! !
 
 
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
@@ -791,12 +811,15 @@ reportOperations
 		into: [ :currentReport :transaction | transaction affectReport: currentReport ].
 	^report! !
 
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:33:40'!
-transferNet
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:19:47'!
+reportOperations: aReport
 	
-	^transactions 
-		inject: 0
-		into: [ :currentTransference :transaction | transaction affectTransferNet: currentTransference ]! !
+	transactions do:[ :aTransaction | aTransaction addToReport: aReport ].! !
+
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:07:37'!
+transferNet: aTransferNet
+	transactions do: [:aTransaction | aTransaction doTransferNet: aTransferNet]
+	! !
 
 
 !classDefinition: #AccountTransaction category: #'Portfolio-Solucion'!
@@ -817,6 +840,10 @@ value
 	self subclassResponsibility ! !
 
 
+!AccountTransaction methodsFor: 'balance' stamp: 'LS 10/28/2019 17:01:51'!
+addToReport: aReport
+	^self subclassResponsibility ! !
+
 !AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
 affectBalance: aBalance
 
@@ -825,6 +852,10 @@ affectBalance: aBalance
 
 !AccountTransaction methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:52'!
 affectTransferNet: aTransference
+	^self subclassResponsibility.! !
+
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:27:48'!
+doTransferNet: aTranferNet
 	^self subclassResponsibility.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -884,9 +915,17 @@ affectReport: aReport
 	^aReport, 'Deposito por ', self value asString, '. '.! !
 
 
+!Deposit methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:00:40'!
+addToReport: aReport
+	^aReport addDeposit: self.! !
+
 !Deposit methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:43'!
 affectTransferNet: aTransference
 	^0.! !
+
+!Deposit methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:47:37'!
+doTransferNet: aTransFernet
+	^aTransFernet countDeposit: self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -940,9 +979,17 @@ affectBalance: aBalance
 	^aBalance + self value ! !
 
 
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:00:59'!
+addToReport: aReport
+	^aReport addTransferDeposit: self.! !
+
 !TransferDeposit methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:35'!
 affectTransferNet: aTransference
 	^aTransference + self value.! !
+
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:47:41'!
+doTransferNet: aTransFernet
+	^aTransFernet countTransferDeposit: self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -995,9 +1042,17 @@ initializeFor: aTransfer
 	transference := aTransfer ! !
 
 
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:01:17'!
+addToReport: aReport
+	^aReport addTransferWithdraw: self.! !
+
 !TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:07'!
 affectTransferNet: aTransference
 	^aTransference - self value.! !
+
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:47:46'!
+doTransferNet: aTransFernet
+	^aTransFernet countTransferWithdraw: self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1050,9 +1105,17 @@ affectReport: aReport
 	^aReport, 'Extraccion por ', self value asString, '. '.! !
 
 
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 17:01:30'!
+addToReport: aReport
+	^aReport addWithdraw: self.! !
+
 !Withdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/27/2019 18:44:20'!
 affectTransferNet: aTransference
 	^0.! !
+
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:47:52'!
+doTransferNet: aTransFernet
+	^aTransFernet countWithdraw: self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1068,36 +1131,45 @@ for: aValue
 
 !classDefinition: #Report category: #'Portfolio-Solucion'!
 Object subclass: #Report
-	instanceVariableNames: 'account'
+	instanceVariableNames: 'account stream'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 14:23:28'!
-report
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:04:58'!
+addDeposit: aDeposit
 
-	| report |
-	report := String new.
-	"report := account reportOperations."
-	report := self reportOperationsFrom: account.
-	report := report,'Balance = ', account balance asString.
-	^report! !
+	^stream, 'Deposito por ', aDeposit value asString, '. '.! !
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 14:53:53'!
-reportOperationsFrom: anAccount
-	
-	| report |
-	report := String new.
-	report := account accounts inject: ''
-		into: [ :currentReport :currentAccount | currentReport, currentAccount reportOperations ].
-	^report! !
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:05:29'!
+addTransferDeposit: aTransferDeposit
+
+	^stream, 'Entrada por Transferencia de ', aTransferDeposit value asString, '. '.! !
+
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:05:41'!
+addTransferWithdraw: aTransferWithdraw
+
+	^stream, 'Salida por Transferencia de ', aTransferWithdraw value asString, '. '.! !
+
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:04:50'!
+addWithdraw: aWithdraw
+
+	^stream, 'Extraccion por ', aWithdraw value asString, '. '.! !
+
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:18:11'!
+makeReport
+
+	account reportOperations: self.
+	stream := stream,'Balance = ', account balance asString.
+	^stream! !
 
 
 
-!Report methodsFor: 'initialization' stamp: 'LS 10/28/2019 14:17:00'!
+!Report methodsFor: 'initialization' stamp: 'LS 10/28/2019 16:55:21'!
 initializeWith: anAccount
 
-	account _ anAccount! !
+	stream _ String new.
+	account _ anAccount.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1108,6 +1180,61 @@ Report class
 !Report class methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 14:16:31'!
 with: anAccount
 
+	^self new initializeWith: anAccount.! !
+
+
+!classDefinition: #TransferNet category: #'Portfolio-Solucion'!
+Object subclass: #TransferNet
+	instanceVariableNames: 'account net'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!TransferNet methodsFor: 'initialize' stamp: 'LS 10/28/2019 16:51:38'!
+initializeWith: anAccount
+
+	net := 0.
+	account := anAccount.! !
+
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:31:31'!
+countDeposit: aDeposit
+
+	^0.
+	! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:32:05'!
+countTransferDeposit: aDeposit
+
+	^net := net + aDeposit value.
+	! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:32:26'!
+countTransferWithdraw: aWithdraw
+
+	^net := net - aWithdraw value.
+	! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:31:20'!
+countWithdraw: aWithdraw
+
+	^0.
+	! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:53:41'!
+printTransferNet
+	
+	account transferNet: self.
+	^net! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TransferNet class' category: #'Portfolio-Solucion'!
+TransferNet class
+	instanceVariableNames: ''!
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'LS 10/28/2019 16:22:04'!
+with: anAccount
 	^self new initializeWith: anAccount.! !
 
 
