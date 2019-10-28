@@ -1136,25 +1136,25 @@ Object subclass: #Report
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:04:58'!
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:28:49'!
 addDeposit: aDeposit
 
-	^stream, 'Deposito por ', aDeposit value asString, '. '.! !
+	^stream := stream, 'Deposito por ', aDeposit value asString, '. '.! !
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:05:29'!
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:29:06'!
 addTransferDeposit: aTransferDeposit
 
-	^stream, 'Entrada por Transferencia de ', aTransferDeposit value asString, '. '.! !
+	^stream := stream, 'Entrada por Transferencia de ', aTransferDeposit value asString, '. '.! !
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:05:41'!
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:29:10'!
 addTransferWithdraw: aTransferWithdraw
 
-	^stream, 'Salida por Transferencia de ', aTransferWithdraw value asString, '. '.! !
+	^stream := stream, 'Salida por Transferencia de ', aTransferWithdraw value asString, '. '.! !
 
-!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:04:50'!
+!Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:29:14'!
 addWithdraw: aWithdraw
 
-	^stream, 'Extraccion por ', aWithdraw value asString, '. '.! !
+	^stream := stream, 'Extraccion por ', aWithdraw value asString, '. '.! !
 
 !Report methodsFor: 'traditional report' stamp: 'LS 10/28/2019 17:18:11'!
 makeReport
