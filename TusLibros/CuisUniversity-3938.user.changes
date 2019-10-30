@@ -356,3 +356,65 @@ listCart
 ERROR!
 
 ----QUIT----(29 October 2019 22:04:29) CuisUniversity-3938.image priorSource: 14319118!
+
+----STARTUP---- (30 October 2019 20:51:22) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/30/2019 20:51:48'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/30/2019 20:51:48'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'LS 10/30/2019 20:51:48'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'LS 10/30/2019 20:51:48'!
+ERROR!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'LS 10/30/2019 20:51:48'!
+ERROR!
+
+!classRemoval: #Client stamp: 'LS 10/30/2019 20:52:05'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'LS 10/30/2019 20:52:06'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'LS 10/30/2019 20:52:06'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn iSBNNumber'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CartTest stamp: 'LS 10/30/2019 20:52:07'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/Tus-Libros.st----!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/30/2019 20:52:31'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/30/2019 20:52:31'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'LS 10/30/2019 20:52:31'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'LS 10/30/2019 20:52:31'!
+PASSED!
+
+----QUIT----(30 October 2019 20:52:40) CuisUniversity-3938.image priorSource: 14412920!
