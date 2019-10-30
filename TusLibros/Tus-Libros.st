@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: #CartTest category: #'Tus-Libros'!
 TestCase subclass: #CartTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -44,7 +44,7 @@ test03ListarNuevoCarritoEsListaVacia
 	
 	self assert: aList isEmpty.! !
 
-!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:50:35'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/30/2019 16:36:39'!
 test04ListarCarritoConUnLibroContieneEseLibro
 
 	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
@@ -55,7 +55,7 @@ test04ListarCarritoConUnLibroContieneEseLibro
 	anISBNNumber := 9780805511963.
 	aBook := Book with: anISBNNumber.
 	aQuantity := 1.
-	aCart addToCart: aBook isbn quantity: aQuantity.
+	aCart addToCart: aBook quantity: aQuantity.
 	
 	aList := aCart listCart.
 	theWantedList := anISBNNumber asString , '|', aQuantity asString.
@@ -63,17 +63,17 @@ test04ListarCarritoConUnLibroContieneEseLibro
 	self assert: theWantedList equals: aList.! !
 
 
-!classDefinition: #Book category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: #Book category: #'Tus-Libros'!
 Object subclass: #Book
-	instanceVariableNames: 'isbn iSBNNumber'
+	instanceVariableNames: 'isbn'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tus-Libros'!
 
-!Book methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:27:13'!
+!Book methodsFor: 'initialization' stamp: 'LS 10/30/2019 16:31:08'!
 initializeWith: anISBNNumber 
 	
-	iSBNNumber := anISBNNumber.! !
+	isbn := anISBNNumber.! !
 
 
 !Book methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:27:27'!
@@ -83,7 +83,7 @@ isbn
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Book class' category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: 'Book class' category: #'Tus-Libros'!
 Book class
 	instanceVariableNames: ''!
 
@@ -93,7 +93,7 @@ with: anISBNNumber
 	^self new initializeWith: anISBNNumber ! !
 
 
-!classDefinition: #Cart category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: #Cart category: #'Tus-Libros'!
 Object subclass: #Cart
 	instanceVariableNames: 'client password books'
 	classVariableNames: ''
@@ -112,13 +112,13 @@ initializeWithClient: aClient andPassword: aPassword
 isEmpty
 	^books isEmpty.! !
 
-!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:54:40'!
+!Cart methodsFor: 'accessing' stamp: 'LS 10/30/2019 16:40:01'!
 listCart
 	
 	| aList |
 	
 	aList := ''.
-	books do: [:aBook | aList, aBook isbn asString, '|', 1 ].
+	books do: [:aBook | aList := aList, aBook isbn asString, '|', '1' ].
 	^aList ! !
 
 
@@ -128,7 +128,7 @@ addToCart: aBook quantity: aQuantity
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: 'Cart class' category: #'Tus-Libros'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -139,7 +139,7 @@ withClient: aClient andPassword: aPassword
 	^self new initializeWithClient: aClient andPassword: aPassword ! !
 
 
-!classDefinition: #Client category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: #Client category: #'Tus-Libros'!
 Object subclass: #Client
 	instanceVariableNames: 'password'
 	classVariableNames: ''
@@ -153,7 +153,7 @@ initializeWith: aPassword
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Client class' category: #'Tus-Libros' stamp: 'LS 10/29/2019 22:01:32'!
+!classDefinition: 'Client class' category: #'Tus-Libros'!
 Client class
 	instanceVariableNames: ''!
 
