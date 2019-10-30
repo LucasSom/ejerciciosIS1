@@ -1,0 +1,356 @@
+
+
+----STARTUP---- (29 October 2019 20:45:24) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+TestCase subclass: #CarritosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CarritosTest category: #'Tus-Libros' stamp: 'LS 10/29/2019 20:49:10'!
+TestCase subclass: #CarritosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Client category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:04:14'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Cart category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:04:38'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CarritosTest methodsFor: 'no messages' stamp: 'LS 10/29/2019 21:03:59'!
+test01NuevoCarritoEsVacio
+
+	| aCart aClient aPassword |
+	aPassword := 'passwordExample'.
+	aClient := Client new with: aPassword.
+	aCart := Cart new withClient: aClient andPassword: aPassword.
+	
+	self assert: aCart isEmpty.! !
+
+!testRun: #CarritosTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:04:43'!
+ERROR!
+!Client methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:05:26'!
+with: aString 
+	self shouldBeImplemented.! !
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/portFolio/Portfolio-Solucion.st----!
+
+!classRemoval: #Client stamp: 'LS 10/29/2019 21:08:02'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'LS 10/29/2019 21:08:02'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CarritosTest stamp: 'LS 10/29/2019 21:08:03'!
+TestCase subclass: #CarritosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CartTest category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:09:03'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Client category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:09:40'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Cart category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:09:53'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'no messages' stamp: 'LS 10/29/2019 21:09:29'!
+test01NuevoCarritoEsVacio
+
+	| aCart aClient aPassword |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	self assert: aCart isEmpty.! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:09:57'!
+ERROR!
+!Client class methodsFor: 'class initialization' stamp: 'LS 10/29/2019 21:10:06'!
+with: aString 
+	self shouldBeImplemented.! !
+!Client class methodsFor: 'class initialization' stamp: 'LS 10/29/2019 21:11:02' prior: 50778778!
+with: aPassword
+	^self new initializeWith: aPassword ! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:11:03'!
+ERROR!
+!Client methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:11:21'!
+initializeWith: aPassword 
+	self shouldBeImplemented.
+	password := aPassword.! !
+!Client methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:11:49' prior: 50778790!
+initializeWith: aPassword 
+	
+	password := aPassword.! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:11:50'!
+ERROR!
+!Cart class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:12:08'!
+withClient: aClient andPassword: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithClient: aClient andPassword: aString ! !
+!Cart class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:12:32' prior: 50778803!
+withClient: aClient andPassword: aPassword
+
+	
+	^self new initializeWithClient: aClient andPassword: aPassword ! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:12:33'!
+ERROR!
+!Cart methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:12:52'!
+initializeWithClient: aClient andPassword: aPassword 
+	self shouldBeImplemented.
+	client := aClient.
+	password := aPassword.! !
+!Cart methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:13:01' prior: 50778822!
+initializeWithClient: aClient andPassword: aPassword 
+	
+	client := aClient.
+	password := aPassword.! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:13:03'!
+ERROR!
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:13:15'!
+isEmpty
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:13:24' prior: 50778837!
+isEmpty
+	^true.! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:13:26'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:13:26'!
+PASSED!
+
+!classDefinition: #Book category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:25:47'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:25:30'!
+test02CarritoConUnLibroNoEstaVacio
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	
+	aCart addToCart: aBook isbn quantity: aQuantity.
+	
+	self deny: aCart isEmpty.! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:26:10'!
+ERROR!
+!Book class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:26:18'!
+with: aSmallInteger 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aSmallInteger ! !
+!Book class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:26:44' prior: 50778875!
+with: anISBNNumber
+	
+	^self new initializeWith: anISBNNumber ! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:26:46'!
+ERROR!
+
+!classDefinition: #Book category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:27:07'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn iSBNNumber'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Book methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:27:07'!
+initializeWith: anISBNNumber 
+	self shouldBeImplemented.
+	iSBNNumber := anISBNNumber.! !
+!Book methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:27:13' prior: 50778897!
+initializeWith: anISBNNumber 
+	
+	iSBNNumber := anISBNNumber.! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:27:15'!
+ERROR!
+!Book methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:27:23'!
+isbn
+	self shouldBeImplemented.
+	^isbn! !
+!Book methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:27:27' prior: 50778910!
+isbn
+	
+	^isbn! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:27:30'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:27:56'!
+addToCart: anUndefinedObject quantity: aSmallInteger 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cart category: #'Tus-Libros' stamp: 'LS 10/29/2019 21:28:55'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:28:43' prior: 50778920!
+addToCart: aBook quantity: aQuantity 
+	books add: aBook! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:29:00'!
+ERROR!
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/Packages/TerseGuide.pck.st----!
+
+|a|
+a := OrderedCollection new.
+a add: 2; add: 2.
+a size.!
+
+a size.!
+
+|a|
+a := OrderedCollection new.
+a add: 2; add: 2.
+a size.!
+!Cart methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:32:34' prior: 50778829!
+initializeWithClient: aClient andPassword: aPassword 
+	
+	client := aClient.
+	password := aPassword.
+	books := OrderedCollection new.! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:32:47'!
+FAILURE!
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:33:50' prior: 50778841!
+isEmpty
+	^books isEmpty.! !
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:33:56'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:33:56'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:33:56'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:36:36'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:36:36'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:36:36'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:45:52'!
+test03ListarNuevoCarritoEsListaVacia
+
+	| aCart aClient aPassword aList |
+	
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	aList := aCart listCart.
+	
+	self assert: aList isEmpty.! !
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'LS 10/29/2019 21:46:08'!
+ERROR!
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:46:18'!
+listCart
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:46:29' prior: 50782002!
+listCart
+	^''! !
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'LS 10/29/2019 21:46:31'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'LS 10/29/2019 21:46:31'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'LS 10/29/2019 21:46:31'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'LS 10/29/2019 21:46:31'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:50:35'!
+test04ListarCarritoConUnLibroContieneEseLibro
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook isbn quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'LS 10/29/2019 21:50:43'!
+FAILURE!
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:54:40' prior: 50782006!
+listCart
+	
+	| aList |
+	
+	aList := ''.
+	books do: [:aBook | aList, aBook isbn asString, '|', 1 ].
+	^aList ! !
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'LS 10/29/2019 21:54:41'!
+ERROR!
