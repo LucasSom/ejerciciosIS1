@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #'Tus-Libros'!
+!classDefinition: #CartTest category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 TestCase subclass: #CartTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -31,7 +31,7 @@ test02CarritoConUnLibroNoEstaVacio
 	
 	self deny: aCart isEmpty.! !
 
-!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:45:52'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:21'!
 test03ListarNuevoCarritoEsListaVacia
 
 	| aCart aClient aPassword aList |
@@ -42,9 +42,9 @@ test03ListarNuevoCarritoEsListaVacia
 	
 	aList := aCart listCart.
 	
-	self assert: aList isEmpty.! !
+	self assert: '0' equals: aList.! !
 
-!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/30/2019 16:36:39'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:00:34'!
 test04ListarCarritoConUnLibroContieneEseLibro
 
 	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
@@ -58,12 +58,54 @@ test04ListarCarritoConUnLibroContieneEseLibro
 	aCart addToCart: aBook quantity: aQuantity.
 	
 	aList := aCart listCart.
-	theWantedList := anISBNNumber asString , '|', aQuantity asString.
+	theWantedList := '0','|', anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:45'!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber2.
+	aQuantity := 1.
+	aCart addToCart: aBook2 quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:03:24'!
+test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 2.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString.
 	
 	self assert: theWantedList equals: aList.! !
 
 
-!classDefinition: #Book category: #'Tus-Libros'!
+!classDefinition: #Book category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Object subclass: #Book
 	instanceVariableNames: 'isbn'
 	classVariableNames: ''
@@ -83,7 +125,7 @@ isbn
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Book class' category: #'Tus-Libros'!
+!classDefinition: 'Book class' category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Book class
 	instanceVariableNames: ''!
 
@@ -93,7 +135,7 @@ with: anISBNNumber
 	^self new initializeWith: anISBNNumber ! !
 
 
-!classDefinition: #Cart category: #'Tus-Libros'!
+!classDefinition: #Cart category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Object subclass: #Cart
 	instanceVariableNames: 'client password books'
 	classVariableNames: ''
@@ -112,23 +154,26 @@ initializeWithClient: aClient andPassword: aPassword
 isEmpty
 	^books isEmpty.! !
 
-!Cart methodsFor: 'accessing' stamp: 'LS 10/30/2019 16:40:01'!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:15:44'!
 listCart
 	
 	| aList |
 	
-	aList := ''.
-	books do: [:aBook | aList := aList, aBook isbn asString, '|', '1' ].
+	aList := '0'.
+	
+	books do: [:aBook | ((books occurrencesOf: aBook) > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', '1'] ].
+	
 	^aList ! !
 
 
-!Cart methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:28:43'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:04:19'!
 addToCart: aBook quantity: aQuantity 
-	books add: aBook! !
+	
+	aQuantity timesRepeat: [books add: aBook ]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #'Tus-Libros'!
+!classDefinition: 'Cart class' category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -139,7 +184,7 @@ withClient: aClient andPassword: aPassword
 	^self new initializeWithClient: aClient andPassword: aPassword ! !
 
 
-!classDefinition: #Client category: #'Tus-Libros'!
+!classDefinition: #Client category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Object subclass: #Client
 	instanceVariableNames: 'password'
 	classVariableNames: ''
@@ -153,7 +198,7 @@ initializeWith: aPassword
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Client class' category: #'Tus-Libros'!
+!classDefinition: 'Client class' category: #'Tus-Libros' stamp: 'cmmmmm 10/31/2019 17:16:00'!
 Client class
 	instanceVariableNames: ''!
 
