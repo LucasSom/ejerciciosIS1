@@ -357,6 +357,7 @@ ERROR!
 
 ----QUIT----(29 October 2019 22:04:29) CuisUniversity-3938.image priorSource: 14319118!
 
+<<<<<<< HEAD
 ----STARTUP---- (30 October 2019 20:51:22) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
 
 
@@ -418,3 +419,595 @@ PASSED!
 PASSED!
 
 ----QUIT----(30 October 2019 20:52:40) CuisUniversity-3938.image priorSource: 14412920!
+=======
+----STARTUP---- (31 October 2019 16:47:38) as /Users/cmurga/Downloads/macos64/CuisUniversity-3938.image!
+
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/TusLibros/Tus-Libros.st----!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 16:52:22'!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:52:26'!
+ERROR!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:53:20'!
+ERROR!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 16:53:34' prior: 50782235!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:53:38'!
+FAILURE!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 16:54:56' prior: 50782179!
+listCart
+	
+	| aList |
+	
+	aList := ''.
+	books do: [:aBook | aList := aList, '|', aBook isbn asString, '|', '1' ].
+	^aList ! !
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 16:56:18' prior: 50782299!
+listCart
+	
+	| aList |
+	
+	aList := '0'.
+	books do: [:aBook | aList := aList, '|', aBook isbn asString, '|', '1' ].
+	^aList ! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:56:22'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 16:56:56' prior: 50782269!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:57:00'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 16:57:26' prior: 50782317!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber2.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 16:57:28'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:00:34' prior: 50782108!
+test04ListarCarritoConUnLibroContieneEseLibro
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|', anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:00:34'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:00:34'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:00:34'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:00:34'!
+FAILURE!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:00:34'!
+PASSED!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:00:34'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:21' prior: 50782097!
+test03ListarNuevoCarritoEsListaVacia
+
+	| aCart aClient aPassword aList |
+	
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	aList := aCart listCart.
+	
+	self assert: '0' equals: aList.! !
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:01:23'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:01:23'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:01:23'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:01:23'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:01:23'!
+PASSED!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:01:23'!
+FAILURE!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:01:23'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:45' prior: 50782347!
+test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber2.
+	aQuantity := 1.
+	aCart addToCart: aBook2 quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:01:46'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:03:20'!
+test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 2.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|'.
+	
+	self assert: theWantedList equals: aList.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:03:24' prior: 50782498!
+test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 2.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:03:30'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:04:19' prior: 50782186!
+addToCart: aBook quantity: aQuantity 
+	
+	aQuantity timesRepeat: [books add: aBook ]! !
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:04:20'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:04:20'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:04:20'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:04:20'!
+PASSED!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:04:20'!
+PASSED!
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:04:20'!
+FAILURE!
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:04:20'!
+FAILURE!
+
+----End fileIn of /Users/cmurga/Downloads/macos64/Packages/TerseGuide.pck.st----!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:13:56' prior: 50782306!
+listCart
+	
+	| aList |
+	
+	aList := '0'.
+	
+	books do: [:aBook | (books occurrencesOf: aBook > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', aList, '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', aList, '1'] ].
+	
+	^aList ! !
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:13:58'!
+ERROR!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:14:23' prior: 50785587!
+listCart
+	
+	| aList |
+	
+	aList := '0'.
+	
+	books do: [:aBook | ((books occurrencesOf: aBook) > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', aList, '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', aList, '1'] ].
+	
+	^aList ! !
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:14:26'!
+FAILURE!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:15:02' prior: 50785602!
+listCart
+	
+	| aList |
+	
+	aList := '0'.
+	
+	books do: [:aBook | ((books occurrencesOf: aBook) > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', aList, '1'] ].
+	
+	^aList ! !
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:15:04'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:15:15'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:15:15'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:15:15'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:15:15'!
+FAILURE!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:15:15'!
+FAILURE!
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:15:15'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:15:20'!
+FAILURE!
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:15:44' prior: 50785617!
+listCart
+	
+	| aList |
+	
+	aList := '0'.
+	
+	books do: [:aBook | ((books occurrencesOf: aBook) > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', '1'] ].
+	
+	^aList ! !
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:15:45'!
+PASSED!
+
+!testRun: #CartTest #test01NuevoCarritoEsVacio stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+
+!testRun: #CartTest #test02CarritoConUnLibroNoEstaVacio stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+
+!testRun: #CartTest #test03ListarNuevoCarritoEsListaVacia stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+
+!testRun: #CartTest #test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2 stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+
+!testRun: #CartTest #test04ListarCarritoConUnLibroContieneEseLibro stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+
+!testRun: #CartTest #test05ListarCarritoCon2LibrosMuestraLos2Libros stamp: 'cmmmmm 10/31/2019 17:15:47'!
+PASSED!
+>>>>>>> fdeeef357eea2a2dc96bcb12984b7a2f656a83de
+
+
+----STARTUP---- (31 October 2019 20:58:18) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/Tus-Libros.st----!
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/Tus-Libros.st----!
+
+!classRemoval: #Cart stamp: 'LS 10/31/2019 21:00:57'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'LS 10/31/2019 21:00:58'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Client stamp: 'LS 10/31/2019 21:01:03'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'LS 10/31/2019 21:01:04'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/Tus-Libros.st----!
+
+TestCase subclass: #CachierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CachierTest category: #TusLibros stamp: 'LS 10/31/2019 21:03:56'!
+TestCase subclass: #CachierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'LS 10/31/2019 21:23:59'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'no messages' stamp: 'LS 10/31/2019 21:23:52'!
+test01NewCashierWith
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = aCashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:24:10'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:24:22'!
+with: aDictionary 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aDictionary ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:24:37' prior: 50786480!
+with: aDictionary 
+	
+	^self new initializeWith: aDictionary ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:24:38'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'LS 10/31/2019 21:24:55'!
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'LS 10/31/2019 21:24:55'!
+initializeWith: aDictionary 
+	self shouldBeImplemented.
+	dictionary := aDictionary.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'LS 10/31/2019 21:25:23'!
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'LS 10/31/2019 21:25:20' prior: 50786502!
+initializeWith: aCatalog
+	
+	catalog := aCatalog.! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:25:26'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:25:36'!
+checkOut: aCart 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:27:45' prior: 50786522!
+checkOut: aCart 
+	self error: Cart cartCanNotBeEmpty.! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:27:47'!
+ERROR!
+!Cart class methodsFor: 'error messages' stamp: 'LS 10/31/2019 21:28:07'!
+cartCanNotBeEmpty
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error messages' stamp: 'LS 10/31/2019 21:28:21' prior: 50786534!
+cartCanNotBeEmpty
+	'cart can not be empty'! !
+!Cart class methodsFor: 'error messages' stamp: 'LS 10/31/2019 21:28:26' prior: 50786539!
+cartCanNotBeEmpty
+	^'cart can not be empty'! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:28:27'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:28:51'!
+cartCanNotBeEmpty
+	self shouldBeImplemented.! !
+
+!methodRemoval: Cart class #cartCanNotBeEmpty stamp: 'LS 10/31/2019 21:29:15'!
+cartCanNotBeEmpty
+	^'cart can not be empty'!
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:29:23'!
+cartCanNotBeEmpty
+	^'cart can not be empty'! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:29:30'!
+ERROR!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:29:30'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:29:57' prior: 50786463!
+test01NewCashierWith
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:29:59'!
+ERROR!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:30:10'!
+ERROR!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:30:18'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:30:50' prior: 50786551!
+cartCanNotBeEmpty
+	self shouldBeImplemented.! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:31:10'!
+ERROR!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:31:16'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:31:35' prior: 50786527!
+checkOut: aCart 
+	self error: Cashier cartCanNotBeEmpty.! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:31:36'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 10/31/2019 21:31:36'!
+PASSED!
