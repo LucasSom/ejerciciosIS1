@@ -1,0 +1,1202 @@
+
+
+----QUIT----(1 November 2019 09:59:19) CuisUniversity-3938.image priorSource: 14319118!
+
+----STARTUP---- (4 November 2019 18:42:16) as /Users/cmurga/Downloads/macos64/CuisUniversity-3938.image!
+
+
+!classRemoval: #Client stamp: 'cmmmmm 11/4/2019 18:42:47'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'cmmmmm 11/4/2019 18:42:47'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'cmmmmm 11/4/2019 18:42:48'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CartTest stamp: 'cmmmmm 11/4/2019 18:42:48'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/TusLibros/1/Tus-Libros.st----!
+
+!classRemoval: #Client stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CartTest stamp: 'cmmmmm 11/4/2019 18:48:45'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/TusLibros/TusLibros.st----!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:50:46'!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart 
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:52:38' prior: 50332176!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:54:37' prior: 50332192!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+	
+	self assert: 100 equals: aCashier checkOut: aCart .	
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/portFolio/Portfolio-Solucion.st----!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:56:21' prior: 50332209!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 18:56:46'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:57:42' prior: 50333550!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 18:57:43'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:58:55'!
+Object subclass: #Cashier
+	instanceVariableNames: 'itemInCart catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:00:09'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:00:39'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:10:27' prior: 50332152!
+checkOut: aCart 
+	
+	"self assert cada item del cart esta en el catalogo"
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:10:34'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:10:42'!
+subtotal
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:13:39' prior: 50333615!
+subtotal
+	| sum |
+	sum _ 0.
+	catalog do: [:anItem | sum _ sum + anItem ]. 
+	^sum.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:13:41' prior: 50333620!
+subtotal
+	| sum |
+
+	sum _ 0.
+	catalog do: [:anItem | sum _ sum + anItem ]. 
+	^sum.! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:13:45'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:15:25' prior: 50333566!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary new add:'validBook'->4).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:15:30' prior: 50333636!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary new add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:15:36'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:17:37' prior: 50333649!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (aCatalog add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:18:04'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:18:27'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:18:55' prior: 50333666!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier new.
+	
+	aCart := Cart acceptingItemsOf: (aCatalog add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:20:10'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:21:27' prior: 50333686!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!Cart methodsFor: 'assertions' stamp: 'cmmmmm 11/4/2019 19:24:33' prior: 50332077!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:26:46' prior: 50332168!
+with: aSalesBook 
+	
+	^self new initializeWith: aSalesBook ! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:15'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:27:11' prior: 50332144!
+initializeWith: aSalesBook
+	
+	salesBook := aSalesBook.! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:23'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:43'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:28:13' prior: 50333702!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with orderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:28:22' prior: 50333771!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:30:57'!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook'.
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:05' prior: 50333818!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:07'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:30' prior: 50333603!
+checkOut: aCart 
+	
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:44'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:52' prior: 50333834!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!classDefinition: #Card category: #Unknown stamp: 'cmmmmm 11/4/2019 19:41:04'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Unknown'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:41:08'!
+test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := Card withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:42:01' prior: 50333901!
+test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := Card withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+Card!
+
+Card!
+
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Card category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:43:49'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:44:50'!
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:45:23' prior: 50333918!
+test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!classRemoval: #Card stamp: 'cmmmmm 11/4/2019 19:46:03'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:46:23'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCardTest methodsFor: 'nil' stamp: 'cmmmmm 11/4/2019 19:46:42'!
+test01CannotCreateCardWithInvalidNumber! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:51:19' prior: 50333991!
+test01CannotCreateCardWithInvalidNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 0.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:51:24'!
+ERROR!
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:51:38'!
+withNumber: aSmallInteger expirationDate: aGregorianMonthOfYear owner: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithNumber: aSmallInteger expirationDate: aGregorianMonthOfYear owner: aString ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:52:22' prior: 50334015!
+withNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	
+	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:52:25'!
+ERROR!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate person'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:52:38'!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	self shouldBeImplemented.
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:52:42' prior: 50334062!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:52:52'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:53:38' prior: 50334027!
+withNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:55:44' prior: 50334071!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:55:49'!
+ERROR!
+!CreditCard class methodsFor: 'Error Handling' stamp: 'cmmmmm 11/4/2019 19:56:12'!
+invalidNumber
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'Error Handling' stamp: 'cmmmmm 11/4/2019 19:56:26' prior: 50334105!
+invalidNumber
+	^'Invalid card Number'.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:56:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:56:27'!
+PASSED!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:00:41'!
+test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 17.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:00:55' prior: 50334121!
+test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:01:05'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:02:22' prior: 50334091!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	(anId < 10 raisedToInteger: 16) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:24'!
+ERROR!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:02:40' prior: 50334159!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	anId < (10 raisedToInteger: 16) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:04:32' prior: 50334176!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: (10 raisedToInteger: 16)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:06:20' prior: 50334200!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) +1)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:06:23'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:07:21' prior: 50334223!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:07:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:07:29'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:07:29'!
+PASSED!
+
+GregorianMonthOfYear current!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:09:18' prior: 50334138!
+test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:10:12'!
+test03CannotCreateCardWithemptyOwner
+	| aPerson anExpirationDate anId |
+	
+	aPerson := ''.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidOwner.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:10:32' prior: 50334280!
+test03CannotCreateCardWithemptyOwner
+	| aPerson anExpirationDate anId |
+	
+	aPerson := ''.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 15.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidOwner.
+			]! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:10:38'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:11:25' prior: 50334239!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	aPerson isEmpty ifTrue: [self error: CreditCard invalidOwner].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:11:26'!
+ERROR!
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:11:44'!
+invalidOwner
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:12:01' prior: 50334333!
+invalidOwner
+	^'InvalidOwner'.! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:23'!
+isValid
+
+	(id between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	person isEmpty ifTrue: [self error: CreditCard invalidOwner].! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:34' prior: 50334356!
+isValid
+
+	(id between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	person isEmpty ifTrue: [self error: CreditCard invalidOwner].
+	^true.! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:54' prior: 50334316!
+initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.
+	self isValid.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:17:53'!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+GregorianMonthOfYear!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:21:26' prior: 50334395!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:22:01' prior: 50334414!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:23:06' prior: 50334434!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+	self should: [ aCashier checkOut: aCart onDate: aCurrentDate ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:27:04' prior: 50334456!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:27:24'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:27:35'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:27:43'!
+with: anOrderedCollection onDate: aGregorianMonthOfYear 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: anOrderedCollection onDate: aGregorianMonthOfYear ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:28:18' prior: 50334521!
+with: anOrderedCollection onDate: aGregorianMonthOfYear 
+
+	^self new initializeWith: anOrderedCollection onDate: aGregorianMonthOfYear ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:30:01' prior: 50334532!
+with: aSalesBook onDate: aGregorianMonthOfYear 
+
+	^self new initializeWith: aSalesBook onDate: aGregorianMonthOfYear  .! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:30:16'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnInvalidCreditCard stamp: 'cmmmmm 11/4/2019 20:30:16'!
+ERROR!
+
+!methodRemoval: CashierTest #test04CannotCheckoutACartWithAnInvalidCreditCard stamp: 'cmmmmm 11/4/2019 20:30:29'!
+test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:30:30'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 20:30:44'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:30:44'!
+initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
+	self shouldBeImplemented.
+	salesBook := aSalesBook.
+	gregorianMonthOfYear := aGregorianMonthOfYear.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 20:31:04'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:31:02' prior: 50334594!
+initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
+	
+	salesBook := aSalesBook.
+	currentDate := aGregorianMonthOfYear.! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:31:08'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:31:30' prior: 50334485!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:31:32'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:31:42'!
+checkOut: aCart withCard: aCreditCard 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:17' prior: 50334651!
+checkOut: aCart withCard: aCreditCard
+	
+	aCreditCard date < currentDate ifTrue: [self error: Cashier creditCardExpired.].
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:33:26'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:34'!
+date
+	self shouldBeImplemented.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:41' prior: 50334671!
+date
+	^expirationDate ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:33:43'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:56'!
+creditCardExpired
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:06' prior: 50334684!
+creditCardExpired
+	^'credit card expired'! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:07'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:23' prior: 50334621!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!

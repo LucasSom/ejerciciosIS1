@@ -1,0 +1,2813 @@
+
+
+----STARTUP---- (4 November 2019 18:42:16) as /Users/cmurga/Downloads/macos64/CuisUniversity-3938.image!
+
+
+!classRemoval: #Client stamp: 'cmmmmm 11/4/2019 18:42:47'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'cmmmmm 11/4/2019 18:42:47'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'cmmmmm 11/4/2019 18:42:48'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CartTest stamp: 'cmmmmm 11/4/2019 18:42:48'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CartTest category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:09:29'!
+                    test01NuevoCarritoEsVacio
+
+	| aCart aClient aPassword |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	self assert: aCart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LS 10/29/2019 21:25:30'!
+                         test02CarritoConUnLibroNoEstaVacio
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	
+	aCart addToCart: aBook isbn quantity: aQuantity.
+	
+	self deny: aCart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:21'!
+       test03ListarNuevoCarritoEsListaVacia
+
+	| aCart aClient aPassword aList |
+	
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	aList := aCart listCart.
+	
+	self assert: '0' equals: aList.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:00:34'!
+  test04ListarCarritoConUnLibroContieneEseLibro
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|', anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:01:45'!
+                       test05ListarCarritoCon2LibrosMuestraLos2Libros
+
+	| aCart aClient aPassword aBook aBook2 aQuantity anISBNNumber anISBNNumber2 aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 1.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	anISBNNumber2 := 9780805511969.
+	aBook2 := Book with: anISBNNumber2.
+	aQuantity := 1.
+	aCart addToCart: aBook2 quantity: aQuantity.
+	
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString, '|', anISBNNumber2 asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:03:24'!
+  test06ListarCarritoCon2LibrosIgualesMuestra1LibroConCantidad2
+
+	| aCart aClient aPassword aBook aQuantity anISBNNumber aList theWantedList |
+	aPassword := 'passwordExample'.
+	aClient := Client with: aPassword.
+	aCart := Cart withClient: aClient andPassword: aPassword.
+	
+	anISBNNumber := 9780805511963.
+	aBook := Book with: anISBNNumber.
+	aQuantity := 2.
+	aCart addToCart: aBook quantity: aQuantity.
+	
+	aList := aCart listCart.
+	theWantedList := '0','|',anISBNNumber asString , '|', aQuantity asString.
+	
+	self assert: theWantedList equals: aList.! !
+
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Book category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Book methodsFor: 'initialization' stamp: 'LS 10/30/2019 16:31:08'!
+     initializeWith: anISBNNumber 
+	
+	isbn := anISBNNumber.! !
+!Book methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:27:27'!
+       isbn
+	
+	^isbn! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Book class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Book class' category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Book class
+	instanceVariableNames: ''!
+!Book class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:26:44'!
+                            with: anISBNNumber
+	
+	^self new initializeWith: anISBNNumber ! !
+
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Cart category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Cart methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:32:34'!
+         initializeWithClient: aClient andPassword: aPassword 
+	
+	client := aClient.
+	password := aPassword.
+	books := OrderedCollection new.! !
+!Cart methodsFor: 'accessing' stamp: 'LS 10/29/2019 21:33:50'!
+                         isEmpty
+	^books isEmpty.! !
+!Cart methodsFor: 'accessing' stamp: 'cmmmmm 10/31/2019 17:15:44'!
+ listCart
+	
+	| aList |
+	
+	aList := '0'.
+	
+	books do: [:aBook | ((books occurrencesOf: aBook) > 1) ifTrue: [^aList := aList, '|', aBook isbn asString, '|', '2' ] ifFalse: [aList := aList, '|', aBook isbn asString, '|', '1'] ].
+	
+	^aList ! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 10/31/2019 17:04:19'!
+    addToCart: aBook quantity: aQuantity 
+	
+	aQuantity timesRepeat: [books add: aBook ]! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Cart class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cart class' category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Cart class
+	instanceVariableNames: ''!
+!Cart class methodsFor: 'instance creation' stamp: 'LS 10/29/2019 21:12:32'!
+                      withClient: aClient andPassword: aPassword
+
+	
+	^self new initializeWithClient: aClient andPassword: aPassword ! !
+
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #Client category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Client methodsFor: 'initialization' stamp: 'LS 10/29/2019 21:11:49'!
+          initializeWith: aPassword 
+	
+	password := aPassword.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Client class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Client class' category: #'Tus-Libros' stamp: 'cmmmmm 11/4/2019 18:42:52'!
+Client class
+	instanceVariableNames: ''!
+!Client class methodsFor: 'class initialization' stamp: 'LS 10/29/2019 21:11:02'!
+          with: aPassword
+	^self new initializeWith: aPassword ! !
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/TusLibros/1/Tus-Libros.st----!
+
+!classRemoval: #Client stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Client
+	instanceVariableNames: 'password'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Cart stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Cart
+	instanceVariableNames: 'client password books'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #Book stamp: 'cmmmmm 11/4/2019 18:48:45'!
+Object subclass: #Book
+	instanceVariableNames: 'isbn'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #CartTest stamp: 'cmmmmm 11/4/2019 18:48:45'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:08'!
+                test01NewCartsAreCreatedEmpty
+
+	self assert: self createCart isEmpty! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                test02CanNotAddItemsThatDoNotBelongToStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [ cart add: self itemNotSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                              test03AfterAddingAnItemTheCartIsNotEmptyAnymore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self deny: cart isEmpty ! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                              test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 of: self itemSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                           test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 of: self itemNotSellByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                   test06CartRemembersAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self assert: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                   test07CartDoesNotHoldNotAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self deny: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                    test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 of: self itemSellByTheStore.
+	self assert: (cart occurrencesOf: self itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+                       createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                         defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+                           itemNotSellByTheStore
+	
+	^'invalidBook'! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+           itemSellByTheStore
+	
+	^ 'validBook'! !
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:29:57'!
+             test01NewCashierWith
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                             invalidItemErrorMessage
+	
+	^'Item is not in catalog'! !
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                           invalidQuantityErrorMessage
+	
+	^'Invalid number of items'! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+                          assertIsValidItem: anItem
+
+	(catalog includes: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+       assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+                        initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+!Cart methodsFor: 'queries' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                          occurrencesOf: anItem
+
+	^items occurrencesOf: anItem  ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+includes: anItem
+
+	^items includes: anItem ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+           isEmpty
+	
+	^items isEmpty ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+                             add: anItem
+
+	^ self add: 1 of: anItem ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+                add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Cart class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+Cart class
+	instanceVariableNames: ''!
+!Cart class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+         acceptingItemsOf: aCatalog
+
+	^self new initializeAcceptingItemsOf: aCatalog ! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'LS 10/31/2019 21:25:20'!
+                         initializeWith: aCatalog
+	
+	catalog := aCatalog.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:30:50'!
+cartCanNotBeEmpty
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:31:35'!
+    checkOut: aCart 
+	self error: Cashier cartCanNotBeEmpty.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Cashier class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:49:00'!
+Cashier class
+	instanceVariableNames: ''!
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:29:23'!
+        cartCanNotBeEmpty
+	^'cart can not be empty'! !
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:24:37'!
+ with: aDictionary 
+	
+	^self new initializeWith: aDictionary ! !
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/TusLibros/TusLibros.st----!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:50:46'!
+               test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart 
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:52:38' prior: 50332176!
+      test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:54:37' prior: 50332192!
+                    test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+	
+	self assert: 100 equals: aCashier checkOut: aCart .	
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioTest category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioTest methodsFor: 'assertions' stamp: 'LS 10/17/2019 20:54:30'!
+                          assertTransactionsOf: aPortfolio includes: aReceptiveAccount
+	
+	aReceptiveAccount transactions do: [:transaction | (aPortfolio transactions includes: transaction) ifFalse: [^false]].
+	^true.! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:16:26'!
+                          test01BalanceOfPortfolioWithoutAccountsIsZero
+
+	self assert: 0 equals: Portfolio new balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:17:51'!
+                            test02BalanceOfPortfolioWithOneAccountIsAccountBalance
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: account balance equals: portfolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:23:25'!
+ test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortofolio |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortofolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolioAccount balance + simplePortfolio balance) equals: composedPortofolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:15'!
+                 test04PortfolioWithoutAccountsHasNoRegisteredTransaction
+
+	self deny: (Portfolio new hasRegistered: (Deposit for: 100))! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:11'!
+ test05PortfolioHasRegisteredItsAccountsTransactions
+
+	| account portfolio deposit |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: (portfolio hasRegistered: deposit)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:06'!
+                        test06PortfolioLooksForRegisteredTransactionsRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolio hasRegistered: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolio hasRegistered: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:10'!
+                              test07PortfolioHasNoTransactionWhenHasNoAccounts
+
+	self assert: Portfolio new transactions isEmpty! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:15'!
+                      test08PortfolioTransasctionsIncludesAllItsAccountsTransactions
+
+	| account portfolio accountDeposit anotherAccount portfolioTransactions anotherAccountWithdraw |
+	
+	account := ReceptiveAccount new.
+	accountDeposit := Deposit register: 100 on: account.
+	anotherAccount := ReceptiveAccount new.
+	anotherAccountWithdraw := Withdraw register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	portfolioTransactions := portfolio transactions.
+	
+	self assert: 2 equals: portfolioTransactions size.
+	self assert: (portfolioTransactions includes: accountDeposit).
+	self assert: (portfolioTransactions includes: anotherAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:20'!
+                             test09PortfolioTransactionsAreCalculatedRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit composedPortfolioTransactions |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	composedPortfolioTransactions := composedPortfolio transactions.
+	self assert: 2 equals: composedPortfolioTransactions size.
+	self assert: (composedPortfolioTransactions includes: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolioTransactions includes: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:24'!
+                         test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio with: account.
+	
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: portfolio accountsSize.
+			self assert: (portfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:28'!
+            test11PortfolioCanNotIncludeAccountOfItsPortfolios
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	
+	self 
+		should: [ composedPortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: composedPortfolio accountsSize.
+			self assert: (composedPortfolio accountsIncludes: simplePortfolio) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:32'!
+                           test12PortfolioCanNotIncludeItself
+
+	| account simplePortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	
+	self 
+		should: [ simplePortfolio add: simplePortfolio ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: simplePortfolio accountsSize.
+			self assert: (simplePortfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:01:51'!
+                          test13ComposedPortfolioCanNotHaveParentPortfolioAccount
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio new.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	composedPortfolio add: account.
+	
+	self 
+		should: [ simplePortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: simplePortfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:12:16'!
+                 test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively
+
+	| account leftParentPortfolio leftRootParentPortfolio portfolio rightParentPortfolio rightRootParentPortfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio new.
+	leftParentPortfolio := Portfolio with: portfolio .
+	leftRootParentPortfolio := Portfolio with: leftParentPortfolio.
+	leftRootParentPortfolio add: account.
+	
+	rightParentPortfolio := Portfolio with: portfolio .
+	rightRootParentPortfolio := Portfolio with: rightParentPortfolio.
+	rightRootParentPortfolio add: account.
+
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/29/2019 16:31:18'!
+                 test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd
+
+	| portfolioToAdd portfolioToModify rootPortfolio sharedAccount |
+	
+	sharedAccount := ReceptiveAccount new.
+	portfolioToModify := Portfolio new.
+	rootPortfolio := Portfolio with: sharedAccount with: portfolioToModify.
+	portfolioToAdd := Portfolio with: sharedAccount.
+	
+	self 
+		should: [ portfolioToModify add: portfolioToAdd ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolioToModify accountsIsEmpty ]! !
+
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccountTest category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:48'!
+test01ReceptiveAccountHaveZeroAsBalanceWhenCreated 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+
+	self assert: 0 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:54'!
+test02DepositIncreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount  new.
+	Deposit register: 100 on: account.
+		
+	self assert: 100 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:02'!
+                          test03WithdrawDecreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account.
+		
+	self assert: 50 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:32'!
+                       test04WithdrawValueMustBePositive 
+
+	| account withdrawValue |
+	
+	account := ReceptiveAccount new.
+	withdrawValue := 50.
+	
+	self assert: withdrawValue equals: (Withdraw register: withdrawValue on: account) value
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:46'!
+                             test05ReceptiveAccountKnowsRegisteredTransactions 
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+		
+	self assert: (account hasRegistered: deposit).
+	self assert: (account hasRegistered: withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:54'!
+                        test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit :=  Deposit for: 100.
+	withdraw := Withdraw for: 50.
+		
+	self deny: (account hasRegistered: deposit).
+	self deny: (account hasRegistered:withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:21:24'!
+                        test07AccountKnowsItsTransactions 
+
+	| account1 deposit1 |
+	
+	account1 := ReceptiveAccount new.
+	
+	deposit1 := Deposit register: 100 on: account1.
+		
+	self assert: 1 equals: account1 transactions size .
+	self assert: (account1 transactions includes: deposit1).
+! !
+
+TestCase subclass: #TransferenceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferenceTest category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+TestCase subclass: #TransferenceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
+        test01MakingATransferMakesADepositAndWithdraw
+
+	| accountSource accountDestiny deposit |
+	
+	accountSource := ReceptiveAccount new.
+	accountDestiny := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: accountSource .
+	
+	Transference from: accountSource to: accountDestiny of: 10.		
+	
+	self assert: 90 equals: accountSource balance.
+	self assert: 10 equals: accountDestiny balance.! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 17:18:49'!
+                test02CannotMakeANegativeTransaction
+
+	| accountSource accountDestiny deposit |
+	
+	accountSource := ReceptiveAccount new.
+	accountDestiny := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: accountSource .
+	
+		self 
+		should: [ Transference from: accountSource to: accountDestiny of: -10. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Transference cannotTransferNegativeAmount equals: anError messageText.
+			self assert: 100 equals: accountSource balance.
+			self assert: 0 equals: accountDestiny balance. ]! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
+   test03ValueOfTransactionIsCorrect
+
+	| accountSrc accountDst transactionValue deposit |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: accountSrc.
+	transactionValue := 10.
+	
+	self assert: transactionValue equals: (Transference from: accountSrc to: accountDst of: transactionValue ) value
+! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/22/2019 16:40:52'!
+                   test04BalanceOfTransactionIsCorrect
+
+	| accountSrc accountDst transactionValue deposit |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: accountSrc.
+	transactionValue := 10.
+	Transference from: accountSrc to: accountDst of: transactionValue.
+	
+	self assert: 90 equals: accountSrc balance.
+	self assert: 10 equals: accountDst balance.! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:45:56'!
+      test05MakeAReportOfAnEmptyAccount
+
+	| accountSrc report |
+	
+	accountSrc := ReceptiveAccount new.
+	report := Report with: accountSrc.
+	
+	self assert: 'Balance = 0' equals: report makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:46:40'!
+                      test06MakeAReportOfAnAccountWithADeposit
+
+	| deposit account report |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	report := Report with: account.	
+	
+	self assert: 'Deposito por 100. Balance = 100' equals: report makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:50:45'!
+            test07MakeAReportOfAnAccountWithADepositAndAWithdraw
+
+	| deposit account withdraw report|
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.	
+	withdraw := Withdraw register: 20 on: account.
+	report := Report with: account.	
+	
+	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: report makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:47:47'!
+                     test08MakeAReportOfAnEmptyPortfolio
+
+	| portfolio account report |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio with: account.	
+	report := Report with: portfolio.
+	
+	self assert: 'Balance = 0' equals: report makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:49:23'!
+         test09MakeAReportOfAnAccountWithADepositAndATransaction
+
+	| deposit accountSrc accountDst transaction reportSrc reportDst |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: accountSrc.
+	Transference from: accountSrc to: accountDst of: 20.
+	
+	reportSrc := Report with: accountSrc.
+	reportDst := Report with: accountDst.
+	
+	self assert: 'Deposito por 100. Salida por Transferencia de 20. Balance = 80' equals: reportSrc makeReport.
+	self assert: 'Entrada por Transferencia de 20. Balance = 20' equals: reportDst makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 15:49:57'!
+         test10MakeAReportOfAPortfolioWithOneAccountWithADepositAndWithdraw
+
+	| portfolio deposit account withdraw report |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.	
+	withdraw := Withdraw register: 20 on: account.
+	portfolio := Portfolio with: account.
+	
+	report := Report with: portfolio .	
+	
+	self assert: 'Deposito por 100. Extraccion por 20. Balance = 80' equals: report makeReport.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:35:10'!
+                test11TransferNetOfAnEmptyAccountIsZero
+
+	| account transferNet |
+	
+	account := ReceptiveAccount new.
+	transferNet := TransferNet with: account.
+	
+	self assert: 0 equals: transferNet printTransferNet.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:36:34'!
+           test12TransferNetOfAnAccountsWithATransferenceIsCorrect
+
+	| accountSrc accountDst deposit transactionValue transferNetSrc transferNetDst |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	
+	deposit := Deposit register: 100 on: accountSrc.
+	transactionValue := 10.
+	Transference from: accountSrc to: accountDst of: transactionValue.
+	
+	transferNetSrc := TransferNet with: accountSrc.
+	transferNetDst := TransferNet with: accountDst.
+		
+	self assert: transactionValue negated equals: transferNetSrc printTransferNet .
+	self assert: transactionValue equals: transferNetDst printTransferNet .! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:37:16'!
+             test13TransferNetOfAnEmptyPortfolioIsZero
+
+	| portfolio transferNet |
+	
+	portfolio := Portfolio new.
+	transferNet := TransferNet with: portfolio .
+	
+	self assert: 0 equals: transferNet printTransferNet.
+	! !
+!TransferenceTest methodsFor: 'tests' stamp: 'LS 10/28/2019 16:45:33'!
+         test14TransferNetOfAPortfolioWithAnAccountsWithATransferenceIsCorrect
+
+	| accountSrc accountDst deposit transactionValue portfolioSrc portfolioDst transferNetAccSrc transferNetAccDst transferNetPortSrc transferNetPortDst |
+	
+	accountSrc := ReceptiveAccount new.
+	accountDst := ReceptiveAccount new.
+	
+	deposit := Deposit register: 100 on: accountSrc.
+	transactionValue := 10.
+	Transference from: accountSrc to: accountDst of: transactionValue.
+	
+	portfolioSrc := Portfolio with: accountSrc.
+	portfolioDst := Portfolio with: accountDst.
+	
+	transferNetAccSrc  := TransferNet with: accountSrc .
+	transferNetAccDst := TransferNet with: accountDst .
+	transferNetPortSrc := TransferNet with: portfolioSrc .
+	transferNetPortDst := TransferNet with: portfolioDst .
+	
+	self assert: transferNetAccSrc printTransferNet equals: transferNetPortSrc printTransferNet .
+	self assert: transferNetAccDst printTransferNet equals: transferNetPortDst printTransferNet.! !
+
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Account category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:23:47'!
+hasRegistered: aTransaction
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:24:25'!
+  isComposedBy: anAccount
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'balance' stamp: 'HAW 5/25/2019 12:23:40'!
+      balance
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:27'!
+                 addTransactionsTo: aCollectionOfTransactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:15'!
+            transactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'LS 10/28/2019 16:56:39'!
+            transferNet: aTransferNet
+	^self subclassResponsibility ! !
+!Account methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:24:04'!
+addedTo: aPortfolio
+
+	self subclassResponsibility ! !
+
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'transFernet' stamp: 'LS 10/28/2019 16:41:45'!
+                   transferNet: aTransferNet
+	^accounts do: [ :anAccount | anAccount transferNet: aTransferNet ]! !
+!Portfolio methodsFor: 'report' stamp: 'LS 10/28/2019 17:21:11'!
+                              reportOperations: aReport
+	
+	accounts do: [ :anAccount | anAccount reportOperations: aReport ].
+! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
+              accountsIncludes: anAccount
+
+	^accounts includes: anAccount ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:05:04'!
+                  accountsIsEmpty
+	
+	^accounts isEmpty ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:06'!
+         accountsSize
+	
+	^accounts size! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:19:20'!
+                add: accountToAdd
+
+	self assertCanAdd: accountToAdd.
+		
+	accounts add: accountToAdd.
+	accountToAdd addedTo: self 
+	! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:17:31'!
+                           rootParents
+	
+	| rootParents |
+	
+	rootParents := Set new.
+	self addRootParentsTo: rootParents.
+	
+	^ rootParents! !
+!Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18'!
+    initialize
+
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+!Portfolio methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:19:36'!
+        balance
+	
+	^accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:42:55'!
+          addTransactionsTo: aCollectionOfTransactions
+
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:32'!
+                  transactions
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	accounts do: [ :anAccount | anAccount addTransactionsTo: transactions ].
+	
+	^transactions ! !
+!Portfolio methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:02:59'!
+                addedTo: aPortfolio 
+	
+	parents add: aPortfolio ! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:20:56'!
+          anyRootParentIsComposedBy: accountToAdd
+
+	^self rootParents anySatisfy: [ :aParent | aParent isComposedBy: accountToAdd]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:28:29'!
+  hasRegistered: aTransaction
+
+	^accounts anySatisfy: [ :anAccount | anAccount hasRegistered: aTransaction ]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/29/2019 16:24:54'!
+                isComposedBy: anAccount
+
+	^ self = anAccount or: [ accounts anySatisfy: [ :composedAccount | (composedAccount isComposedBy: anAccount) or: [ anAccount isComposedBy: composedAccount ]]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:17:31'!
+             addRootParentsTo: rootParents
+
+	parents 
+		ifEmpty: [ rootParents add: self ] 
+		ifNotEmpty: [ parents do: [ :aParent | aParent addRootParentsTo: rootParents ]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:20:36'!
+     assertCanAdd: accountToAdd
+
+	(self anyRootParentIsComposedBy: accountToAdd) ifTrue: [ self signalCanNotAddAccount ].
+! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 11:48:34'!
+                signalCanNotAddAccount
+	
+	self error: self class canNotAddAccountErrorMessage! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Portfolio class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Portfolio class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Portfolio class
+	instanceVariableNames: ''!
+!Portfolio class methodsFor: 'error handling' stamp: 'cmmmm 10/17/2019 19:15:20'!
+accountAlreadyExists
+	^'account Already Exists'! !
+!Portfolio class methodsFor: 'error handling' stamp: 'cmmmm 10/17/2019 19:55:10'!
+                           portfolioAlreadyExists
+	^'portfolio alredy exists'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:48:55'!
+                      canNotAddAccountErrorMessage
+	
+	^'Can not add repeated account to a portfolio'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:18:21'!
+                          with: anAccount
+
+	^self new 
+		add: anAccount;
+		yourself! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:23:59'!
+               with: anAccount with: anotherAccount
+
+	^self new 
+		add: anAccount;
+		add: anotherAccount;
+		yourself! !
+
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccount category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:35'!
+initialize
+
+	super initialize.
+	transactions := OrderedCollection new.! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52'!
+        addTransactionsTo: aCollectionOfTransactions
+
+	aCollectionOfTransactions addAll: transactions ! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
+       register: aTransaction
+
+	transactions add: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
+            transactions 
+
+	^ transactions copy! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'LS 10/28/2019 17:07:37'!
+           transferNet: aTransferNet
+	transactions do: [:aTransaction | aTransaction doTransferNet: aTransferNet]
+	! !
+!ReceptiveAccount methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:24:46'!
+           balance
+
+	^transactions 
+		inject: 0
+		into: [ :currentBalance :transaction | transaction affectBalance: currentBalance ]! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/21/2019 18:55:56'!
+                          hasRegistered: aTransaction
+
+	^ transactions includes: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:54:51'!
+              isComposedBy: anAccount
+
+	^self = anAccount ! !
+!ReceptiveAccount methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:03:32'!
+   addedTo: aPortfolio 
+	
+	! !
+!ReceptiveAccount methodsFor: 'report' stamp: 'LS 10/28/2019 17:19:47'!
+                            reportOperations: aReport
+	
+	transactions do:[ :aTransaction | aTransaction addToReport: aReport ].! !
+
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountTransaction category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransaction methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:28:36'!
+   updateBalance: aBalance
+
+	^self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
+                   value 
+
+	self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'balance' stamp: 'LS 10/28/2019 17:01:51'!
+            addToReport: aReport
+	^self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
+                              affectBalance: aBalance
+
+	self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'transferNet' stamp: 'LS 10/28/2019 16:27:48'!
+                       doTransferNet: aTranferNet
+	^self subclassResponsibility.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+AccountTransaction class
+	instanceVariableNames: ''!
+
+!classDefinition: 'AccountTransaction class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+AccountTransaction class
+	instanceVariableNames: ''!
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'NR 10/21/2019 18:54:27'!
+                register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
+
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Deposit category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
+                             initializeFor: aValue
+
+	value := aValue ! !
+!Deposit methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:27:56'!
+                   updateBalance: aBalance
+
+	^ aBalance + value! !
+!Deposit methodsFor: 'value' stamp: 'cmmmm 10/17/2019 18:42:54'!
+               valorParaBalance
+
+	^ value! !
+!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+                           value
+
+	^ value! !
+!Deposit methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:02'!
+             affectBalance: aBalance
+
+	^aBalance + value ! !
+!Deposit methodsFor: 'report' stamp: 'LS 10/28/2019 17:00:40'!
+                 addToReport: aReport
+	^aReport addDeposit: self.! !
+!Deposit methodsFor: 'transferNet' stamp: 'LS 10/28/2019 16:47:37'!
+        doTransferNet: aTransFernet
+	^aTransFernet countDeposit: self.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Deposit class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Deposit class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Deposit class
+	instanceVariableNames: ''!
+!Deposit class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+              for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+AccountTransaction subclass: #TransferDeposit
+	instanceVariableNames: 'transference'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferDeposit category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+AccountTransaction subclass: #TransferDeposit
+	instanceVariableNames: 'transference'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!TransferDeposit methodsFor: 'report' stamp: 'LS 10/28/2019 17:00:59'!
+                     addToReport: aReport
+	^aReport addTransferDeposit: self.! !
+!TransferDeposit methodsFor: 'initialization' stamp: 'LS 10/22/2019 16:58:58'!
+                     initializeFor: aTransfer
+
+	transference := aTransfer ! !
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 17:01:37'!
+ updateBalance: aBalance
+
+	^ aBalance + self value! !
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:18'!
+     valorParaBalance
+
+	^ self value! !
+!TransferDeposit methodsFor: 'value' stamp: 'LS 10/22/2019 16:59:14'!
+                       value
+
+	^ transference value.! !
+!TransferDeposit methodsFor: 'balance' stamp: 'LS 10/22/2019 17:02:14'!
+                       affectBalance: aBalance
+
+	^aBalance + self value ! !
+!TransferDeposit methodsFor: 'tranferNet' stamp: 'LS 10/28/2019 16:47:41'!
+doTransferNet: aTransFernet
+	^aTransFernet countTransferDeposit: self.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+TransferDeposit class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TransferDeposit class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+TransferDeposit class
+	instanceVariableNames: ''!
+!TransferDeposit class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:49:03'!
+          for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+AccountTransaction subclass: #TransferWithdraw
+	instanceVariableNames: 'transference'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferWithdraw category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+AccountTransaction subclass: #TransferWithdraw
+	instanceVariableNames: 'transference'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!TransferWithdraw methodsFor: 'report' stamp: 'LS 10/28/2019 17:01:17'!
+                 addToReport: aReport
+	^aReport addTransferWithdraw: self.! !
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:40'!
+                            updateBalance: aBalance
+
+	^ aBalance - self value! !
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:04:11'!
+    valorParaBalance
+	^ self value negated ! !
+!TransferWithdraw methodsFor: 'value' stamp: 'LS 10/22/2019 17:03:46'!
+              value
+
+	^ transference value! !
+!TransferWithdraw methodsFor: 'balance' stamp: 'LS 10/22/2019 17:05:03'!
+                       affectBalance: aBalance
+
+	^aBalance - self value! !
+!TransferWithdraw methodsFor: 'initialization' stamp: 'LS 10/22/2019 17:00:25'!
+                            initializeFor: aTransfer
+
+	transference := aTransfer ! !
+!TransferWithdraw methodsFor: 'tranferNet' stamp: 'LS 10/28/2019 16:47:46'!
+                           doTransferNet: aTransFernet
+	^aTransFernet countTransferWithdraw: self.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+TransferWithdraw class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TransferWithdraw class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+TransferWithdraw class
+	instanceVariableNames: ''!
+!TransferWithdraw class methodsFor: 'as yet unclassified' stamp: 'cmmmm 10/21/2019 21:49:40'!
+     for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
+              initializeFor: aValue
+
+	value := aValue ! !
+!Withdraw methodsFor: 'value' stamp: 'cmmmm 10/17/2019 19:28:10'!
+                  updateBalance: aBalance
+
+	^ aBalance - value! !
+!Withdraw methodsFor: 'value' stamp: 'cmmmm 10/17/2019 18:42:47'!
+              valorParaBalance
+	^ value negated ! !
+!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+                  value
+
+	^ value! !
+!Withdraw methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:15'!
+            affectBalance: aBalance
+
+	^aBalance - value! !
+!Withdraw methodsFor: 'report' stamp: 'LS 10/28/2019 17:01:30'!
+                 addToReport: aReport
+	^aReport addWithdraw: self.! !
+!Withdraw methodsFor: 'tranferNet' stamp: 'LS 10/28/2019 16:47:52'!
+       doTransferNet: aTransFernet
+	^aTransFernet countWithdraw: self.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Withdraw class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Withdraw class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:29'!
+Withdraw class
+	instanceVariableNames: ''!
+!Withdraw class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+         for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+Object subclass: #Report
+	instanceVariableNames: 'account stream'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Report category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+Object subclass: #Report
+	instanceVariableNames: 'account stream'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Report methodsFor: 'report' stamp: 'LS 10/28/2019 17:28:49'!
+             addDeposit: aDeposit
+
+	^stream := stream, 'Deposito por ', aDeposit value asString, '. '.! !
+!Report methodsFor: 'report' stamp: 'LS 10/28/2019 17:29:06'!
+     addTransferDeposit: aTransferDeposit
+
+	^stream := stream, 'Entrada por Transferencia de ', aTransferDeposit value asString, '. '.! !
+!Report methodsFor: 'report' stamp: 'LS 10/28/2019 17:29:10'!
+                             addTransferWithdraw: aTransferWithdraw
+
+	^stream := stream, 'Salida por Transferencia de ', aTransferWithdraw value asString, '. '.! !
+!Report methodsFor: 'report' stamp: 'LS 10/28/2019 17:29:14'!
+                           addWithdraw: aWithdraw
+
+	^stream := stream, 'Extraccion por ', aWithdraw value asString, '. '.! !
+!Report methodsFor: 'report' stamp: 'LS 10/28/2019 17:18:11'!
+makeReport
+
+	account reportOperations: self.
+	stream := stream,'Balance = ', account balance asString.
+	^stream! !
+!Report methodsFor: 'initialization' stamp: 'LS 10/28/2019 16:55:21'!
+       initializeWith: anAccount
+
+	stream _ String new.
+	account _ anAccount.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Report class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Report class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+Report class
+	instanceVariableNames: ''!
+!Report class methodsFor: 'class initialization' stamp: 'LS 10/28/2019 14:16:31'!
+                with: anAccount
+
+	^self new initializeWith: anAccount.! !
+
+Object subclass: #TransferNet
+	instanceVariableNames: 'account net'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferNet category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+Object subclass: #TransferNet
+	instanceVariableNames: 'account net'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!TransferNet methodsFor: 'initialize' stamp: 'LS 10/28/2019 16:51:38'!
+                    initializeWith: anAccount
+
+	net := 0.
+	account := anAccount.! !
+!TransferNet methodsFor: 'counts dispatch' stamp: 'LS 10/28/2019 16:31:31'!
+                    countDeposit: aDeposit
+
+	^0.
+	! !
+!TransferNet methodsFor: 'counts dispatch' stamp: 'LS 10/28/2019 16:32:05'!
+                  countTransferDeposit: aDeposit
+
+	^net := net + aDeposit value.
+	! !
+!TransferNet methodsFor: 'counts dispatch' stamp: 'LS 10/28/2019 16:32:26'!
+                countTransferWithdraw: aWithdraw
+
+	^net := net - aWithdraw value.
+	! !
+!TransferNet methodsFor: 'counts dispatch' stamp: 'LS 10/28/2019 16:31:20'!
+             countWithdraw: aWithdraw
+
+	^0.
+	! !
+!TransferNet methodsFor: 'printing' stamp: 'LS 10/28/2019 16:53:41'!
+                       printTransferNet
+	
+	account transferNet: self.
+	^net! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+TransferNet class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TransferNet class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+TransferNet class
+	instanceVariableNames: ''!
+!TransferNet class methodsFor: 'class initialization' stamp: 'LS 10/28/2019 16:22:04'!
+              with: anAccount
+	^self new initializeWith: anAccount.! !
+
+Object subclass: #Transference
+	instanceVariableNames: 'value transferDeposit transferWithdraw'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transference category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+Object subclass: #Transference
+	instanceVariableNames: 'value transferDeposit transferWithdraw'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Transference methodsFor: 'initialization' stamp: 'cmmmm 10/21/2019 21:47:06'!
+                    initializeFrom: anAccountSource to: anAccountDestiny of: anAmount 
+
+	transferDeposit := TransferDeposit register: anAmount on: anAccountDestiny. 
+	transferWithdraw := TransferWithdraw register: anAmount on: anAccountSource .
+	value  := anAmount.! !
+!Transference methodsFor: 'value' stamp: 'cmmmm 10/21/2019 19:52:25'!
+ value
+
+	^value! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Transference class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Transference class' category: #'Portfolio-Solucion' stamp: 'cmmmmm 11/4/2019 18:55:30'!
+Transference class
+	instanceVariableNames: ''!
+!Transference class methodsFor: 'initialization' stamp: 'LS 10/22/2019 17:10:05'!
+                      from: anAccountSource to: anAccountDestiny of: anAmount 
+	self assertAmountPositive: anAmount.
+	^Transference new initializeFrom: anAccountSource to: anAccountDestiny of: anAmount.! !
+!Transference class methodsFor: 'initialization' stamp: 'cmmmm 10/21/2019 20:38:07'!
+                   register: aValue from: anAccountSource to: anAccountDestiny
+
+	| transaction |
+	
+	transaction := self from: anAccountSource to: anAccountDestiny of: aValue. 
+	anAccountSource register: transaction.
+	anAccountDestiny register: transaction.
+		
+	^ transaction! !
+!Transference class methodsFor: 'error messages' stamp: 'LS 10/22/2019 17:18:49'!
+           cannotTransferNegativeAmount
+	^'Cannot transfer negative amount'! !
+!Transference class methodsFor: 'assertions' stamp: 'LS 10/22/2019 17:21:04'!
+              assertAmountPositive: anAmount
+	anAmount <1 ifTrue: [self error: Transference cannotTransferNegativeAmount].! !
+
+----End fileIn of /Users/cmurga/Documents/Facultad/ejerciciosIS1/portFolio/Portfolio-Solucion.st----!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:56:21' prior: 50332209!
+      test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 123123123123.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 18:56:46'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 18:57:42' prior: 50333550!
+      test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 18:57:43'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 18:58:55'!
+Object subclass: #Cashier
+	instanceVariableNames: 'itemInCart catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:00:09'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:00:39'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:10:27' prior: 50332152!
+  checkOut: aCart 
+	
+	"self assert cada item del cart esta en el catalogo"
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:10:34'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:10:42'!
+                            subtotal
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:13:39' prior: 50333615!
+                             subtotal
+	| sum |
+	sum _ 0.
+	catalog do: [:anItem | sum _ sum + anItem ]. 
+	^sum.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:13:41' prior: 50333620!
+               subtotal
+	| sum |
+
+	sum _ 0.
+	catalog do: [:anItem | sum _ sum + anItem ]. 
+	^sum.! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:13:45'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:15:25' prior: 50333566!
+                          test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary new add:'validBook'->4).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:15:30' prior: 50333636!
+          test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary new add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:15:36'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:17:37' prior: 50333649!
+                           test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (aCatalog add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:18:04'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:18:27'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:18:55' prior: 50333666!
+                    test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier new.
+	
+	aCart := Cart acceptingItemsOf: (aCatalog add:'validBook'->100).
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:20:10'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:21:27' prior: 50333686!
+            test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!Cart methodsFor: 'assertions' stamp: 'cmmmmm 11/4/2019 19:24:33' prior: 50332077!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:24:58'!
+PASSED!
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:26:46' prior: 50332168!
+                    with: aSalesBook 
+	
+	^self new initializeWith: aSalesBook ! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:15'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:27:11' prior: 50332144!
+       initializeWith: aSalesBook
+	
+	salesBook := aSalesBook.! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:23'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:27:43'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:28:13' prior: 50333702!
+                       test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with orderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:28:22' prior: 50333771!
+                         test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:29:54'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:30:57'!
+                            test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook'.
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:05' prior: 50333818!
+                     test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:07'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:30' prior: 50333603!
+                           checkOut: aCart 
+	
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:44'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:52' prior: 50333834!
+        test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 19:32:55'!
+PASSED!
+
+!classDefinition: #Card category: #Unknown stamp: 'cmmmmm 11/4/2019 19:41:04'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Unknown'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:41:08'!
+                           test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := Card withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:42:01' prior: 50333901!
+                     test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := Card withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+Card!
+
+Card!
+
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Card category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:43:49'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:44:50'!
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:45:23' prior: 50333918!
+      test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!classRemoval: #Card stamp: 'cmmmmm 11/4/2019 19:46:03'!
+Object subclass: #Card
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:46:23'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCardTest methodsFor: 'nil' stamp: 'cmmmmm 11/4/2019 19:46:42'!
+            test01CannotCreateCardWithInvalidNumber! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:51:19' prior: 50333991!
+               test01CannotCreateCardWithInvalidNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 0.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:51:24'!
+ERROR!
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:51:38'!
+          withNumber: aSmallInteger expirationDate: aGregorianMonthOfYear owner: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithNumber: aSmallInteger expirationDate: aGregorianMonthOfYear owner: aString ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:52:22' prior: 50334015!
+  withNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	
+	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:52:25'!
+ERROR!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/4/2019 19:52:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate person'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:52:38'!
+                    initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	self shouldBeImplemented.
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:52:42' prior: 50334062!
+                   initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:52:52'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:53:38' prior: 50334027!
+                  withNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:55:44' prior: 50334071!
+     initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:55:49'!
+ERROR!
+!CreditCard class methodsFor: 'Error Handling' stamp: 'cmmmmm 11/4/2019 19:56:12'!
+                              invalidNumber
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'Error Handling' stamp: 'cmmmmm 11/4/2019 19:56:26' prior: 50334105!
+                 invalidNumber
+	^'Invalid card Number'.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:56:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 19:56:27'!
+PASSED!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:00:41'!
+test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 17.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:00:55' prior: 50334121!
+             test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:01:05'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:02:22' prior: 50334091!
+                              initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	(anId < 10 raisedToInteger: 16) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:24'!
+ERROR!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:02:40' prior: 50334159!
+                           initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	anId > 999999999999999 ifFalse: [self error: CreditCard invalidNumber].
+	anId < (10 raisedToInteger: 16) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:02:41'!
+PASSED!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:04:32' prior: 50334176!
+                   initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: (10 raisedToInteger: 16)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:04:38'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:06:20' prior: 50334200!
+                   initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) +1)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:06:23'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:07:21' prior: 50334223!
+                      initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:07:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:07:29'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:07:29'!
+PASSED!
+
+GregorianMonthOfYear current!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:09:18' prior: 50334138!
+        test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:10:12'!
+                             test03CannotCreateCardWithemptyOwner
+	| aPerson anExpirationDate anId |
+	
+	aPerson := ''.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidOwner.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:10:32' prior: 50334280!
+  test03CannotCreateCardWithemptyOwner
+	| aPerson anExpirationDate anId |
+	
+	aPerson := ''.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 15.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidOwner.
+			]! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:10:38'!
+FAILURE!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:11:25' prior: 50334239!
+                             initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	(anId between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	aPerson isEmpty ifTrue: [self error: CreditCard invalidOwner].
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:11:26'!
+ERROR!
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:11:44'!
+       invalidOwner
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:12:01' prior: 50334333!
+             invalidOwner
+	^'InvalidOwner'.! !
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:12:02'!
+PASSED!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:23'!
+                isValid
+
+	(id between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	person isEmpty ifTrue: [self error: CreditCard invalidOwner].! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:34' prior: 50334356!
+                            isValid
+
+	(id between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	person isEmpty ifTrue: [self error: CreditCard invalidOwner].
+	^true.! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:54' prior: 50334316!
+                    initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.
+	self isValid.! !
+
+!testRun: #CreditCardTest #test01CannotCreateCardWithInvalidNumber stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CannotCreateCardWithInvalidGreaterNumber stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CannotCreateCardWithemptyOwner stamp: 'cmmmmm 11/4/2019 20:15:22'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:17:53'!
+                   test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+GregorianMonthOfYear!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:21:26' prior: 50334395!
+               test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:22:01' prior: 50334414!
+                 test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:23:06' prior: 50334434!
+          test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard aDate anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+	self should: [ aCashier checkOut: aCart onDate: aCurrentDate ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:27:04' prior: 50334456!
+                              test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:27:24'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:27:35'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:27:43'!
+                          with: anOrderedCollection onDate: aGregorianMonthOfYear 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: anOrderedCollection onDate: aGregorianMonthOfYear ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:28:18' prior: 50334521!
+                   with: anOrderedCollection onDate: aGregorianMonthOfYear 
+
+	^self new initializeWith: anOrderedCollection onDate: aGregorianMonthOfYear ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:30:01' prior: 50334532!
+                  with: aSalesBook onDate: aGregorianMonthOfYear 
+
+	^self new initializeWith: aSalesBook onDate: aGregorianMonthOfYear  .! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:30:16'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnInvalidCreditCard stamp: 'cmmmmm 11/4/2019 20:30:16'!
+ERROR!
+
+!methodRemoval: CashierTest #test04CannotCheckoutACartWithAnInvalidCreditCard stamp: 'cmmmmm 11/4/2019 20:30:29'!
+test04CannotCheckoutACartWithAnInvalidCreditCard
+
+	| aCashier aCatalog aCart aCard aDate|
+	
+	aDate := GregorianMonthOfYear current .
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	aCard := CreditCard withNumber: 123123123 expirationDate: aDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:30:30'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 20:30:44'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:30:44'!
+                               initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
+	self shouldBeImplemented.
+	salesBook := aSalesBook.
+	gregorianMonthOfYear := aGregorianMonthOfYear.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/4/2019 20:31:04'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:31:02' prior: 50334594!
+          initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
+	
+	salesBook := aSalesBook.
+	currentDate := aGregorianMonthOfYear.! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:31:08'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:31:30' prior: 50334485!
+      test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:31:32'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:31:42'!
+            checkOut: aCart withCard: aCreditCard 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:17' prior: 50334651!
+                            checkOut: aCart withCard: aCreditCard
+	
+	aCreditCard date < currentDate ifTrue: [self error: Cashier creditCardExpired.].
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:33:26'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:34'!
+                             date
+	self shouldBeImplemented.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:41' prior: 50334671!
+                           date
+	^expirationDate ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:33:43'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:56'!
+                            creditCardExpired
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:06' prior: 50334684!
+           creditCardExpired
+	^'credit card expired'! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:07'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:23' prior: 50334621!
+                         test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:26'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:31'!
+PASSED!
