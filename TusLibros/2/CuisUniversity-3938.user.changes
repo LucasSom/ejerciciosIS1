@@ -1200,3 +1200,601 @@ PASSED!
 
 !testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:31'!
 PASSED!
+
+----STARTUP---- (6 November 2019 16:11:34) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+!classRemoval: #Cashier stamp: 'LS 11/6/2019 16:11:42'!
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cart stamp: 'LS 11/6/2019 16:11:42'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CashierTest stamp: 'LS 11/6/2019 16:11:42'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'LS 11/6/2019 16:11:43'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/TusLibros.st----!
+!Cashier methodsFor: 'initialization' stamp: 'LS 11/6/2019 16:12:07' prior: 50335121!
+initializeWith: aSalesBook
+	
+	salesBook := aSalesBook.
+	! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:16:17' prior: 50334898!
+test01NewCashierWith
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Dictionary new.
+	aCashier := Cashier with: aSalesBook.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:16:36' prior: 50334913!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aSalesBook add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aSalesBook.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:20:10' prior: 50335262!
+test01NewCashierWith
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Array new.
+	aCashier := Cashier with: aSalesBook.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:21:07' prior: 50335277!
+test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: Array new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:13'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:13'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:21:36' prior: 50335291!
+test01NewCashierWith
+
+	| aCashier aCart |
+	
+	aCashier := Cashier with: Array new.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:22:15' prior: 50334926!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCashier := Cashier with: Array new.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/TerniLapilli/TerniLapilli.st----!
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/marsRover/MarsRoverTDD.st----!
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/codigoRepetido/CodigoRepetido-Ejercicio.st----!
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/eliminarIfs/Numero-Exercise.st----!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:05'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:06'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:56'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:29:49'!
+setUp
+
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	
+	
+		
+		 ! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:30:49'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Fraccion stamp: 'LS 11/6/2019 16:31:37'!
+Numero subclass: #Fraccion
+	instanceVariableNames: 'numerator denominator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #Entero stamp: 'LS 11/6/2019 16:31:37'!
+Numero subclass: #Entero
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #Numero stamp: 'LS 11/6/2019 16:31:37'!
+Object subclass: #Numero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #NumeroTest stamp: 'LS 11/6/2019 16:31:38'!
+TestCase subclass: #NumeroTest
+	instanceVariableNames: 'zero one two four oneFifth oneHalf five twoFifth twoTwentyfifth fiveHalfs three eight negativeOne negativeTwo'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #CustomerBook stamp: 'LS 11/6/2019 16:31:42'!
+Object subclass: #CustomerBook
+	instanceVariableNames: 'suspended active'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #CustomerBookTest stamp: 'LS 11/6/2019 16:31:43'!
+TestCase subclass: #CustomerBookTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #NotFound stamp: 'LS 11/6/2019 16:31:43'!
+Error subclass: #NotFound
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #CantSuspend stamp: 'LS 11/6/2019 16:31:43'!
+Error subclass: #CantSuspend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:32:02' prior: 50337426!
+setUp
+
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:32:38' prior: 50334941!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	currentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:32:51'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:33:29'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:34:00' prior: 50337503!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:34:25' prior: 50337495!
+setUp
+
+	currentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:36:57' prior: 50335383!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	catalog add:'validBook'->100; add:'validBook2'->50.
+	
+	cashier := Cashier with: Array new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook2'.
+	
+	self assert: 150 equals: (cashier checkOut: cart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:37:32' prior: 50335323!
+test02CheckoutACartWith1ElementIsCorrect
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkOut: cart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:38:02' prior: 50335353!
+test01NewCashierWith
+	
+	cart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ cashier checkOut: cart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:38:54' prior: 50337531!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| anExpiredCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	
+	anExpiredCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: anExpiredCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:41:07'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'setUp/tearDown' stamp: 'LS 11/6/2019 16:41:03' prior: 50337551!
+setUp
+
+	| aValidExpirationDate aCurrentDate |
+
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	aValidExpirationDate := GregorianMonthOfYear decemberOf: 2020.
+	
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	card := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: aValidExpirationDate owner: 'San Martin'.
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:44:34' prior: 50337660!
+test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| anExpiredCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	anExpiredCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: anExpiredCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:44:46'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+----SNAPSHOT----(6 November 2019 17:17:21) CuisUniversity-3938.image priorSource: 14558761!
+
+----QUIT----(6 November 2019 17:17:29) CuisUniversity-3938.image priorSource: 196141!
+
+----STARTUP---- (6 November 2019 17:18:34) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+----QUIT----(6 November 2019 17:18:47) CuisUniversity-3938.image priorSource: 196234!

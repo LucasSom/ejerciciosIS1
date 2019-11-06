@@ -2811,3 +2811,2863 @@ PASSED!
 
 !testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'cmmmmm 11/4/2019 20:34:31'!
 PASSED!
+
+----STARTUP---- (6 November 2019 16:11:34) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+!classRemoval: #Cashier stamp: 'LS 11/6/2019 16:11:42'!
+Object subclass: #Cashier
+	instanceVariableNames: 'dictionary catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cart stamp: 'LS 11/6/2019 16:11:42'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CashierTest stamp: 'LS 11/6/2019 16:11:42'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'LS 11/6/2019 16:11:43'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'LS 11/6/2019 16:11:54'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:08'!
+    test01NewCartsAreCreatedEmpty
+
+	self assert: self createCart isEmpty! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                test02CanNotAddItemsThatDoNotBelongToStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [ cart add: self itemNotSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                              test03AfterAddingAnItemTheCartIsNotEmptyAnymore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self deny: cart isEmpty ! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                              test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 of: self itemSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                           test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 of: self itemNotSellByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                   test06CartRemembersAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self assert: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                   test07CartDoesNotHoldNotAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self deny: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                    test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 of: self itemSellByTheStore.
+	self assert: (cart occurrencesOf: self itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+                       createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+                         defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+                           itemNotSellByTheStore
+	
+	^'invalidBook'! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+           itemSellByTheStore
+	
+	^ 'validBook'! !
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:29:57'!
+                 test01NewCashierWith
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: aCatalog.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:28:22'!
+                    test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:52'!
+        test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:23'!
+       test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCashier aCatalog aCart aCard anExpiredDate aCurrentDate|
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.	
+
+	self should: [ aCashier checkOut: aCart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:51:19'!
+                        test01CannotCreateCardWithInvalidNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 0.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:09:18'!
+                         test02CannotCreateCardWithInvalidGreaterNumber
+	| aPerson anExpirationDate anId |
+	
+	aPerson := 'San Martin'.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 16.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidNumber.
+			]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:10:32'!
+                             test03CannotCreateCardWithemptyOwner
+	| aPerson anExpirationDate anId |
+	
+	aPerson := ''.
+	anExpirationDate := GregorianMonthOfYear current.
+	anId := 10 raisedToInteger: 15.
+	
+self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate owner: aPerson ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard invalidOwner.
+			]! !
+
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+  invalidItemErrorMessage
+	
+	^'Item is not in catalog'! !
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                           invalidQuantityErrorMessage
+	
+	^'Invalid number of items'! !
+!Cart methodsFor: 'assertions' stamp: 'cmmmmm 11/4/2019 19:24:33'!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+    assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+                        initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+!Cart methodsFor: 'queries' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+                          occurrencesOf: anItem
+
+	^items occurrencesOf: anItem  ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+includes: anItem
+
+	^items includes: anItem ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+           isEmpty
+	
+	^items isEmpty ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+                             add: anItem
+
+	^ self add: 1 of: anItem ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+                add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:13:41'!
+                      subtotal
+	| sum |
+
+	sum _ 0.
+	catalog do: [:anItem | sum _ sum + anItem ]. 
+	^sum.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Cart class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+Cart class
+	instanceVariableNames: ''!
+!Cart class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+                     acceptingItemsOf: aCatalog
+
+	^self new initializeAcceptingItemsOf: aCatalog ! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 19:27:11'!
+          initializeWith: aSalesBook
+	
+	salesBook := aSalesBook.! !
+!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:31:02'!
+                            initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
+	
+	salesBook := aSalesBook.
+	currentDate := aGregorianMonthOfYear.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:30:50'!
+                    cartCanNotBeEmpty
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:30'!
+ checkOut: aCart 
+	
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:17'!
+                            checkOut: aCart withCard: aCreditCard
+	
+	aCreditCard date < currentDate ifTrue: [self error: Cashier creditCardExpired.].
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
+	ifFalse: [ ^ aCart subtotal ]! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Cashier class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+Cashier class
+	instanceVariableNames: ''!
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 10/31/2019 21:29:23'!
+            cartCanNotBeEmpty
+	^'cart can not be empty'! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:26:46'!
+                              with: aSalesBook 
+	
+	^self new initializeWith: aSalesBook ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:30:01'!
+               with: aSalesBook onDate: aGregorianMonthOfYear 
+
+	^self new initializeWith: aSalesBook onDate: aGregorianMonthOfYear  .! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:06'!
+                creditCardExpired
+	^'credit card expired'! !
+
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate person'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'id expirationDate person'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:54'!
+     initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	id := anId.
+	expirationDate := anExpirationDate.
+	person := aPerson.
+	self isValid.! !
+!CreditCard methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:14:34'!
+             isValid
+
+	(id between: (10 raisedToInteger: 15) and: ((10 raisedToInteger: 16) -1)) ifFalse: [self error: CreditCard invalidNumber].
+	person isEmpty ifTrue: [self error: CreditCard invalidOwner].
+	^true.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:41'!
+                               date
+	^expirationDate ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+CreditCard class
+	instanceVariableNames: ''!
+
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'LS 11/6/2019 16:11:55'!
+CreditCard class
+	instanceVariableNames: ''!
+!CreditCard class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:53:38'!
+                               withNumber: anId expirationDate: anExpirationDate owner: aPerson 
+	
+	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
+!CreditCard class methodsFor: 'Error Handling' stamp: 'cmmmmm 11/4/2019 19:56:26'!
+               invalidNumber
+	^'Invalid card Number'.! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:12:01'!
+                              invalidOwner
+	^'InvalidOwner'.! !
+
+----End fileIn of /home/lsomacal/Escritorio/linux64/TusLibros.st----!
+!Cashier methodsFor: 'initialization' stamp: 'LS 11/6/2019 16:12:07' prior: 50335121!
+ initializeWith: aSalesBook
+	
+	salesBook := aSalesBook.
+	! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:12:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:16:17' prior: 50334898!
+                        test01NewCashierWith
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Dictionary new.
+	aCashier := Cashier with: aSalesBook.
+	
+	aCart := Cart acceptingItemsOf: (Array with: 'validBook').
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:16:36' prior: 50334913!
+  test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Dictionary new.
+	aCashier := Cashier with: OrderedCollection new.
+	
+	aSalesBook add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aSalesBook.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:20:10' prior: 50335262!
+                    test01NewCashierWith
+
+	| aCashier aSalesBook aCart |
+	
+	aSalesBook := Array new.
+	aCashier := Cashier with: aSalesBook.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:20:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:21:07' prior: 50335277!
+                          test02CheckoutACartWith1ElementIsCorrect
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.
+	aCashier := Cashier with: Array new.
+	
+	aCatalog add:'validBook'->100.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCart add: 'validBook'.
+	
+	self assert: 100 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:13'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:13'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:21:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:21:36' prior: 50335291!
+                 test01NewCashierWith
+
+	| aCashier aCart |
+	
+	aCashier := Cashier with: Array new.
+	
+	aCart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ aCashier checkOut: aCart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:21:37'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:22:15' prior: 50334926!
+test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	| aCashier aCatalog aCart |
+	
+	aCatalog := Dictionary new.	
+	aCatalog add:'validBook'->100; add:'validBook2'->50.
+	aCart := Cart acceptingItemsOf: aCatalog.
+	
+	aCashier := Cashier with: Array new.
+	
+	aCart add: 'validBook'.
+	aCart add: 'validBook2'.
+	
+	self assert: 150 equals: (aCashier checkOut: aCart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:22:16'!
+PASSED!
+
+TestCase subclass: #TerniLapilliTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+
+!classDefinition: #TerniLapilliTest category: #TerniLapilli stamp: 'LS 11/6/2019 16:25:27'!
+TestCase subclass: #TerniLapilliTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+ test01NewGameIsEmpty
+	
+	| game |
+	game := TerniLapilli new.
+	
+	self assert: 0 equals: game jugadorX cantFichas.
+	self assert: 0 equals: game jugadorO cantFichas.
+	self assert: true equals: game juegaX.
+! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+      test02XStartsPlaying
+	
+	| game |
+	game := TerniLapilli new.
+	
+	self assert: true equals: game juegaX.
+	self assert: false equals: game juegaO.
+! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+ test03XPutsInTheCorrectPlace
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self assert: 1 equals: game jugadorX cantFichas.
+	self assert: 0 equals: game jugadorO cantFichas.
+	self assert: true equals: (game jugadorX tieneFichaEn: 1@1).
+! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                      test04OPlaysSecond
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self assert: true equals: game juegaO.
+	self assert: false equals: game juegaX.	
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:41:19'!
+               test05CannotPlayIfNotMyTurn
+	
+"  Este Test ya no tiene sentido porque cambio la interfaz
+	| game |
+	game := TerniLapilliXXX new.
+	
+	self should: [ game putAt: 1@1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilliXXX invalidPlayerTurn.
+	self assert: false equals: (game jugadorO tieneFichaEn: 1@1).			
+	"! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:41:31'!
+         test06CannotPlayXSecond
+
+"  Este Test ya no tiene sentido porque cambio la interfaz	
+	| game |
+	game := TerniLapilliXXX new.
+	game putAt: 1@1.
+	
+	self should: [ game putAt: 2@1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilliXXX invalidPlayerTurn.	
+	self assert: false equals: (game jugadorX tieneFichaEn: 2@1)."! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                               test07XCannotPlayIfPositionIsOccuped
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 2@2.
+	game putAt: 1@1.
+	
+	self should: [ game putAt: 1@1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: true equals: (game jugadorO tieneFichaEn: 1@1).		
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+  test08OCannotPlayIfPositionIsOccuped
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self should: [ game putAt: 1@1. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: true equals: (game jugadorX tieneFichaEn: 1@1).		
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                    test09OCannotPlayIfPositionOfLimits
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self should: [ game putAt: 4@4. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: false equals: (game jugadorO tieneFichaEn: 4@4).		
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                    test10XCannotPlayIfPositionOfLimits
+	
+	| game |
+	game := TerniLapilli new.
+	
+	self should: [ game putAt: 0@0. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPosition.
+	self assert: false equals: (game jugadorX tieneFichaEn: 0@0).	
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:50:15'!
+       test11CannotPlayIf6ThereAre6FichasOnTheGame
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	
+	self should: [ game putAt: 3@3. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPlayBoardFull.
+	self assert: false equals: (game jugadorX tieneFichaEn: 3@3).		
+	
+	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:51:15'!
+test12CannotMoveFichasIfThereAreLessThan6FichasOnTheGame
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self should: [ game moveFrom: 1@1 to:1@2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidPlayBoardNotFull.
+	self assert: false equals: (game jugadorX tieneFichaEn: 1@2).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:50:38'!
+                 test13AValidMoveIfThereAre6FichasChangesThePositionOfTheFicha
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game. 		
+	game moveFrom: 2@2 to:3@2.
+
+	self assert: true equals: (game jugadorX tieneFichaEn: 3@2).
+	self assert: false equals: (game jugadorX tieneFichaEn: 2@2).	! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:50:54'!
+                       test14OMAkesValidMoveIfThereAre6FichasChangesThePositionOfTheFichas
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	game moveFrom: 2@2 to:3@2.
+	game moveFrom: 2@1 to:3@1.
+
+
+	self assert: true equals: (game jugadorO tieneFichaEn: 3@1).
+	self assert: false equals: (game jugadorO tieneFichaEn: 2@1).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                        test15XCantMakeMoveToAPointWichIsNotANeighboar
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	
+	self should: [ game moveFrom: 1@1 to:3@2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidMove .
+	self assert: false equals: (game jugadorX tieneFichaEn: 3@2).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+ test16OCantMakeMoveToAPointWichIsNotANeighboar
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	game moveFrom: 2@2 to:3@2.
+	
+	self should: [ game moveFrom: 1@2 to:3@3. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidMove .
+	self assert: false equals: (game jugadorO tieneFichaEn: 3@3).		
+! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+  test17GameIsNotOverAfter1PlayAndNobodyHasWon
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	
+	self assert: false equals: (game isOver).
+	self assert: false equals: (game hasPlayerXWon).
+	self assert: false equals: (game hasPlayerOWon).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                          test18OWinsByMaking3PlaysInALineAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 3@3.
+	game putAt: 1@1.
+	game putAt: 2@1.
+	game putAt: 1@2.
+	game putAt: 2@2.
+	game putAt: 1@3.
+
+	self assert: true equals: (game hasPlayerOWon).
+	self assert: true equals: (game isOver).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                    test19XWinsByMaking3PlaysInTheMiddleLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 2@1.
+	game putAt: 1@1.
+	game putAt: 2@2.
+	game putAt: 1@2.
+	game putAt: 2@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                              test20XWinsByMaking3PlaysInTheTopLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 3@1.
+	game putAt: 1@2.
+	game putAt: 3@2.
+	game putAt: 1@3.
+	game putAt: 3@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+ test21XWinsByMaking3PlaysInTheDiagonalAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	game putAt: 1@2.
+	game putAt: 2@2.
+	game putAt: 1@3.
+	game putAt: 3@3.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+test22XWinsByMaking3PlaysInBottomLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	game putAt: 1@1.
+	game putAt: 1@2.
+	game putAt: 2@1.
+	game putAt: 1@3.
+	game putAt: 3@1.
+
+	self assert: true equals: (game hasPlayerXWon).
+	self assert: true equals: (game isOver).! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+ test23XWinsByMaking3PlaysInBottomLineAndGameIsOver
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	game moveFrom: 2@2 to: 3@3. 
+	
+	
+	self should: [ game moveFrom: 2@3 to: 3@2. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TerniLapilli invalidMove .
+	self assert: false equals: (game jugadorO tieneFichaEn: 3@2).
+! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                           test24GameIsTiedAfterSeveralPlays
+	
+	| game |
+	game := TerniLapilli new.
+	self fillBoard: game.
+	game moveFrom: 2@2 to: 3@3. 
+	
+	self assert: true equals: (game isTied).	
+	self assert: false equals: (game isOver).
+! !
+!TerniLapilliTest methodsFor: 'setUp/tearDown' stamp: 'LS 10/17/2019 01:00:05'!
+                      fillBoard: aGame
+	
+	aGame putAt: 1@1.
+	aGame putAt: 1@2.
+	aGame putAt: 1@3.
+	aGame putAt: 2@1.
+	aGame putAt: 2@2.
+	aGame putAt: 2@3.		
+! !
+
+Object subclass: #Jugador
+	instanceVariableNames: 'fichasJugadas'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+
+!classDefinition: #Jugador category: #TerniLapilli stamp: 'LS 11/6/2019 16:25:27'!
+Object subclass: #Jugador
+	instanceVariableNames: 'fichasJugadas'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+!Jugador methodsFor: 'accesing' stamp: 'LS 10/16/2019 18:00:48'!
+         cantFichas
+	^fichasJugadas size.! !
+!Jugador methodsFor: 'accesing' stamp: 'LS 10/16/2019 17:58:41'!
+                           fichasJugadas
+	^fichasJugadas ! !
+!Jugador methodsFor: 'accesing' stamp: 'LS 10/16/2019 19:43:21'!
+                             tieneFichaEn: aPoint
+
+	^fichasJugadas includes: aPoint! !
+!Jugador methodsFor: 'plays' stamp: 'cmmmm 10/17/2019 16:49:24'!
+     moveFrom: aPointSource to: aPointDestination
+	
+	self fichasJugadas remove: aPointSource ifAbsent: [self error: TerniLapilli invalidMove].
+	self putAt: aPointDestination.! !
+!Jugador methodsFor: 'plays' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                  putAt: aPoint 
+	
+	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	
+	self fichasJugadas add: aPoint.! !
+!Jugador methodsFor: 'initialization' stamp: 'LS 10/16/2019 17:52:51'!
+                        initialize
+	
+	fichasJugadas := Bag new.! !
+
+Object subclass: #TerniLapilli
+	instanceVariableNames: 'jugadorX jugadorO jugadorActual'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+
+!classDefinition: #TerniLapilli category: #TerniLapilli stamp: 'LS 11/6/2019 16:25:27'!
+Object subclass: #TerniLapilli
+	instanceVariableNames: 'jugadorX jugadorO jugadorActual'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TerniLapilli'!
+!TerniLapilli methodsFor: 'accessing' stamp: 'cmmmm 10/17/2019 15:17:16'!
+             isOver
+	self XHizoLinea ifTrue: [^true]. 
+	self OHizoLinea ifTrue: [^true]. 
+	^false.! !
+!TerniLapilli methodsFor: 'accessing' stamp: 'cmmmm 10/17/2019 16:45:24'!
+                             isTied
+	^self isOver not.! !
+!TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/17/2019 00:23:08'!
+                            jugadorActual
+
+	^jugadorActual ! !
+!TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/16/2019 21:49:52'!
+                      jugadorO
+	^jugadorO ! !
+!TerniLapilli methodsFor: 'accessing' stamp: 'LS 10/16/2019 20:35:55'!
+ jugadorX
+	^jugadorX ! !
+!TerniLapilli methodsFor: 'plays' stamp: 'cmmmm 10/17/2019 16:49:24'!
+  moveFrom: aPointSource to: aPointDestination
+	
+	self cantidadTotalDeFichas = 6 ifFalse: [self error: TerniLapilli invalidPlayBoardNotFull].
+	(self estaEnDiagonal: aPointSource) ifTrue: [(aPointSource eightNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilli invalidMove].]
+									ifFalse:[(aPointSource fourNeighbors includes: aPointDestination) ifFalse: [self error: TerniLapilli invalidMove].].
+	
+	
+	jugadorActual moveFrom: aPointSource to: aPointDestination.
+	self cambiarJugadorActual.! !
+!TerniLapilli methodsFor: 'plays' stamp: 'cmmmm 10/17/2019 16:49:24'!
+                      putAt: aPoint 
+	(self cantidadTotalDeFichas  = 6) ifTrue: [ self error: TerniLapilli invalidPlayBoardFull ].
+	(aPoint x between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	(aPoint y between: 1 and: 3) ifFalse: [ self error: TerniLapilli invalidPosition ].
+	
+	(self isEmpty: aPoint) ifFalse: [ self error: TerniLapilli invalidPosition.] ifTrue: [ jugadorActual putAt: aPoint].
+	
+	self cambiarJugadorActual.	! !
+!TerniLapilli methodsFor: 'initialization' stamp: 'cmmmm 10/17/2019 16:49:12'!
+initialize
+	
+	jugadorX := Jugador new.
+	jugadorO := Jugador new.
+	jugadorActual := jugadorX.
+	! !
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/16/2019 21:52:08'!
+                 isEmpty: aPoint 
+
+	^(jugadorO tieneFichaEn: aPoint) not and: (jugadorX tieneFichaEn: aPoint) not.! !
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/17/2019 00:23:55'!
+              juegaO
+
+	^ jugadorActual == jugadorO .! !
+!TerniLapilli methodsFor: 'characteristics' stamp: 'LS 10/17/2019 00:24:08'!
+         juegaX
+		
+	^jugadorActual  == jugadorX .! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 15:45:43'!
+            OHizoLinea
+	^self hizoLinea: jugadorO 	
+	! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 15:45:54'!
+           XHizoLinea
+	^self hizoLinea: jugadorX 	
+	! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:56:10'!
+           cambiarJugadorActual
+
+	jugadorActual == jugadorX ifTrue: [jugadorActual := jugadorO] ifFalse: [jugadorActual := jugadorX].! !
+!TerniLapilli methodsFor: 'private' stamp: 'LS 10/17/2019 00:40:07'!
+                             cantidadTotalDeFichas
+	
+	^jugadorX cantFichas + jugadorO cantFichas.! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:31:18'!
+                estaEnDiagonal: aPoint 
+	^(aPoint x + aPoint y) even.! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 15:36:50'!
+                               hasPlayerOWon
+	^self OHizoLinea.! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 15:35:59'!
+                    hasPlayerXWon
+	^self XHizoLinea.! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:58:07'!
+                    hizoLinea: aPlayer
+
+	^(self hizoLineaDiagonal: aPlayer) or: (self hizoLineaVertical: aPlayer) or: (self hizoLineaHorizontal: aPlayer).
+	! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:11:01'!
+            hizoLineaDiagonal: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 2@2) and: (b includes: 3@3))or:
+	((b includes: 1@3) and: (b includes: 2@2) and: (b includes: 3@1)).! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:19:12'!
+         hizoLineaHorizontal: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 2@1) and: (b includes: 3@1))or:
+	((b includes: 1@2) and: (b includes: 2@2) and: (b includes: 3@2)) or:
+	((b includes: 1@3) and: (b includes: 2@3) and: (b includes: 3@3)).! !
+!TerniLapilli methodsFor: 'private' stamp: 'cmmmm 10/17/2019 16:16:16'!
+hizoLineaVertical: aPlayer
+	| b |
+	b := aPlayer fichasJugadas.
+	
+	^((b includes: 1@1) and: (b includes: 1@2) and: (b includes: 1@3))or:
+	((b includes: 2@1) and: (b includes: 2@2) and: (b includes: 2@3)) or:
+	((b includes: 3@1) and: (b includes: 3@2) and: (b includes: 3@3)).! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+TerniLapilli class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TerniLapilli class' category: #TerniLapilli stamp: 'LS 11/6/2019 16:25:28'!
+TerniLapilli class
+	instanceVariableNames: ''!
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 17:37:26'!
+                           invalidMove
+	^'invalid move'.! !
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 16:14:46'!
+          invalidPlayBoardFull
+	^'Invalid Play board is Full'! !
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmm 10/15/2019 16:15:09'!
+                    invalidPlayBoardNotFull
+	^'Invalid move board not full'.! !
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmmmm 10/10/2019 20:10:16'!
+              invalidPlayerTurn
+	^'invalidPlayerTurn'! !
+!TerniLapilli class methodsFor: 'error handling' stamp: 'cmmm 10/15/2019 00:38:41'!
+ invalidPosition
+		^'invalidPosition'! !
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/TerniLapilli/TerniLapilli.st----!
+
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: 'marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #MarsRoverTest category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: 'marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!MarsRoverTest methodsFor: 'tests for invalid inputs' stamp: 'cmmmmm 10/10/2019 15:42:21'!
+       test01EmptyStringDoesNotChange
+	
+	marsRover move: ''.
+	self assert: marsRover IsIn: 1@1  pointing: Norte new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for invalid inputs' stamp: 'LS 10/9/2019 21:14:03'!
+                      test06InvalidStringRaiseError
+	
+	self should: [ marsRover move: 'x'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: MarsRover invalidCommandMessage.! !
+!MarsRoverTest methodsFor: 'tests for 1 move' stamp: 'cmmmmm 10/10/2019 15:42:57'!
+        test02StringWithFMovesForwardAndDoesNotChangeDirection
+	
+	marsRover move: 'f'.
+	self assert: marsRover IsIn: 1@2  pointing: Norte new. 
+! !
+!MarsRoverTest methodsFor: 'tests for 1 move' stamp: 'cmmmmm 10/10/2019 15:43:22'!
+ test03StringWithBMovesBackwardsAndDoesNotChangeDirection
+	
+	marsRover move: 'b'.
+	self assert: marsRover IsIn: 1@0  pointing: Norte new. 
+! !
+!MarsRoverTest methodsFor: 'tests for 1 move' stamp: 'cmmmmm 10/10/2019 15:43:39'!
+                               test04StringWithRRotatesRightAndDoesNotChangePosition
+	
+	marsRover move: 'r'.
+	self assert: marsRover IsIn: 1@1  pointing: Este new. 
+! !
+!MarsRoverTest methodsFor: 'tests for 1 move' stamp: 'cmmmmm 10/10/2019 15:44:11'!
+   test05StringWithLRotatesLeftAndDoesNotChangePosition
+	
+	marsRover move: 'l'.
+	self assert: marsRover IsIn: 1@1  pointing: Oeste new. 
+! !
+!MarsRoverTest methodsFor: 'tests for several equal moves' stamp: 'cmmmmm 10/10/2019 15:44:27'!
+                      test07StringWithManyFMovesSeveralPositionsForwardAndDoesNotChangeDirection
+	
+	marsRover move: 'ff'.
+	self assert: marsRover IsIn: 1@3  pointing: Norte new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for several equal moves' stamp: 'cmmmmm 10/10/2019 15:44:43'!
+                              test08StringWithManyBMovesSeveralPositionsBackwardsAndDoesNotChangeDirection
+	
+	marsRover move: 'bb'.
+	self assert: marsRover IsIn: 1@-1  pointing: Norte new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for several equal moves' stamp: 'cmmmmm 10/10/2019 15:45:05'!
+                           test09StringWithManyRRotatesSeveralDirectionsRightAndDoesNotChangePosition
+	
+	marsRover move: 'rrr'.
+	self assert: marsRover IsIn: 1@1  pointing: Oeste new. 
+
+! !
+!MarsRoverTest methodsFor: 'tests for several equal moves' stamp: 'cmmmmm 10/10/2019 15:46:01'!
+                             test10StringWithManyLRotatesSeveralDirectionsLeftAndDoesNotChangePosition
+	
+	marsRover move: 'lll'.
+	self assert: marsRover IsIn: 1@1  pointing: Este new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:46:34'!
+   test11StringWithRAndFMovesToRightAndChangeDirection
+	
+	marsRover move: 'rf'.
+	self assert: marsRover IsIn: 2@1  pointing: Este new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:46:51'!
+                          test12StringWithLAndFMovesToLeftAndChangeDirection
+	
+	marsRover move: 'lf'.
+	self assert: marsRover IsIn: 0@1  pointing: Oeste new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:47:11'!
+                          test13StringWith2RAndFMovesDownAndChangeDirection
+	
+	marsRover move: 'rrf'.
+	self assert: marsRover IsIn: 1@0  pointing: Sur new. 
+! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:47:33'!
+                             test14StringWithRAndBMovesToLeftAndChangeDirection
+	
+	marsRover move: 'rb'.
+	self assert: marsRover IsIn: 0@1  pointing: Este new. 
+	! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:47:47'!
+                           test15StringWithLAndBMovesToRightAndChangeDirection
+	
+	marsRover move: 'lb'.
+	self assert: marsRover IsIn: 2@1  pointing: Oeste new. 
+! !
+!MarsRoverTest methodsFor: 'tests for different moves' stamp: 'cmmmmm 10/10/2019 15:48:09'!
+                          test16StringWith2RAndBMovesUpAndChangeDirection
+	
+	marsRover move: 'rrb'.
+	self assert: marsRover IsIn: 1@2  pointing: Sur new. 
+! !
+!MarsRoverTest methodsFor: 'setUp/tearDown' stamp: 'cmmmmm 10/8/2019 20:27:35'!
+           setUp
+	
+	marsRover _ MarsRover in: 1@1 oriented: Norte new. ! !
+!MarsRoverTest methodsFor: 'assertions' stamp: 'cmmmmm 10/10/2019 15:41:25'!
+                   assert: aRover IsIn: aPosition pointing: aDirection
+	
+	self assert: aPosition equals: aRover position .
+	self assert: aDirection equals: aRover direction.
+! !
+
+Object subclass: #MarsRover
+	instanceVariableNames: 'position direction commandToMovement'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #MarsRover category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position direction commandToMovement'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!MarsRover methodsFor: 'movement' stamp: 'LS 10/9/2019 21:02:21'!
+move: aString
+	
+	aString do: [:a | self singleMove: a.].
+
+	
+	
+	
+	
+	! !
+!MarsRover methodsFor: 'accessing' stamp: 'cmmmmm 10/3/2019 21:10:55'!
+                  direction
+
+	^direction! !
+!MarsRover methodsFor: 'accessing' stamp: 'cmmmmm 10/3/2019 21:08:40'!
+                               position
+
+	^position! !
+!MarsRover methodsFor: 'initialization' stamp: 'cmmmmm 10/3/2019 21:04:25'!
+                            initializeIn: aPoint oriented: aDirection 
+	position := aPoint.
+	direction := aDirection.! !
+!MarsRover methodsFor: 'private' stamp: 'cmmmmm 10/10/2019 16:47:25'!
+                             initialize
+	
+	commandToMovement := Dictionary new.
+	commandToMovement add: $f->[self moveTo: direction forward].
+	commandToMovement add: $b->[self moveTo: direction backward ].
+	commandToMovement add: $r->[direction := direction rotateRight ].
+	commandToMovement add: $l->[direction := direction rotateLeft ].
+	
+! !
+!MarsRover methodsFor: 'private' stamp: 'LS 10/9/2019 21:01:35'!
+   moveTo: aRelativePosition
+	
+	^position := position + aRelativePosition.! !
+!MarsRover methodsFor: 'private' stamp: 'cmmmmm 10/10/2019 16:47:25'!
+               singleMove: aChar
+
+	(commandToMovement at: aChar ifAbsent: [^ self error: MarsRover invalidCommandMessage.]) value.	
+	! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+MarsRover class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRover class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+MarsRover class
+	instanceVariableNames: ''!
+!MarsRover class methodsFor: 'initialization' stamp: 'cmmmmm 10/3/2019 21:07:58'!
+   in: aPoint oriented: aDirection
+	^MarsRover new initializeIn: aPoint oriented: aDirection! !
+!MarsRover class methodsFor: 'error description' stamp: 'LS 10/4/2019 17:36:46'!
+                  invalidCommandMessage
+	^'Invalid command'! !
+
+Object subclass: #PuntoCardinal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #PuntoCardinal category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Object subclass: #PuntoCardinal
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!PuntoCardinal methodsFor: 'movement' stamp: 'LS 10/9/2019 20:53:33'!
+          backward
+
+	^self subclassResponsibility ! !
+!PuntoCardinal methodsFor: 'movement' stamp: 'LS 10/9/2019 20:33:19'!
+              forward
+
+	^self subclassResponsibility! !
+!PuntoCardinal methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:09:23'!
+           rotateLeft 
+
+	^self subclassResponsibility.! !
+!PuntoCardinal methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+      rotateRight 
+
+	^self subclassResponsibility.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+PuntoCardinal class
+	instanceVariableNames: 'uniqueInstance'!
+
+!classDefinition: 'PuntoCardinal class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+PuntoCardinal class
+	instanceVariableNames: 'uniqueInstance'!
+!PuntoCardinal class methodsFor: 'initialization' stamp: 'chris m 10/8/2019 22:07:42'!
+initialize
+
+	uniqueInstance := self basicNew ! !
+!PuntoCardinal class methodsFor: 'initialization' stamp: 'chris m 10/8/2019 22:07:53'!
+                        new 
+	
+	^uniqueInstance ! !
+
+PuntoCardinal subclass: #Este
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #Este category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+PuntoCardinal subclass: #Este
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:58'!
+                 backward
+	
+	^(-1@0)! !
+!Este methodsFor: 'movement' stamp: 'LS 10/9/2019 20:44:19'!
+            forward
+
+	^(1@0)! !
+!Este methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:09:23'!
+          rotateLeft
+	
+	^Norte new! !
+!Este methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+  rotateRight
+	
+	^Sur new! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Este class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Este class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Este class
+	instanceVariableNames: ''!
+!Este class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 17:59:51'!
+                      initialize
+
+	uniqueInstance := self basicNew ! !
+!Este class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:02'!
+  new 
+	
+	^uniqueInstance ! !
+
+PuntoCardinal subclass: #Norte
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #Norte category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+PuntoCardinal subclass: #Norte
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:47'!
+             backward
+	
+	^(0@-1)! !
+!Norte methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:16'!
+           forward
+
+	^(0@1)! !
+!Norte methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:09:23'!
+         rotateLeft
+	
+	^Oeste new! !
+!Norte methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+ rotateRight
+	| nuevaDireccion |
+	nuevaDireccion := Este new.
+	^nuevaDireccion.
+	! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Norte class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Norte class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Norte class
+	instanceVariableNames: ''!
+!Norte class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:13'!
+                         initialize
+
+	uniqueInstance := self basicNew ! !
+!Norte class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:22'!
+ new
+
+	^uniqueInstance ! !
+
+PuntoCardinal subclass: #Oeste
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #Oeste category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+PuntoCardinal subclass: #Oeste
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:23'!
+               backward
+
+	^(1@0)! !
+!Oeste methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:43'!
+             forward
+
+	^(-1@0)! !
+!Oeste methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:09:23'!
+        rotateLeft
+	
+	^Sur new! !
+!Oeste methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+   rotateRight
+	
+	^Norte new! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Oeste class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Oeste class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Oeste class
+	instanceVariableNames: ''!
+!Oeste class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:29'!
+                initialize
+
+	uniqueInstance := self basicNew ! !
+!Oeste class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:40'!
+ new
+
+	^uniqueInstance ! !
+
+PuntoCardinal subclass: #Sur
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+
+!classDefinition: #Sur category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+PuntoCardinal subclass: #Sur
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRoverTDD'!
+!Sur methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:09:23'!
+                  rotateLeft
+	
+	^Este new! !
+!Sur methodsFor: 'rotation' stamp: 'cmmmmm 10/10/2019 16:10:13'!
+    rotateRight
+	
+	^Oeste new! !
+!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:47:37'!
+       backward
+	
+	^(0@1)! !
+!Sur methodsFor: 'movement' stamp: 'LS 10/9/2019 20:45:31'!
+              forward
+
+	^(0@-1)! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Sur class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Sur class' category: #MarsRoverTDD stamp: 'LS 11/6/2019 16:25:58'!
+Sur class
+	instanceVariableNames: ''!
+!Sur class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:48'!
+initialize
+
+	uniqueInstance := self basicNew ! !
+!Sur class methodsFor: 'initialization' stamp: 'cmmmmm 10/8/2019 18:00:54'!
+   new
+
+	^uniqueInstance ! !
+
+PuntoCardinal initialize!
+
+Este initialize!
+
+Norte initialize!
+
+Oeste initialize!
+
+Sur initialize!
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/marsRover/MarsRoverTDD.st----!
+
+Error subclass: #CantSuspend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classDefinition: #CantSuspend category: #'CodigoRepetido-Ejercicio' stamp: 'LS 11/6/2019 16:27:12'!
+Error subclass: #CantSuspend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+Error subclass: #NotFound
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classDefinition: #NotFound category: #'CodigoRepetido-Ejercicio' stamp: 'LS 11/6/2019 16:27:12'!
+Error subclass: #NotFound
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+TestCase subclass: #CustomerBookTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classDefinition: #CustomerBookTest category: #'CodigoRepetido-Ejercicio' stamp: 'LS 11/6/2019 16:27:12'!
+TestCase subclass: #CustomerBookTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:33:20'!
+              test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
+
+	| customerBook JohnLennon |
+	
+	customerBook := CustomerBook new.
+	JohnLennon := 'John Lennon'.
+	
+	self testClosure: [customerBook addCustomerNamed: JohnLennon] withTime: (50*millisecond).
+	
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:33:28'!
+                         test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
+
+	| customerBook paulMcCartney |
+	
+	customerBook := CustomerBook new.
+	paulMcCartney := 'Paul McCartney'.
+	
+	self testClosure: [customerBook addCustomerNamed: paulMcCartney] withTime: (100*millisecond).
+	
+
+	
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:49:42'!
+      test03CanNotAddACustomerWithEmptyName 
+
+	| customerBook |
+			
+	customerBook := CustomerBook new.
+
+	self failing: [customerBook addCustomerNamed: ''] 
+		withErrorType: Error
+		assert: [ :anError | 
+			self assert: anError messageText = CustomerBook customerCanNotBeEmptyErrorMessage.
+			self assert: customerBook isEmpty ]
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:49:34'!
+               test04CanNotRemoveAnInvalidCustomer
+	
+	| customerBook johnLennon |
+			
+	customerBook := CustomerBook new.
+	johnLennon := 'John Lennon'.
+	customerBook addCustomerNamed: johnLennon.
+	
+	self failing: [customerBook removeCustomerNamed: 'Paul McCartney'.]
+		withErrorType: NotFound 
+		assert: [ :anError | 
+			self assert: customerBook numberOfCustomers = 1.
+			self assert: (customerBook includesCustomerNamed: johnLennon) ]
+
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:50:02'!
+           test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
+
+	| customerBook paulMcCartney|
+	
+	customerBook := CustomerBook new.
+	paulMcCartney := 'Paul McCartney'.
+	
+	customerBook addAndSuspend: paulMcCartney.
+	
+	self assertNumberOfActive: 0 suspended: 1 ofCustomerBook: customerBook.
+	
+	self assert: (customerBook includesCustomerNamed: paulMcCartney). 
+	
+
+	
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:39:06'!
+         test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
+
+	| customerBook paulMcCartney|
+	
+	customerBook := CustomerBook new.
+	paulMcCartney := 'Paul McCartney'.
+	
+	customerBook addAndSuspend: paulMcCartney.
+	customerBook removeCustomerNamed: paulMcCartney.
+	
+	self assertNumberOfActive: 0 suspended: 0 ofCustomerBook: customerBook.
+	self deny: (customerBook includesCustomerNamed: paulMcCartney).
+	
+
+	
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 17:04:08'!
+                        test07CanNotSuspendAnInvalidCustomer
+	
+	| customerBook johnLennon paulMcCartney |
+			
+	customerBook := CustomerBook new.
+	johnLennon := 'John Lennon'.
+	paulMcCartney := 'Paul McCartney'.
+	customerBook addCustomerNamed: johnLennon.
+	
+	self cannotSuspendCustomer: paulMcCartney in: customerBook with: johnLennon .
+	
+
+! !
+!CustomerBookTest methodsFor: 'testing' stamp: 'cmmmmm 9/9/2019 16:55:54'!
+                      test08CanNotSuspendAnAlreadySuspendedCustomer
+	
+	| customerBook johnLennon |
+			
+	customerBook := CustomerBook new.
+	johnLennon := 'John Lennon'.
+	customerBook addAndSuspend: johnLennon.
+	
+	self cannotSuspendCustomer: johnLennon in: customerBook .
+! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/6/2019 17:57:34'!
+                  assertNumberOfActive: aNumberOfActives suspended: aNumberOfSuspended ofCustomerBook: aCustomerBook
+
+	| aNumberOfTotalCustomer |
+	aNumberOfTotalCustomer := aNumberOfActives + aNumberOfSuspended. 
+	self assert: aNumberOfActives equals: aCustomerBook numberOfActiveCustomers.
+	self assert: aNumberOfSuspended equals: aCustomerBook numberOfSuspendedCustomers.
+	self assert: aNumberOfTotalCustomer equals: aCustomerBook numberOfCustomers.
+! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/6/2019 17:55:21'!
+                        assertNumberOfActive: aNumberOfActives suspended: aNumberOfSuspended totalCustomers: aNumberOfTotalCustomers ofCustomerBook: aCustomerBook
+
+	self assert: aNumberOfActives equals: aCustomerBook numberOfActiveCustomers.
+	self assert: aNumberOfSuspended equals: aCustomerBook numberOfSuspendedCustomers.
+	self assert: aNumberOfTotalCustomers equals: aCustomerBook numberOfCustomers.
+! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/6/2019 17:48:54'!
+              assertNumberOfActive: aNumberOfActives suspended: aNumberOfSuspended totalCustomers: aNumberOfTotalCustomers ofCustomerBook: aCustomerBook withCustomer: aCustomer
+
+	self assert: aNumberOfActives equals: aCustomerBook numberOfActiveCustomers.
+	self assert: aNumberOfSuspended equals: aCustomerBook numberOfSuspendedCustomers.
+	self assert: aNumberOfTotalCustomers equals: aCustomerBook numberOfCustomers.
+	self deny: (aCustomerBook includesCustomerNamed: aCustomer ).! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/9/2019 17:03:59'!
+                        cannotSuspendCustomer: aCustomer in: aCustomerBook
+
+ self cannotSuspendCustomer: aCustomer in: aCustomerBook with: aCustomer.! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/9/2019 17:03:15'!
+             cannotSuspendCustomer: aCustomer in: aCustomerBook with: anotherCustomer
+	
+	
+	[aCustomerBook suspendCustomerNamed: aCustomer.
+	self fail ]
+		on: CantSuspend 
+		do: [ :anError | 
+			self assert: aCustomerBook numberOfCustomers = 1.
+			self assert: (aCustomerBook includesCustomerNamed: anotherCustomer ) ]! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'LS 9/2/2019 21:51:33'!
+                              failing: aFailingBlock withErrorType: anErrorType assert: assertingBlock
+
+	[ aFailingBlock value. self fail ]
+		on: anErrorType 
+		do: assertingBlock.! !
+!CustomerBookTest methodsFor: 'codigoRepetido' stamp: 'cmmmmm 9/9/2019 16:32:57'!
+                    testClosure: aClosure withTime: aTime
+
+		| millisecondsBeforeRunning millisecondsAfterRunning |
+
+	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
+	aClosure value.
+	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
+
+	self assert: (millisecondsAfterRunning-millisecondsBeforeRunning) < (aTime)
+! !
+
+Object subclass: #CustomerBook
+	instanceVariableNames: 'suspended active'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classDefinition: #CustomerBook category: #'CodigoRepetido-Ejercicio' stamp: 'LS 11/6/2019 16:27:13'!
+Object subclass: #CustomerBook
+	instanceVariableNames: 'suspended active'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+!CustomerBook methodsFor: 'testing' stamp: 'NR 4/3/2019 10:14:26'!
+    includesCustomerNamed: aName
+
+	^(active includes: aName) or: [ suspended includes: aName ]! !
+!CustomerBook methodsFor: 'testing' stamp: 'NR 4/3/2019 10:14:26'!
+                               isEmpty
+	
+	^active isEmpty and: [ suspended isEmpty ]! !
+!CustomerBook methodsFor: 'initialization' stamp: 'NR 4/3/2019 10:14:26'!
+                             initialize
+
+	super initialize.
+	active := OrderedCollection new.
+	suspended:= OrderedCollection new.! !
+!CustomerBook methodsFor: 'customer management' stamp: 'cmmmmm 9/9/2019 16:33:52'!
+     addAndSuspend: aCustomer
+
+	self addCustomerNamed: aCustomer. 
+	self suspendCustomerNamed: aCustomer.! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+         addCustomerNamed: aName
+
+	aName isEmpty ifTrue: [ self signalCustomerNameCannotBeEmpty ].
+	((active includes: aName) or: [suspended includes: aName]) ifTrue: [ self signalCustomerAlreadyExists ].
+	
+	active add: aName ! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+                    numberOfActiveCustomers
+	
+	^active size! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+      numberOfCustomers
+	
+	^active size + suspended size! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 9/19/2018 17:36:09'!
+                          numberOfSuspendedCustomers
+	
+	^suspended size! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+removeCustomerNamed: aName 
+ 
+	1 to: active size do: 
+	[ :index |
+		aName = (active at: index)
+			ifTrue: [
+				active removeAt: index.
+				^ aName 
+			] 
+	].
+
+	1 to: suspended size do: 	
+	[ :index |
+		aName = (suspended at: index)
+			ifTrue: [
+				suspended removeAt: index.
+				^ aName 
+			] 
+	].
+	
+	^ NotFound signal.
+! !
+!CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:52'!
+  signalCustomerAlreadyExists 
+
+	self error: self class customerAlreadyExistsErrorMessage! !
+!CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:51'!
+            signalCustomerNameCannotBeEmpty 
+
+	self error: self class customerCanNotBeEmptyErrorMessage ! !
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+                 suspendCustomerNamed: aName 
+	
+	(active includes: aName) ifFalse: [^CantSuspend signal].
+	
+	active remove: aName.
+	
+	suspended add: aName
+! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+CustomerBook class
+	instanceVariableNames: ''!
+
+!classDefinition: 'CustomerBook class' category: #'CodigoRepetido-Ejercicio' stamp: 'LS 11/6/2019 16:27:13'!
+CustomerBook class
+	instanceVariableNames: ''!
+!CustomerBook class methodsFor: 'error messages' stamp: 'NR 9/2/2019 14:41:10'!
+                          customerAlreadyExistsErrorMessage
+
+	^'Customer Already Exists.'! !
+!CustomerBook class methodsFor: 'error messages' stamp: 'NR 9/2/2019 14:41:16'!
+             customerCanNotBeEmptyErrorMessage
+
+	^'Customer Name Cannot Be Empty.'! !
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/codigoRepetido/CodigoRepetido-Ejercicio.st----!
+
+TestCase subclass: #NumeroTest
+	instanceVariableNames: 'zero one two four oneFifth oneHalf five twoFifth twoTwentyfifth fiveHalfs three eight negativeOne negativeTwo'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classDefinition: #NumeroTest category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+TestCase subclass: #NumeroTest
+	instanceVariableNames: 'zero one two four oneFifth oneHalf five twoFifth twoTwentyfifth fiveHalfs three eight negativeOne negativeTwo'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:11'!
+test01isCeroReturnsTrueWhenAskToZero
+
+	self assert: zero isZero! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:12'!
+                    test02isCeroReturnsFalseWhenAskToOthersButZero
+
+	self deny: one isZero! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:13'!
+             test03isOneReturnsTrueWhenAskToOne
+
+	self assert: one isOne! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:13'!
+                        test04isOneReturnsFalseWhenAskToOtherThanOne
+
+	self deny: zero isOne! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:14'!
+               test05EnteroAddsWithEnteroCorrectly
+
+	self assert: one + one equals: two! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:18'!
+           test06EnteroMultipliesWithEnteroCorrectly
+
+	self assert: two * two equals: four! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:20'!
+    test07EnteroDividesEnteroCorrectly
+
+	self assert: two / two equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:38'!
+            test08FraccionAddsWithFraccionCorrectly
+"
+    La suma de fracciones es:
+	 
+	a/b + c/d = (a.d + c.b) / (b.d)
+	 
+	SI ESTAN PENSANDO EN LA REDUCCION DE FRACCIONES NO SE PREOCUPEN!!
+	TODAVIA NO SE ESTA TESTEANDO ESE CASO
+"
+	| sevenTenths |
+
+	sevenTenths := (Entero with: 7) / (Entero with: 10).
+
+	self assert: oneFifth + oneHalf equals: sevenTenths! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:52'!
+                           test09FraccionMultipliesWithFraccionCorrectly
+"
+    La multiplicacion de fracciones es:
+	 
+	(a/b) * (c/d) = (a.c) / (b.d)
+"
+
+	self assert: oneFifth * twoFifth equals: twoTwentyfifth! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:56'!
+                              test10FraccionDividesFraccionCorrectly
+"
+    La division de fracciones es:
+	 
+	(a/b) / (c/d) = (a.d) / (b.c)
+"
+
+	self assert: oneHalf / oneFifth equals: fiveHalfs! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:07'!
+                 test11EnteroAddsFraccionCorrectly
+"
+	Ahora empieza la diversion!!
+"
+
+	self assert: one + oneFifth equals: (Entero with: 6) / (Entero with: 5)! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:07'!
+      test12FraccionAddsEnteroCorrectly
+
+	self assert: oneFifth + one equals: (Entero with: 6) / (Entero with: 5)! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:50'!
+        test13EnteroMultipliesFraccionCorrectly
+
+	self assert: two * oneFifth equals: twoFifth ! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:52'!
+                            test14FraccionMultipliesEnteroCorrectly
+
+	self assert: oneFifth * two equals: twoFifth ! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:57'!
+                            test15EnteroDividesFraccionCorrectly
+
+	self assert: one / twoFifth equals: fiveHalfs  ! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 21:59'!
+                             test16FraccionDividesEnteroCorrectly
+
+	self assert: twoFifth / five equals: twoTwentyfifth ! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:38'!
+                        test17AFraccionCanBeEqualToAnEntero
+
+	self assert: two equals: four / two! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:39'!
+          test18AparentFraccionesAreEqual
+
+	self assert: oneHalf equals: two / four! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:40'!
+          test19AddingFraccionesCanReturnAnEntero
+
+	self assert: oneHalf + oneHalf equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:42'!
+                               test20MultiplyingFraccionesCanReturnAnEntero
+
+	self assert: (two/five) * (five/two) equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:42'!
+                    test21DividingFraccionesCanReturnAnEntero
+
+	self assert: oneHalf / oneHalf equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:43'!
+                             test22DividingEnterosCanReturnAFraccion
+
+	self assert: two / four equals: oneHalf! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:46'!
+  test23CanNotDivideEnteroByZero
+
+	self 
+		should: [ one / zero ]
+		raise: Error
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Numero canNotDivideByZeroErrorDescription ]
+	! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:46'!
+              test24CanNotDivideFraccionByZero
+
+	self 
+		should: [ oneHalf / zero ]
+		raise: Error
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Numero canNotDivideByZeroErrorDescription ]
+	! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:50'!
+        test25AFraccionCanNotBeZero
+
+	self deny: oneHalf isZero! !
+!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 22:50'!
+                            test26AFraccionCanNotBeOne
+
+	self deny: oneHalf isOne! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:47:26'!
+       test27EnteroSubstractsEnteroCorrectly
+
+	self assert: two - one equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:47:41'!
+                  test28FraccionSubstractsFraccionCorrectly
+	
+	self assert: twoFifth - oneFifth equals: oneFifth.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:48:00'!
+                             test29EnteroSubstractsFraccionCorrectly
+
+	self assert: one - oneHalf equals: oneHalf! !
+!NumeroTest methodsFor: 'tests' stamp: 'HAW 9/24/2018 08:48:05'!
+       test30FraccionSubstractsEnteroCorrectly
+
+	| sixFifth |
+	
+	sixFifth := (Entero with: 6) / (Entero with: 5).
+	
+	self assert: sixFifth - one equals: oneFifth! !
+!NumeroTest methodsFor: 'tests' stamp: 'HAW 9/24/2018 08:48:08'!
+ test31SubstractingFraccionesCanReturnAnEntero
+
+	| threeHalfs |
+	
+	threeHalfs := (Entero with: 3) / (Entero with: 2).
+	
+	self assert: threeHalfs - oneHalf equals: one.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:48:48'!
+                      test32SubstractingSameEnterosReturnsZero
+
+	self assert: one - one equals: zero.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:01'!
+             test33SubstractingSameFraccionesReturnsZero
+
+	self assert: oneHalf - oneHalf equals: zero.! !
+!NumeroTest methodsFor: 'tests' stamp: 'HAW 9/24/2018 08:48:14'!
+ test34SubstractingAHigherValueToANumberReturnsANegativeNumber
+
+	| negativeThreeHalfs |
+	
+	negativeThreeHalfs := (Entero with: -3) / (Entero with: 2).	
+
+	self assert: one - fiveHalfs equals: negativeThreeHalfs.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:23'!
+           test35FibonacciZeroIsOne
+
+	self assert: zero fibonacci equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:32'!
+                          test36FibonacciOneIsOne
+
+	self assert: one fibonacci equals: one! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:39'!
+                            test37FibonacciEnteroReturnsAddingPreviousTwoFibonacciEnteros
+
+	self assert: four fibonacci equals: five.
+	self assert: three fibonacci equals: three. 
+	self assert: five fibonacci equals: four fibonacci + three fibonacci.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:47'!
+                              test38FibonacciNotDefinedForNegativeNumbers
+
+	self 
+		should: [negativeOne fibonacci]
+		raise: Error
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Entero negativeFibonacciErrorDescription ].! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:49:55'!
+   test39NegationOfEnteroIsCorrect
+
+	self assert: two negated equals: negativeTwo.
+		! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:50:03'!
+          test40NegationOfFraccionIsCorrect
+
+	self assert: oneHalf negated equals: negativeOne / two.! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:50:11'!
+ test41SignIsCorrectlyAssignedToFractionWithTwoNegatives
+
+	self assert: oneHalf equals: (negativeOne / negativeTwo)! !
+!NumeroTest methodsFor: 'tests' stamp: 'NR 9/23/2018 23:50:17'!
+          test42SignIsCorrectlyAssignedToFractionWithNegativeDivisor
+
+	self assert: oneHalf negated equals: (one / negativeTwo)! !
+!NumeroTest methodsFor: 'setup' stamp: 'NR 9/23/2018 23:46:28'!
+       setUp
+
+	zero := Entero with: 0.
+	one := Entero with: 1.
+	two := Entero with: 2.
+	three:= Entero with: 3.
+	four := Entero with: 4.
+	five := Entero with: 5.
+	eight := Entero with: 8.
+	negativeOne := Entero with: -1.
+	negativeTwo := Entero with: -2.
+	
+	oneHalf := one / two.
+	oneFifth := one / five.
+	twoFifth := two / five.
+	twoTwentyfifth := two / (Entero with: 25).
+	fiveHalfs := five / two.
+	! !
+
+Object subclass: #Numero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classDefinition: #Numero category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+Object subclass: #Numero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+!Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:48'!
+     * aMultiplier
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:49'!
+                           + anAdder
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 22:21:28'!
+        - aSubtrahend
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:49'!
+                           / aDivisor
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:48'!
+                              invalidNumberType
+
+	self error: self class invalidNumberTypeErrorDescription! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 23:37:13'!
+    negated
+	
+	^self * (Entero with: -1)! !
+!Numero methodsFor: 'testing' stamp: 'NR 9/23/2018 23:36:49'!
+                          isNegative
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 22:49'!
+            isOne
+
+	self subclassResponsibility ! !
+!Numero methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 22:49'!
+                 isZero
+
+	self subclassResponsibility ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Numero class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Numero class' category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+Numero class
+	instanceVariableNames: ''!
+!Numero class methodsFor: 'error descriptions' stamp: 'HernanWilkinson 5/7/2016 22:45'!
+                  canNotDivideByZeroErrorDescription
+
+	^'No se puede dividir por cero'! !
+!Numero class methodsFor: 'error descriptions' stamp: 'NR 4/8/2019 02:58:13'!
+          invalidNumberTypeErrorDescription
+	^ 'Tipo de número inválido'! !
+
+Numero subclass: #Entero
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classDefinition: #Entero category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+Numero subclass: #Entero
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 18:01:33'!
+          * aMultiplier 
+	
+	^aMultiplier multiplicacionConEntero: self.
+	! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:34:00'!
+            + anAdder 
+	
+	^anAdder sumaConEntero: self.
+	
+	! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:52:19'!
+                            - aSubtrahend 
+	
+	^self + aSubtrahend negated.! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:36:35'!
+  / aDivisor 
+	
+	"(aDivisor isKindOf: Fraccion ) ifTrue: [ ^Fraccion with: ( self * aDivisor denominator ) over: aDivisor numerator ]. "	
+	
+	^aDivisor dividiendoAUnEntero: self
+	
+	"^Fraccion with: self over: aDivisor"! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:55'!
+                // aDivisor 
+	
+	^self class with: value // aDivisor integerValue! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:38:31'!
+                dividiendoAUnEntero: unEntero
+
+	^Fraccion with: unEntero over: self.! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:43:31'!
+            dividiendoAUnaFraccion: unaFraccion
+
+	^Fraccion with: (unaFraccion numerator) over: (unaFraccion denominator  * self).! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+                         fibonacci
+
+	| one two |
+	
+	one := Entero with: 1.
+	two := Entero with: 2.
+	
+	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
+	(self isZero or: [self isOne]) ifTrue: [^one].
+	
+	^ (self - one) fibonacci + (self - two) fibonacci
+		! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:00'!
+ greatestCommonDivisorWith: anEntero 
+	
+	^self class with: (value gcd: anEntero integerValue)! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:58:37'!
+               multiplicacionConEntero: unEntero
+
+	^Entero with: ( value * unEntero integerValue ).
+	
+
+	! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 18:00:02'!
+                  multiplicacionConFraccion: unaFraccion
+
+	^Fraccion with: ( unaFraccion numerator * self) over: unaFraccion denominator.
+! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:44:43'!
+                   sumaConEntero: unSumandoEntero 
+	
+	 ^Entero with: value + unSumandoEntero integerValue.! !
+!Entero methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:38:54'!
+                    sumaConFraccion: unaFraccion
+	
+	 ^Fraccion with: ( unaFraccion numerator + (self * unaFraccion denominator )) over: unaFraccion denominator.! !
+!Entero methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 21:01'!
+       = anObject
+
+	^(anObject isKindOf: self class) and: [ value = anObject integerValue ]! !
+!Entero methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:17'!
+                               hash
+
+	^value hash! !
+!Entero methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 20:09'!
+                            initalizeWith: aValue 
+	
+	value := aValue! !
+!Entero methodsFor: 'value' stamp: 'HernanWilkinson 5/7/2016 21:02'!
+              integerValue
+
+	"Usamos integerValue en vez de value para que no haya problemas con el mensaje value implementado en Object - Hernan"
+	
+	^value! !
+!Entero methodsFor: 'printing' stamp: 'HAW 9/24/2018 08:53:19'!
+              printOn: aStream
+
+	aStream print: value ! !
+!Entero methodsFor: 'testing' stamp: 'NR 9/23/2018 22:17:55'!
+                      isNegative
+	
+	^value < 0! !
+!Entero methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 20:14'!
+                             isOne
+	
+	^value = 1! !
+!Entero methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 20:12'!
+  isZero
+	
+	^value = 0! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Entero class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Entero class' category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+Entero class
+	instanceVariableNames: ''!
+!Entero class methodsFor: 'instance creation' stamp: 'NR 4/8/2019 02:57:57'!
+              negativeFibonacciErrorDescription
+	^ ' Fibonacci no está definido aquí para Enteros Negativos'! !
+!Entero class methodsFor: 'instance creation' stamp: 'HernanWilkinson 5/7/2016 22:53'!
+       with: aValue 
+	
+	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan"
+	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
+	
+	^self new initalizeWith: aValue! !
+
+Numero subclass: #Fraccion
+	instanceVariableNames: 'numerator denominator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classDefinition: #Fraccion category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:08'!
+Numero subclass: #Fraccion
+	instanceVariableNames: 'numerator denominator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 18:01:50'!
+            * aMultiplier 
+
+	^aMultiplier multiplicacionConFraccion: self.
+
+	! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:39:32'!
+        + anAdder 
+	
+	^anAdder sumaConFraccion: self. ! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:54:33'!
+                           - aSubtrahend 
+
+	^self + aSubtrahend negated.
+	! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:44:32'!
+                               / aDivisor 
+
+	"(aDivisor isKindOf: Entero ) ifTrue: [ ^Fraccion with: ( numerator) over: aDivisor  * denominator ]. 	
+	
+	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator)"
+	
+	^aDivisor  dividiendoAUnaFraccion: self.! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:39:59'!
+dividiendoAUnEntero: unEntero
+
+	^Fraccion with: (unEntero * self denominator) over: self numerator .! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/16/2019 01:42:39'!
+          dividiendoAUnaFraccion: unaFraccion
+
+	^Fraccion with: (unaFraccion numerator  * self denominator) over: (unaFraccion denominator  * self numerator).! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:56:44'!
+                     multiplicacionConEntero: unEntero
+
+	^Fraccion with: ( unEntero * self numerator) over: self denominator
+	
+
+	! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'LS 9/15/2019 23:11:15'!
+  multiplicacionConFraccion: unaFraccion
+
+	^Fraccion with: ( self numerator * unaFraccion numerator) over: (self denominator * unaFraccion denominator).
+	
+
+	! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:31:26'!
+              sumaConEntero: unSumandoEntero 
+	
+	 ^Fraccion with: (self numerator + (unSumandoEntero * self denominator)) over: self denominator! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'chris m 9/14/2019 17:36:57'!
+       sumaConFraccion: unaFraccion
+	
+	| newNumerator newDenominator |
+
+	newNumerator := (numerator * unaFraccion denominator) + (denominator * unaFraccion numerator).
+	newDenominator := denominator * unaFraccion denominator.
+	
+	^newNumerator / newDenominator ! !
+!Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:42'!
+                    = anObject
+
+	^(anObject isKindOf: self class) and: [ (numerator * anObject denominator) = (denominator * anObject numerator) ]! !
+!Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:50'!
+                   hash
+
+	^(numerator hash / denominator hash) hash! !
+!Fraccion methodsFor: 'accessing' stamp: 'HernanWilkinson 5/7/2016 21:56'!
+ denominator
+
+	^ denominator! !
+!Fraccion methodsFor: 'accessing' stamp: 'HernanWilkinson 5/7/2016 21:56'!
+                      numerator
+
+	^ numerator! !
+!Fraccion methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 22:54'!
+                     initializeWith: aNumerator over: aDenominator
+
+	"Estas precondiciones estan por si se comenten errores en la implementacion - Hernan"
+	aNumerator isZero ifTrue: [ self error: 'una fraccion no puede ser cero' ].
+	aDenominator isOne ifTrue: [ self error: 'una fraccion no puede tener denominador 1 porque sino es un entero' ].
+	
+	numerator := aNumerator.
+	denominator := aDenominator ! !
+!Fraccion methodsFor: 'testing' stamp: 'NR 9/23/2018 23:41:38'!
+                              isNegative
+	
+	^numerator < 0! !
+!Fraccion methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 22:51'!
+                       isOne
+	
+	^false! !
+!Fraccion methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 22:51'!
+    isZero
+	
+	^false! !
+!Fraccion methodsFor: 'printing' stamp: 'HAW 9/24/2018 08:54:46'!
+          printOn: aStream
+
+	aStream 
+		print: numerator;
+		nextPut: $/;
+		print: denominator ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+Fraccion class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Fraccion class' category: #'Numero-Exercise' stamp: 'LS 11/6/2019 16:28:09'!
+Fraccion class
+	instanceVariableNames: ''!
+!Fraccion class methodsFor: 'intance creation' stamp: 'NR 9/23/2018 23:45:19'!
+      with: aDividend over: aDivisor
+
+	| greatestCommonDivisor numerator denominator |
+	
+	aDivisor isZero ifTrue: [ self error: self canNotDivideByZeroErrorDescription ].
+	aDividend isZero ifTrue: [ ^aDividend ].
+	
+	aDivisor isNegative ifTrue:[ ^aDividend negated / aDivisor negated].
+	
+	greatestCommonDivisor := aDividend greatestCommonDivisorWith: aDivisor. 
+	numerator := aDividend // greatestCommonDivisor.
+	denominator := aDivisor // greatestCommonDivisor.
+	
+	denominator isOne ifTrue: [ ^numerator ].
+
+	^self new initializeWith: numerator over: denominator
+	! !
+
+----End fileIn of /home/lsomacal/Escritorio/ejerciciosIS1/eliminarIfs/Numero-Exercise.st----!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:05'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:06'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:29:56'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:29:49'!
+             setUp
+
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	
+	
+		
+		 ! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:30:49'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Fraccion stamp: 'LS 11/6/2019 16:31:37'!
+Numero subclass: #Fraccion
+	instanceVariableNames: 'numerator denominator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #Entero stamp: 'LS 11/6/2019 16:31:37'!
+Numero subclass: #Entero
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #Numero stamp: 'LS 11/6/2019 16:31:37'!
+Object subclass: #Numero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #NumeroTest stamp: 'LS 11/6/2019 16:31:38'!
+TestCase subclass: #NumeroTest
+	instanceVariableNames: 'zero one two four oneFifth oneHalf five twoFifth twoTwentyfifth fiveHalfs three eight negativeOne negativeTwo'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!classRemoval: #CustomerBook stamp: 'LS 11/6/2019 16:31:42'!
+Object subclass: #CustomerBook
+	instanceVariableNames: 'suspended active'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #CustomerBookTest stamp: 'LS 11/6/2019 16:31:43'!
+TestCase subclass: #CustomerBookTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #NotFound stamp: 'LS 11/6/2019 16:31:43'!
+Error subclass: #NotFound
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+
+!classRemoval: #CantSuspend stamp: 'LS 11/6/2019 16:31:43'!
+Error subclass: #CantSuspend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CodigoRepetido-Ejercicio'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:32:02' prior: 50337426!
+                              setUp
+
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:32:38' prior: 50334941!
+    test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	currentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:32:51'!
+ERROR!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:33:29'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:34:00' prior: 50337503!
+      test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| aCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	
+	aCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: aCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LS 11/6/2019 16:34:25' prior: 50337495!
+                               setUp
+
+	currentDate := GregorianMonthOfYear decemberOf: 2019.
+	
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: currentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:11'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:36:57' prior: 50335383!
+                        test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
+
+	catalog add:'validBook'->100; add:'validBook2'->50.
+	
+	cashier := Cashier with: Array new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook2'.
+	
+	self assert: 150 equals: (cashier checkOut: cart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:36:58'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:37:32' prior: 50335323!
+                        test02CheckoutACartWith1ElementIsCorrect
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkOut: cart) .	
+
+		
+		 ! !
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:37:34'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:38:02' prior: 50335353!
+               test01NewCashierWith
+	
+	cart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
+		
+	self should: [ cashier checkOut: cart ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmpty.
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:38:03'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:38:54' prior: 50337531!
+            test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| anExpiredCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	
+	anExpiredCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: anExpiredCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:41:07'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier currentDate cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'setUp/tearDown' stamp: 'LS 11/6/2019 16:41:03' prior: 50337551!
+                 setUp
+
+	| aValidExpirationDate aCurrentDate |
+
+	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
+	aValidExpirationDate := GregorianMonthOfYear decemberOf: 2020.
+	
+	catalog := Dictionary new.
+	cashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	cart := Cart acceptingItemsOf: catalog.
+	card := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: aValidExpirationDate owner: 'San Martin'.
+		
+		 ! !
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:41:17'!
+PASSED!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:44:34' prior: 50337660!
+               test04CannotCheckoutACartWithAnExpiredCreditCard
+
+	| anExpiredCard anExpiredDate |
+	
+	anExpiredDate := GregorianMonthOfYear decemberOf: 2018.
+	anExpiredCard := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: anExpiredDate owner: 'San Martin'.
+	
+	catalog add:'validBook'->100.
+	
+	cart add: 'validBook'.	
+
+	self should: [ cashier checkOut: cart withCard: anExpiredCard ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = Cashier creditCardExpired .
+			]
+		
+		 ! !
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:35'!
+PASSED!
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 16:44:46'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'catalog cashier cart card'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CashierTest #test01NewCashierWith stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutACartWith1ElementIsCorrect stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutACartWithSeveralElementGivesCorrectSubtotal stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CannotCheckoutACartWithAnExpiredCreditCard stamp: 'LS 11/6/2019 16:44:50'!
+PASSED!
+
+----SNAPSHOT----(6 November 2019 17:17:21) CuisUniversity-3938.image priorSource: 14558761!
+
+----QUIT----(6 November 2019 17:17:29) CuisUniversity-3938.image priorSource: 196141!
+
+----STARTUP---- (6 November 2019 17:18:34) as /home/lsomacal/Escritorio/linux64/CuisUniversity-3938.image!
+
+
+----QUIT----(6 November 2019 17:18:47) CuisUniversity-3938.image priorSource: 196234!
