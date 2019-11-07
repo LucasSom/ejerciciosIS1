@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #CartTest category: #TusLibros!
 TestCase subclass: #CartTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -113,19 +113,19 @@ itemSellByTheStore
 	^ 'validBook'! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #CashierTest category: #TusLibros!
 TestCase subclass: #CashierTest
-	instanceVariableNames: 'catalog cashier cart card'
+	instanceVariableNames: 'catalog cashier cart card merchantProcessorSimulator currentDate'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:38:02'!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/7/2019 15:48:30'!
 test01NewCashierWith
 	
 	cart := Cart acceptingItemsOf: (Dictionary with: 'validBook'->100).
 		
-	self should: [ cashier checkOut: cart ]
+	self should: [ cashier checkOut: cart withCard: card ]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = Cashier cartCanNotBeEmpty.
@@ -133,29 +133,27 @@ test01NewCashierWith
 		
 		 ! !
 
-!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:37:32'!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/7/2019 15:49:03'!
 test02CheckoutACartWith1ElementIsCorrect
 	
 	catalog add:'validBook'->100.
 	
 	cart add: 'validBook'.
 	
-	self assert: 100 equals: (cashier checkOut: cart) .	
+	self assert: 100 equals: (cashier checkOut: cart withCard: card) .	
 
 		
 		 ! !
 
-!CashierTest methodsFor: 'testing' stamp: 'LS 11/6/2019 16:36:57'!
+!CashierTest methodsFor: 'testing' stamp: 'LS 11/7/2019 15:49:26'!
 test03CheckoutACartWithSeveralElementGivesCorrectSubtotal
 
 	catalog add:'validBook'->100; add:'validBook2'->50.
-	
-	cashier := Cashier with: Array new.
-	
+		
 	cart add: 'validBook'.
 	cart add: 'validBook2'.
 	
-	self assert: 150 equals: (cashier checkOut: cart) .	
+	self assert: 150 equals: (cashier checkOut: cart withCard: card) .	
 
 		
 		 ! !
@@ -181,23 +179,25 @@ test04CannotCheckoutACartWithAnExpiredCreditCard
 		 ! !
 
 
-!CashierTest methodsFor: 'setUp/tearDown' stamp: 'LS 11/6/2019 16:41:03'!
+!CashierTest methodsFor: 'setUp/tearDown' stamp: 'LS 11/7/2019 15:51:40'!
 setUp
 
-	| aValidExpirationDate aCurrentDate |
+	| aValidExpirationDate aSalesBook |
 
-	aCurrentDate := GregorianMonthOfYear decemberOf: 2019.
 	aValidExpirationDate := GregorianMonthOfYear decemberOf: 2020.
-	
+	aSalesBook := OrderedCollection new.
+
+	currentDate := GregorianMonthOfYear decemberOf: 2019.	
+	merchantProcessorSimulator := MerchantProcessorSimulator onDate: currentDate.
 	catalog := Dictionary new.
-	cashier := Cashier with: OrderedCollection new onDate: aCurrentDate.
+	cashier := Cashier with: aSalesBook onDate: currentDate withMerchantProcessor: merchantProcessorSimulator.
 	cart := Cart acceptingItemsOf: catalog.
 	card := CreditCard withNumber: (10 raisedToInteger: 15) expirationDate: aValidExpirationDate owner: 'San Martin'.
 		
 		 ! !
 
 
-!classDefinition: #CreditCardTest category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #CreditCardTest category: #TusLibros!
 TestCase subclass: #CreditCardTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -247,7 +247,7 @@ self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate own
 			]! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #Cart category: #TusLibros!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -323,7 +323,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: 'Cart class' category: #TusLibros!
 Cart class
 	instanceVariableNames: ''!
 
@@ -333,46 +333,34 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #Cashier category: #TusLibros!
 Object subclass: #Cashier
-	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate'
+	instanceVariableNames: 'salesBook gregorianMonthOfYear currentDate merchantProcessor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cashier methodsFor: 'initialization' stamp: 'LS 11/6/2019 16:12:07'!
-initializeWith: aSalesBook
+!Cashier methodsFor: 'initialization' stamp: 'LS 11/7/2019 15:41:07'!
+initializeWith: aSalesBook onDate: aGregorianMonthOfYear withMerchantProcessor: aMerchantProcessor
 	
 	salesBook := aSalesBook.
-	! !
-
-!Cashier methodsFor: 'initialization' stamp: 'cmmmmm 11/4/2019 20:31:02'!
-initializeWith: aSalesBook onDate: aGregorianMonthOfYear 
-	
-	salesBook := aSalesBook.
-	currentDate := aGregorianMonthOfYear.! !
+	currentDate := aGregorianMonthOfYear.
+	merchantProcessor := aMerchantProcessor.! !
 
 
 !Cashier methodsFor: 'as yet unclassified' stamp: 'LS 10/31/2019 21:30:50'!
 cartCanNotBeEmpty
 	self shouldBeImplemented.! !
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 19:32:30'!
-checkOut: aCart 
-	
-	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
-	ifFalse: [ ^ aCart subtotal ]! !
-
-!Cashier methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:33:17'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LS 11/7/2019 15:55:43'!
 checkOut: aCart withCard: aCreditCard
 	
-	aCreditCard date < currentDate ifTrue: [self error: Cashier creditCardExpired.].
-	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.]
-	ifFalse: [ ^ aCart subtotal ]! !
+	aCart isEmpty ifTrue: [self error: Cashier cartCanNotBeEmpty.].
+	merchantProcessor post: aCreditCard withAmount: aCart subtotal.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: 'Cashier class' category: #TusLibros!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -380,15 +368,10 @@ Cashier class
 cartCanNotBeEmpty
 	^'cart can not be empty'! !
 
-!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 19:26:46'!
-with: aSalesBook 
-	
-	^self new initializeWith: aSalesBook ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'LS 11/7/2019 15:43:18'!
+with: aSalesBook onDate: aGregorianMonthOfYear withMerchantProcessor: aMerchantProcessor
 
-!Cashier class methodsFor: 'instance creation' stamp: 'cmmmmm 11/4/2019 20:30:01'!
-with: aSalesBook onDate: aGregorianMonthOfYear 
-
-	^self new initializeWith: aSalesBook onDate: aGregorianMonthOfYear  .! !
+	^self new initializeWith: aSalesBook onDate: aGregorianMonthOfYear withMerchantProcessor: aMerchantProcessor.! !
 
 
 !Cashier class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:34:06'!
@@ -396,7 +379,7 @@ creditCardExpired
 	^'credit card expired'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: #CreditCard category: #TusLibros!
 Object subclass: #CreditCard
 	instanceVariableNames: 'id expirationDate person'
 	classVariableNames: ''
@@ -425,7 +408,7 @@ date
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'LS 11/6/2019 17:18:43'!
+!classDefinition: 'CreditCard class' category: #TusLibros!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -443,3 +426,31 @@ invalidNumber
 !CreditCard class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/4/2019 20:12:01'!
 invalidOwner
 	^'InvalidOwner'.! !
+
+
+!classDefinition: #MerchantProcessorSimulator category: #TusLibros!
+Object subclass: #MerchantProcessorSimulator
+	instanceVariableNames: 'creditCard currentDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!MerchantProcessorSimulator methodsFor: 'initialization' stamp: 'LS 11/7/2019 15:53:16'!
+initializeOnDate: aGregorianMonthOfYear 
+	currentDate := aGregorianMonthOfYear.! !
+
+
+!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'LS 11/7/2019 15:59:01'!
+post: aCreditCard withAmount: anAmount
+
+	aCreditCard date < currentDate ifTrue: [self error: MerchantProcessorSimulator creditCardExpired.].! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'MerchantProcessorSimulator class' category: #TusLibros!
+MerchantProcessorSimulator class
+	instanceVariableNames: ''!
+
+!MerchantProcessorSimulator class methodsFor: 'initialization' stamp: 'LS 11/7/2019 15:52:36'!
+onDate: aGregorianMonthOfYear 
+	self new initializeOnDate: aGregorianMonthOfYear.! !
