@@ -1,4 +1,4 @@
-!classDefinition: #APIRestTest category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #APIRestTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 TestCase subclass: #APIRestTest
 	instanceVariableNames: 'theTestObjectsFactory validClientID validPassword userDatabase validCreditCard isbn apiRest cartId invalidClientID invalidPassword debitBehavior'
 	classVariableNames: ''
@@ -95,7 +95,7 @@ debit: anAmount from: aCreditCard
 	"^debitBehavior value: anAmount value: aCreditCard "! !
 
 
-!classDefinition: #CartTest category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -195,7 +195,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
 	classVariableNames: ''
@@ -343,7 +343,7 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
-!classDefinition: #CreditCardTest category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 TestCase subclass: #CreditCardTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -393,7 +393,7 @@ self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate own
 			]! !
 
 
-!classDefinition: #APIRest category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #APIRest category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #APIRest
 	instanceVariableNames: 'listOfClients userDatabase cartDatabase'
 	classVariableNames: ''
@@ -434,19 +434,18 @@ initializeWith: aUserDatabase
 	cartDatabase := Dictionary new! !
 
 
-!APIRest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:40:33'!
+!APIRest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 11:47:44'!
 checkOutCart: aCartID creditCardNumber: aCreditCardNumber creditCardDateOfExpiration: aCreditCardExpiringDate owner: aValidOwner
 	
-	| testObjectsFactory cashier salesBook |
+	| testObjectsFactory cashier |
 	testObjectsFactory := StoreTestObjectsFactory new.
-	salesBook := OrderedCollection new.
 	
 	cashier := Cashier 
 		toCheckout: (cartDatabase at: aCartID)
 		charging: testObjectsFactory notExpiredCreditCard
 		throught: APIRestTest new
 		on: testObjectsFactory today
-		registeringOn: salesBook.
+		registeringOn: testObjectsFactory salesBook.
 	cashier checkOut.
 	! !
 
@@ -458,7 +457,7 @@ listPurchases: aClientID password: aPassword
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'APIRest class' category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: 'APIRest class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 APIRest class
 	instanceVariableNames: ''!
 
@@ -481,7 +480,7 @@ with: aUserDatabase
 	^self new initializeWith: aUserDatabase ! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #Cart category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -560,7 +559,7 @@ listCart
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -570,7 +569,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -621,7 +620,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -661,7 +660,7 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expirationDate id owner'
 	classVariableNames: ''
@@ -710,7 +709,7 @@ owner
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -734,7 +733,7 @@ withNumber: anId expirationDate: anExpirationDate owner: aPerson
 	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
 
 
-!classDefinition: #Sale category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #Sale category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #Sale
 	instanceVariableNames: 'total'
 	classVariableNames: ''
@@ -754,7 +753,7 @@ initializeTotal: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -765,7 +764,7 @@ of: aTotal
 	^self new initializeTotal: aTotal ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'cmmmmm 11/15/2019 00:42:22'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'cmmmmm 11/18/2019 12:38:39'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
@@ -786,6 +785,11 @@ itemSellByTheStore
 itemSellByTheStorePrice
 	
 	^10! !
+
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'cmmmmm 11/18/2019 11:46:44'!
+salesBook
+
+	^OrderedCollection new! !
 
 
 !StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
