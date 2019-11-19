@@ -1,31 +1,11 @@
-!classDefinition: #APIRestTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #APIRestTest category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 TestCase subclass: #APIRestTest
 	instanceVariableNames: 'theTestObjectsFactory validClientID validPassword userDatabase validCreditCard isbn apiRest cartId invalidClientID invalidPassword debitBehavior'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:44:16'!
-setUp
-
-	theTestObjectsFactory := StoreTestObjectsFactory new.
-	debitBehavior := [ :anAmount :aCreditCard | ].
-	
-	validClientID := theTestObjectsFactory validClientID.
-	validPassword := theTestObjectsFactory validPassword.
-	invalidPassword := theTestObjectsFactory inValidPassword.
-	invalidClientID := theTestObjectsFactory invalidClientID .
-
-	userDatabase := theTestObjectsFactory userDatabase.
-	validCreditCard := theTestObjectsFactory notExpiredCreditCard.
-	isbn := theTestObjectsFactory itemSellByTheStore.
-	
-	apiRest := APIRest with: userDatabase.
-	cartId := apiRest createCart: validClientID withPassword: validPassword.
-			
-	! !
-
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:29:54'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:29:54'!
 test01LoginWithInvalidClientID
 	
 	self 
@@ -38,7 +18,7 @@ test01LoginWithInvalidClientID
 	
 	! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:31:38'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:31:38'!
 test02LoginWithValidIDInvalidPassword
 	
 	self 
@@ -51,12 +31,12 @@ test02LoginWithValidIDInvalidPassword
 	
 	! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:34:09'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:34:09'!
 test03ListOfNewCartOnValidLoginIsEmpty
 
 	self assert: (apiRest listCart: cartId) isEmpty.! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:35:10'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:35:10'!
 test04AddABookToAnEmptyNewCartAndListItShouldShowTheBook
 
 	
@@ -67,7 +47,7 @@ test04AddABookToAnEmptyNewCartAndListItShouldShowTheBook
 	
 	self assert: (apiRest listCart: cartId) includes: theTestObjectsFactory itemSellByTheStore.! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:35:46'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:35:46'!
 test05checkOutOfNewCartRaiseErrorAndListPurchasesIsEmpty
 	
 	self 
@@ -78,7 +58,7 @@ test05checkOutOfNewCartRaiseErrorAndListPurchasesIsEmpty
 			].
 	self assert: (apiRest listPurchases: validClientID password: validPassword) isEmpty.! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/14/2019 17:36:59'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/14/2019 17:36:59'!
 test06checkOutOfACartWithABookIsInListPurchases
 
 	apiRest addToCart: cartId book: isbn quantity: 1.
@@ -88,7 +68,7 @@ test06checkOutOfACartWithABookIsInListPurchases
 		
 	self assert: (apiRest listPurchases: validClientID password: validPassword) includes: isbn.! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 16:36:23'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/18/2019 16:36:23'!
 test07cannotListPurchasesOfInvalidClient
 	
 	self 
@@ -98,7 +78,7 @@ test07cannotListPurchasesOfInvalidClient
 			self assert: anError messageText = APIRest invalidClientError .
 			]! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 16:38:01'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/18/2019 16:38:01'!
 test08cannotListPurchasesOfvalidClientWithInvalidPassword
 	
 	self 
@@ -108,7 +88,7 @@ test08cannotListPurchasesOfvalidClientWithInvalidPassword
 			self assert: anError messageText = APIRest invalidPasswordError .
 			]! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 16:52:44'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/18/2019 16:52:44'!
 test09checkOutOfInvalidCartIdRaiseError
 	
 	self 
@@ -119,7 +99,7 @@ test09checkOutOfInvalidCartIdRaiseError
 			].
 ! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:05:41'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/18/2019 17:05:41'!
 test10CanNotAddToAnUnusedCart
 	
 	apiRest clock incrementMinutes: 30.
@@ -132,7 +112,7 @@ test10CanNotAddToAnUnusedCart
 			]
 ! !
 
-!APIRestTest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:05:59'!
+!APIRestTest methodsFor: 'tests' stamp: 'cmmmmm 11/18/2019 17:05:59'!
 test11CanAddAfterAnAccumulatedOfMoreThan30MinutesButCanNotListWhenIsUnused
 	
 	apiRest clock incrementMinutes: 15.
@@ -155,8 +135,29 @@ debit: anAmount from: aCreditCard
 
 	"^debitBehavior value: anAmount value: aCreditCard "! !
 
+
+!APIRestTest methodsFor: 'setUp/tearDown' stamp: 'cmmmmm 11/14/2019 17:44:16'!
+setUp
+
+	theTestObjectsFactory := StoreTestObjectsFactory new.
+	debitBehavior := [ :anAmount :aCreditCard | ].
+	
+	validClientID := theTestObjectsFactory validClientID.
+	validPassword := theTestObjectsFactory validPassword.
+	invalidPassword := theTestObjectsFactory inValidPassword.
+	invalidClientID := theTestObjectsFactory invalidClientID .
+
+	userDatabase := theTestObjectsFactory userDatabase.
+	validCreditCard := theTestObjectsFactory notExpiredCreditCard.
+	isbn := theTestObjectsFactory itemSellByTheStore.
+	
+	apiRest := APIRest with: userDatabase.
+	cartId := apiRest createCart: validClientID withPassword: validPassword.
+			
+	! !
+
 
-!classDefinition: #CartTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -256,7 +257,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
 	classVariableNames: ''
@@ -404,7 +405,7 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
-!classDefinition: #CreditCardTest category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 TestCase subclass: #CreditCardTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -454,7 +455,7 @@ self should: [  CreditCard withNumber: anId expirationDate: anExpirationDate own
 			]! !
 
 
-!classDefinition: #APIRest category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #APIRest category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #APIRest
 	instanceVariableNames: 'listOfClients userDatabase cartDatabase salesBook clock lastTime'
 	classVariableNames: ''
@@ -511,11 +512,29 @@ initializeWith: aUserDatabase
 	lastTime := clock now.! !
 
 
-!APIRest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:08:12'!
+!APIRest methodsFor: 'assertions' stamp: 'cmmmmm 11/18/2019 17:08:12'!
 assertCartIsNotUnused
 	(clock now - lastTime < 30) ifFalse: [^self error: APIRest unusedCartError]! !
 
-!APIRest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 16:54:36'!
+
+!APIRest methodsFor: 'accessing' stamp: 'cmmmmm 11/18/2019 17:08:29'!
+clock
+	^clock! !
+
+!APIRest methodsFor: 'accessing' stamp: 'cmmmmm 11/18/2019 16:59:52'!
+listPurchases: aClientID password: aPassword
+	| salesByClient booksPurchased |
+	
+	self checkId: aClientID password:aPassword.
+	
+	salesByClient _ salesBook select: [:aSale | aSale owner = aClientID].
+	booksPurchased := Bag new.
+	salesByClient do: [:aSale | booksPurchased addAll: aSale listBooks ].
+	^booksPurchased 
+! !
+
+
+!APIRest methodsFor: 'cashier management' stamp: 'cmmmmm 11/18/2019 16:54:36'!
 checkOutCart: aCartID creditCardNumber: aCreditCardNumber creditCardDateOfExpiration: aCreditCardExpiringDate owner: aValidOwner
 	
 	| testObjectsFactory cashier |
@@ -530,26 +549,9 @@ checkOutCart: aCartID creditCardNumber: aCreditCardNumber creditCardDateOfExpira
 	cashier checkOut.
 	! !
 
-!APIRest methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:08:29'!
-clock
-	^clock! !
-
-
-!APIRest methodsFor: 'accessing' stamp: 'cmmmmm 11/18/2019 16:59:52'!
-listPurchases: aClientID password: aPassword
-	| salesByClient booksPurchased |
-	
-	self checkId: aClientID password:aPassword.
-	
-	salesByClient _ salesBook select: [:aSale | aSale owner = aClientID].
-	booksPurchased := Bag new.
-	salesByClient do: [:aSale | booksPurchased addAll: aSale listBooks ].
-	^booksPurchased 
-! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'APIRest class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: 'APIRest class' category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 APIRest class
 	instanceVariableNames: ''!
 
@@ -580,7 +582,7 @@ with: aUserDatabase
 	^self new initializeWith: aUserDatabase ! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #Cart category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -659,7 +661,7 @@ listCart
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -669,7 +671,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total owner'
 	classVariableNames: ''
@@ -721,7 +723,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -761,27 +763,29 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #Clock category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #Clock category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #Clock
 	instanceVariableNames: 'minute'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Clock methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:11:39'!
+!Clock methodsFor: 'operations' stamp: 'cmmmmm 11/18/2019 17:11:39'!
 incrementMinutes: aQuantity 
 	minute  := minute + aQuantity.! !
 
-!Clock methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:11:45'!
+
+!Clock methodsFor: 'initialization' stamp: 'cmmmmm 11/18/2019 17:11:45'!
 initialize
 	minute := 0.! !
 
-!Clock methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/18/2019 17:12:01'!
+
+!Clock methodsFor: 'accessing' stamp: 'cmmmmm 11/18/2019 17:12:01'!
 now
 	^minute! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expirationDate id owner'
 	classVariableNames: ''
@@ -830,7 +834,7 @@ owner
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -854,7 +858,7 @@ withNumber: anId expirationDate: anExpirationDate owner: aPerson
 	^self new initializeWithNumber: anId expirationDate: anExpirationDate owner: aPerson ! !
 
 
-!classDefinition: #Sale category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #Sale category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #Sale
 	instanceVariableNames: 'total owner bookCollection'
 	classVariableNames: ''
@@ -886,7 +890,7 @@ initializeTotal: aTotal of: aBookCollection ownedBy: anOwner
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -897,7 +901,7 @@ of: aBookCollection for: aTotal ownedBy: anOwner
 ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'cmmmmm 11/18/2019 17:14:16'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'LS 11/18/2019 23:37:32'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
