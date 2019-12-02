@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: #CartTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -98,7 +98,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: #CashierTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
 	classVariableNames: ''
@@ -252,7 +252,7 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
-!classDefinition: #TusLibrosSystemFacadeTest category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: #TusLibrosSystemFacadeTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 TestCase subclass: #TusLibrosSystemFacadeTest
 	instanceVariableNames: 'testObjectsFactory clock systemFacade'
 	classVariableNames: ''
@@ -609,8 +609,23 @@ revertTime: aDuration
 
 	clock revertTime: aDuration ! !
 
+
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'cmmmmm 12/1/2019 16:04:18'!
+test20CanEliminateItemFromCartWithItem
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+
+	systemFacade remove: 1 of: self validBook toCartIdentifiedAs: cartId.
+	
+	self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty
+! !
+
 
-!classDefinition: #ManualClock category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: #ManualClock category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 Clock subclass: #ManualClock
 	instanceVariableNames: 'now'
 	classVariableNames: ''
@@ -646,7 +661,7 @@ initializeNow: aTime
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'ManualClock class' category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: 'ManualClock class' category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 ManualClock class
 	instanceVariableNames: ''!
 
@@ -656,7 +671,7 @@ now: aTime
 	^self new initializeNow: aTime ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #'TusLibros-Tests' stamp: 'cmmmmm 11/21/2019 20:48:06'!
+!classDefinition: #StoreTestObjectsFactory category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
