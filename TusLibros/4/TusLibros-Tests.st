@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: #CartTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -98,7 +98,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: #CashierTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
 	classVariableNames: ''
@@ -252,7 +252,7 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
-!classDefinition: #TusLibrosSystemFacadeTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: #TusLibrosSystemFacadeTest category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 TestCase subclass: #TusLibrosSystemFacadeTest
 	instanceVariableNames: 'testObjectsFactory clock systemFacade'
 	classVariableNames: ''
@@ -624,8 +624,34 @@ test20CanEliminateItemFromCartWithItem
 	self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty
 ! !
 
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'cmmmmm 12/2/2019 00:30:15'!
+test21CanNotRemoveItemFromNotCreatedCart
+
+	self
+		should: [systemFacade remove: 1 of: self validBook toCartIdentifiedAs: self invalidCartId]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidCartIdErrorDescription ]
+		
+! !
+
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'cmmmmm 12/3/2019 20:09:03'!
+test22CanNotRemoveItemNotInCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	self
+		should: [systemFacade remove: 1 of: self validBook toCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemNotInCartMessage ]
+		
+! !
+
 
-!classDefinition: #ManualClock category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: #ManualClock category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 Clock subclass: #ManualClock
 	instanceVariableNames: 'now'
 	classVariableNames: ''
@@ -661,7 +687,7 @@ initializeNow: aTime
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'ManualClock class' category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: 'ManualClock class' category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 ManualClock class
 	instanceVariableNames: ''!
 
@@ -671,7 +697,7 @@ now: aTime
 	^self new initializeNow: aTime ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #'TusLibros-Tests' stamp: 'cmmmmm 12/2/2019 00:07:10'!
+!classDefinition: #StoreTestObjectsFactory category: #'TusLibros-Tests' stamp: 'cmmmmm 12/4/2019 19:26:33'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''

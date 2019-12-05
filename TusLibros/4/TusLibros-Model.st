@@ -1,22 +1,24 @@
-!classDefinition: #Cart category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #Cart category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
-add: anItem
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/21/2013 23:59'!
+invalidItemErrorMessage
 
-	^ self add: 1 of: anItem ! !
+	^self class invalidItemErrorMessage ! !
 
-!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/22/2013 12:31'!
-add: aQuantity of: anItem
+!Cart methodsFor: 'error messages' stamp: 'cmmmmm 12/3/2019 20:07:22'!
+invalidItemNotInCartMessage
 
-	self assertIsValidQuantity: aQuantity.
-	self assertIsValidItem: anItem.
+	^self class invalidItemNotInCartErrorMessage ! !
 
-	items add: anItem withOccurrences: aQuantity ! !
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/22/2013 00:00'!
+invalidQuantityErrorMessage
+
+	^self class invalidQuantityErrorMessage ! !
 
 
 !Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/22/2013 14:17'!
@@ -51,15 +53,11 @@ occurrencesOf: anItem
 	^items occurrencesOf: anItem  ! !
 
 
-!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/21/2013 23:59'!
-invalidItemErrorMessage
+!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/22/2013 12:29'!
+initializeAcceptingItemsOf: aCatalog
 
-	^self class invalidItemErrorMessage ! !
-
-!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/22/2013 00:00'!
-invalidQuantityErrorMessage
-
-	^self class invalidQuantityErrorMessage ! !
+	catalog := aCatalog.
+	items := Bag new.! !
 
 
 !Cart methodsFor: 'error signal' stamp: 'HernanWilkinson 6/22/2013 14:18'!
@@ -72,12 +70,10 @@ signalInvalidQuantity
 
 	self error: self invalidQuantityErrorMessage ! !
 
+!Cart methodsFor: 'error signal' stamp: 'cmmmmm 12/3/2019 20:06:45'!
+signalItemNotInCart
 
-!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/22/2013 12:29'!
-initializeAcceptingItemsOf: aCatalog
-
-	catalog := aCatalog.
-	items := Bag new.! !
+	self error: self invalidItemNotInCartMessage! !
 
 
 !Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
@@ -91,17 +87,36 @@ isEmpty
 	^items isEmpty ! !
 
 
-!Cart methodsFor: 'removing' stamp: 'cmmmmm 12/1/2019 16:15:48'!
-remove: aQuantity of: anItem 
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+add: anItem
+
+	^ self add: 1 of: anItem ! !
+
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/22/2013 12:31'!
+add: aQuantity of: anItem
 
 	self assertIsValidQuantity: aQuantity.
 	self assertIsValidItem: anItem.
+
+	items add: anItem withOccurrences: aQuantity ! !
+
+
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 12/3/2019 20:10:49'!
+assertIsItemInCart: anItem
+
+	(items includes: anItem) ifFalse: [ self signalItemNotInCart ]! !
+
+!Cart methodsFor: 'as yet unclassified' stamp: 'cmmmmm 12/3/2019 20:04:31'!
+remove: aQuantity of: anItem 
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsItemInCart: anItem.
 
 	aQuantity timesRepeat: [ items remove: anItem ifAbsent: [self signalInvalidQuantity]].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'Cart class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -109,6 +124,11 @@ Cart class
 invalidItemErrorMessage
 
 	^'Item is not in catalog'! !
+
+!Cart class methodsFor: 'error messages' stamp: 'cmmmmm 12/3/2019 20:00:36'!
+invalidItemNotInCartErrorMessage
+
+	^'Item is not in Cart'! !
 
 !Cart class methodsFor: 'error messages' stamp: 'HernanWilkinson 6/22/2013 00:00'!
 invalidQuantityErrorMessage
@@ -122,7 +142,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #CartSession category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #CartSession category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #CartSession
 	instanceVariableNames: 'owner cart lastUsedTime systemFacade'
 	classVariableNames: ''
@@ -204,7 +224,7 @@ removeFromCart: anAmount of: aBook
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CartSession class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'CartSession class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 CartSession class
 	instanceVariableNames: ''!
 
@@ -214,7 +234,7 @@ ownedBy: aCustomer with: aCart on: aSystemFacade
 	^self new initializeOwnedBy: aCustomer with: aCart on: aSystemFacade! !
 
 
-!classDefinition: #Cashier category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #Cashier category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard owner ticket'
 	classVariableNames: ''
@@ -282,7 +302,7 @@ initializeToCheckout: aCart ownedBy: anOwner charging: aCreditCard throught: aMe
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'Cashier class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -333,7 +353,7 @@ signalCartCanNotBeEmpty
 	self error: self cartCanNotBeEmptyErrorMessage! !
 
 
-!classDefinition: #Clock category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #Clock category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #Clock
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -351,7 +371,7 @@ today
 	self subclassResponsibility ! !
 
 
-!classDefinition: #CreditCard category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #CreditCard category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -371,7 +391,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'CreditCard class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -381,7 +401,7 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #LineItem category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #LineItem category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #LineItem
 	instanceVariableNames: 'item quantity total'
 	classVariableNames: ''
@@ -410,7 +430,7 @@ initializeOf: anItem quantity: aQuantity total: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'LineItem class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'LineItem class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 LineItem class
 	instanceVariableNames: ''!
 
@@ -422,7 +442,7 @@ of: anItem quantity: aQuantity total: aTotal
 ! !
 
 
-!classDefinition: #MerchantProcessor category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #MerchantProcessor category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #MerchantProcessor
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -440,7 +460,7 @@ debit: anAmount from: aCreditCard
 	self subclassResponsibility ! !
 
 
-!classDefinition: #RestApiExternaXXXXXXXXXX category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #RestApiExternaXXXXXXXXXX category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #RestApiExternaXXXXXXXXXX
 	instanceVariableNames: 'webServer port tusLibrosSystemFacade hiList'
 	classVariableNames: ''
@@ -527,7 +547,7 @@ port
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'RestApiExternaXXXXXXXXXX class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'RestApiExternaXXXXXXXXXX class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 RestApiExternaXXXXXXXXXX class
 	instanceVariableNames: ''!
 
@@ -537,7 +557,7 @@ listeningOn: aPort
 	self new initializeWith: aPort.! !
 
 
-!classDefinition: #Sale category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #Sale category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #Sale
 	instanceVariableNames: 'customer ticket'
 	classVariableNames: ''
@@ -570,7 +590,7 @@ lineItemsDo: aBlock
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'Sale class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -580,7 +600,7 @@ doneBy: aCustomer certifiedWith: aTicket
 	^self new initializeDoneBy: aCustomer certifiedWith: aTicket ! !
 
 
-!classDefinition: #Ticket category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #Ticket category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #Ticket
 	instanceVariableNames: 'lineItems'
 	classVariableNames: ''
@@ -606,7 +626,7 @@ lineItemsDo: aBlock
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Ticket class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'Ticket class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Ticket class
 	instanceVariableNames: ''!
 
@@ -616,7 +636,7 @@ of: aCollectionOfLineItems
 	^self new initializeOf: aCollectionOfLineItems ! !
 
 
-!classDefinition: #TusLibrosSystemFacade category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: #TusLibrosSystemFacade category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 Object subclass: #TusLibrosSystemFacade
 	instanceVariableNames: 'validUsersAndPasswords catalog lastId merchantProcessor salesBook clock cartSessions'
 	classVariableNames: ''
@@ -642,6 +662,11 @@ invalidCartIdErrorDescription
 invalidItemErrorMessage
 
 	^Cart invalidItemErrorMessage ! !
+
+!TusLibrosSystemFacade methodsFor: 'error messages' stamp: 'cmmmmm 12/3/2019 20:09:41'!
+invalidItemNotInCartMessage
+
+	^Cart invalidItemNotInCartErrorMessage ! !
 
 !TusLibrosSystemFacade methodsFor: 'error messages' stamp: 'HernanWilkinson 6/21/2013 23:03'!
 invalidUserAndOrPasswordErrorDescription
@@ -815,7 +840,7 @@ remove: anAmount of: aBook toCartIdentifiedAs: aCartId
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TusLibrosSystemFacade class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/2/2019 00:07:05'!
+!classDefinition: 'TusLibrosSystemFacade class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
 TusLibrosSystemFacade class
 	instanceVariableNames: ''!
 
