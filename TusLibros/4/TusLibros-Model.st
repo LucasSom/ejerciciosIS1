@@ -460,61 +460,52 @@ debit: anAmount from: aCreditCard
 	self subclassResponsibility ! !
 
 
-!classDefinition: #RestApiExternaXXXXXXXXXX category: #'TusLibros-Model'!
-Object subclass: #RestApiExternaXXXXXXXXXX
-	instanceVariableNames: 'webServer port tusLibrosSystemFacade hiList'
+!classDefinition: #RestApiExterna category: #'TusLibros-Model'!
+Object subclass: #RestApiExterna
+	instanceVariableNames: 'webServer port tusLibrosSystemFacade hiList cartId'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'initialization' stamp: 'cmmmmm 11/21/2019 19:45:46'!
-hiList
-	
-	^OrderedCollection with: 'Hi!!' with: 'Hodor!!' with: 'I am Groot!!' with: 'My name is Homer Simp... Doh!!' with: 'I am inevitable...' with: 'Because Im Baaaatman!!'.
-	
-	! !
-
-!RestApiExternaXXXXXXXXXX methodsFor: 'initialization' stamp: 'LS 12/5/2019 16:52:29'!
+!RestApiExterna methodsFor: 'initialization' stamp: 'LS 12/5/2019 20:06:35'!
 initializeWith: aPortNumber
 	
-	| chanchada testObjectsFactory |
-	
-	hiList := self hiList.
+	| testObjectsFactory |
 		
 	tusLibrosSystemFacade := TusLibrosSystemFacade new.
-	chanchada := TusLibrosSystemFacadeTest new.
-	testObjectsFactory := StoreTestObjectsFactory new.
+	testObjectsFactory := SystemFacadeTestObjectsFactory new.
 	
 	tusLibrosSystemFacade := TusLibrosSystemFacade
-		authenticatingWith: chanchada validUsersAndPasswords
+		authenticatingWith: testObjectsFactory validUsersAndPasswords
 		acceptingItemsOf: testObjectsFactory defaultCatalog
-		registeringOn: chanchada createSalesBook
-		debitingThrought: chanchada merchantProcessor
+		registeringOn: testObjectsFactory createSalesBook
+		debitingThrought: testObjectsFactory merchantProcessor
 		measuringTimeWith: (ManualClock now: DateAndTime today).
-
-
 	
 	port := aPortNumber.
 	
 	webServer := WebServer new listenOn: aPortNumber.
 	
-	self addServiceSayHi.
 	self addServiceCreateCart.
 	self addServiceAddToCart.
-	self addServiceListCart.! !
+	self addServiceListCart.
+	self addServiceCheckOutCart.
+	self addServiceListPurchases.! !
 
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:30'!
+!RestApiExterna methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:30'!
 destroy
 	
 	webServer ifNotNil:[webServer destroy].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:44:43'!
-sayRandomHi
+!RestApiExterna methodsFor: 'enabling services' stamp: 'LS 12/5/2019 20:10:46'!
+sendResponse: response to: request
 	
-	^hiList at: (hiList size atRandom).! !
+	request send200Response: (response asUtf8) 
+			 contentType: 'application/json; charset=utf-8' do: [:resp | 
+				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:14'!
+!RestApiExterna methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:14'!
 stopListening
 	
 	webServer stopListener.
@@ -522,107 +513,132 @@ stopListening
 	^'Stopped listening from port: ', self port asString! !
 
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'accessing' stamp: 'cmmmmm 11/21/2019 19:57:23'!
+!RestApiExterna methodsFor: 'accessing' stamp: 'cmmmmm 11/21/2019 19:57:23'!
 port
 	^port! !
 
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:50:58'!
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 16:50:58'!
 addServiceAddToCart
 	
 	webServer addService: '/addToCart' action: [:request | self addToCart: request ].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:51:32'!
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 18:46:21'!
+addServiceCheckOutCart
+	
+	webServer addService: '/checkOutCart' action: [:request | self checkOutCart: request ].! !
+
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 16:51:32'!
 addServiceCreateCart
 	
 	webServer addService: '/createCart' action: [:request | self createCart: request].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:52:05'!
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 16:52:05'!
 addServiceListCart
 	
 	webServer addService: '/listCart' action: [:request | self listCart: request ].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:51:18'!
-addServiceSayHi
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 19:35:38'!
+addServiceListPurchases
 	
-	webServer addService: '/sayHi' action:[:request | self sayHi: request ].! !
+	webServer addService: '/listPurchases' action: [:request | self listPurchases: request ].! !
 
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:50:58'!
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:15:55'!
 addToCart: request
 
-	| id bookIsbn bookQuantity |
+	| id book bookQuantity |
 	
 	[id := (request fields at:'id').
-	bookIsbn := (request fields at:'bookIsbn').
+	book := (request fields at:'book').
 	bookQuantity := (request fields at:'bookQuantity').
 	
-	tusLibrosSystemFacade add: bookQuantity of: bookIsbn toCartIdentifiedAs: id.
-	"request send200Response: (substringsAsJson)" 
+	tusLibrosSystemFacade add: bookQuantity of: book toCartIdentifiedAs: id.
+	self sendResponse: '0|OK' to: request.
 	
-	request send200Response: ('0|OK' asUtf8) 
-			 contentType: 'application/json; charset=utf-8' do: [:resp | 
-				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
 	 ] 
 	on: Error 
 	do: [ :anError |
 		request send404Response: (anError messageText) ].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:51:32'!
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:15:11'!
+checkOutCart: request
+
+	| id cardNumber expirationDate cardOwner response |
+	
+	[ 
+	id := (request fields at:'cartId').
+	cardNumber := (request fields at:'ccn').
+	expirationDate := (request fields at:'cced').
+	cardOwner := (request fields at:'cco').
+		
+	response := tusLibrosSystemFacade checkOutCartIdentifiedAs: id withCreditCardNumbered: cardNumber ownedBy: cardOwner expiringOn: expirationDate.
+	
+	self sendResponse: ('0|',(response asString)) to: request.
+	
+	]on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
+
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:14:24'!
 createCart: request
 
-	| user password id |
+	| user password |
 	
 	[
 	user := (request fields at:'user').
 	password := (request fields at:'password').
 	
-	id := tusLibrosSystemFacade createCartFor: user authenticatedWith: password.
-	"request send200Response: (substringsAsJson)" 
+	cartId := tusLibrosSystemFacade createCartFor: user authenticatedWith: password.
 	
-	request send200Response: (('0|',(id asString) ) asUtf8) 
-			 contentType: 'application/json; charset=utf-8' do: [:resp | 
-				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	self sendResponse: ('0|',(cartId asString) ) to: request.
 	]on: Error 
 	do: [ :anError |
 		request send404Response: (anError messageText) ].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:56:17'!
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:12:03'!
 listCart: request
 
-	| cartId list response |
+	| id list response |
 	
 	[
-	cartId := (request fields at:'cartId').
+	id := (request fields at:'cartId').
 	
-	list := tusLibrosSystemFacade listCartIdentifiedAs: cartId.
-	"request send200Response: (substringsAsJson)" 
-	
+	list := tusLibrosSystemFacade listCartIdentifiedAs: id.
 	response := '0'.
-	list do: [:item | response := ('|',response,item)].
+	list do: [:item | response := (response,'|',item)].
 	
-	request send200Response: (response asUtf8) 
-			 contentType: 'application/json; charset=utf-8' do: [:resp | 
-				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	self sendResponse: response to: request.
+	
 	]on: Error 
 	do: [ :anError |
 		request send404Response: (anError messageText) ].! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:51:18'!
-sayHi: request	
-		
-	request send200Response: (self sayRandomHi asUtf8) 
-			 contentType: 'application/json; charset=utf-8' do:
-			[:resp | 
-			resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]! !
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:11:40'!
+listPurchases: request
+
+	| clientId password response sales |
+	
+	[clientId := (request fields at:'clientId').
+	password := (request fields at:'password').
+	
+	sales := tusLibrosSystemFacade listPurchasesOf: clientId authenticatingWith: password.	
+	response := '0'.
+	sales keysDo: [:aPurchase | response := ('|',(aPurchase asString),'|',((sales at: aPurchase ifAbsent: []) asString) )].
+	
+	self sendResponse: response to: request.
+	
+	]on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'RestApiExternaXXXXXXXXXX class' category: #'TusLibros-Model'!
-RestApiExternaXXXXXXXXXX class
+!classDefinition: 'RestApiExterna class' category: #'TusLibros-Model'!
+RestApiExterna class
 	instanceVariableNames: ''!
 
-!RestApiExternaXXXXXXXXXX class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/21/2019 19:37:04'!
+!RestApiExterna class methodsFor: 'as yet unclassified' stamp: 'cmmmmm 11/21/2019 19:37:04'!
 listeningOn: aPort
 	
 	self new initializeWith: aPort.! !
@@ -678,17 +694,61 @@ Object subclass: #SystemFacadeTestObjectsFactory
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:20:08'!
-createSalesBook! !
+!SystemFacadeTestObjectsFactory methodsFor: 'user' stamp: 'LS 12/5/2019 17:53:37'!
+validUser
 
-!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:19:51'!
-defaultCatalog! !
+	^'validUser'! !
 
-!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:20:21'!
-merchantProcessor! !
+!SystemFacadeTestObjectsFactory methodsFor: 'user' stamp: 'LS 12/5/2019 17:54:01'!
+validUserPassword
 
-!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:15:57'!
-validUsersAndPasswords! !
+	^'validUserPassword'! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'user' stamp: 'LS 12/5/2019 17:51:25'!
+validUsersAndPasswords
+
+	^Dictionary new
+		at: self validUser put: self validUserPassword;
+		yourself! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'merchant processor' stamp: 'LS 12/5/2019 18:06:36'!
+merchantProcessor
+	^self! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'sales book' stamp: 'LS 12/5/2019 18:05:33'!
+createSalesBook
+	^OrderedCollection new.! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'catalog' stamp: 'LS 12/5/2019 18:04:33'!
+anotherItemSellByTheStore
+
+	^'anotherValidBook'! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'catalog' stamp: 'LS 12/5/2019 18:04:44'!
+anotherItemSellByTheStorePrice
+
+	^15! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'catalog' stamp: 'LS 12/5/2019 18:01:49'!
+defaultCatalog
+
+	^ Dictionary new
+		at: self itemSellByTheStore put: self itemSellByTheStorePrice;
+		at: self anotherItemSellByTheStore put: self anotherItemSellByTheStorePrice;
+		yourself.! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'catalog' stamp: 'LS 12/5/2019 18:02:10'!
+itemSellByTheStore
+
+	^ 'validBook'! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'catalog' stamp: 'LS 12/5/2019 18:02:39'!
+itemSellByTheStorePrice
+
+	^10! !
 
 
 !classDefinition: #Ticket category: #'TusLibros-Model'!
