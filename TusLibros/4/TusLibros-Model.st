@@ -1,4 +1,4 @@
-!classDefinition: #Cart category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #Cart category: #'TusLibros-Model'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -116,7 +116,7 @@ remove: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'Cart class' category: #'TusLibros-Model'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -142,7 +142,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #CartSession category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #CartSession category: #'TusLibros-Model'!
 Object subclass: #CartSession
 	instanceVariableNames: 'owner cart lastUsedTime systemFacade'
 	classVariableNames: ''
@@ -224,7 +224,7 @@ removeFromCart: anAmount of: aBook
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CartSession class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'CartSession class' category: #'TusLibros-Model'!
 CartSession class
 	instanceVariableNames: ''!
 
@@ -234,7 +234,7 @@ ownedBy: aCustomer with: aCart on: aSystemFacade
 	^self new initializeOwnedBy: aCustomer with: aCart on: aSystemFacade! !
 
 
-!classDefinition: #Cashier category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #Cashier category: #'TusLibros-Model'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard owner ticket'
 	classVariableNames: ''
@@ -302,7 +302,7 @@ initializeToCheckout: aCart ownedBy: anOwner charging: aCreditCard throught: aMe
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'Cashier class' category: #'TusLibros-Model'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -353,7 +353,7 @@ signalCartCanNotBeEmpty
 	self error: self cartCanNotBeEmptyErrorMessage! !
 
 
-!classDefinition: #Clock category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #Clock category: #'TusLibros-Model'!
 Object subclass: #Clock
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -371,7 +371,7 @@ today
 	self subclassResponsibility ! !
 
 
-!classDefinition: #CreditCard category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #CreditCard category: #'TusLibros-Model'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -391,7 +391,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'CreditCard class' category: #'TusLibros-Model'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -401,7 +401,7 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #LineItem category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #LineItem category: #'TusLibros-Model'!
 Object subclass: #LineItem
 	instanceVariableNames: 'item quantity total'
 	classVariableNames: ''
@@ -430,7 +430,7 @@ initializeOf: anItem quantity: aQuantity total: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'LineItem class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'LineItem class' category: #'TusLibros-Model'!
 LineItem class
 	instanceVariableNames: ''!
 
@@ -442,7 +442,7 @@ of: anItem quantity: aQuantity total: aTotal
 ! !
 
 
-!classDefinition: #MerchantProcessor category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #MerchantProcessor category: #'TusLibros-Model'!
 Object subclass: #MerchantProcessor
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -460,7 +460,7 @@ debit: anAmount from: aCreditCard
 	self subclassResponsibility ! !
 
 
-!classDefinition: #RestApiExternaXXXXXXXXXX category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #RestApiExternaXXXXXXXXXX category: #'TusLibros-Model'!
 Object subclass: #RestApiExternaXXXXXXXXXX
 	instanceVariableNames: 'webServer port tusLibrosSystemFacade hiList'
 	classVariableNames: ''
@@ -474,7 +474,7 @@ hiList
 	
 	! !
 
-!RestApiExternaXXXXXXXXXX methodsFor: 'initialization' stamp: 'cmmmmm 11/21/2019 20:55:27'!
+!RestApiExternaXXXXXXXXXX methodsFor: 'initialization' stamp: 'LS 12/5/2019 16:52:29'!
 initializeWith: aPortNumber
 	
 	| chanchada testObjectsFactory |
@@ -498,29 +498,10 @@ initializeWith: aPortNumber
 	
 	webServer := WebServer new listenOn: aPortNumber.
 	
-	webServer addService: '/sayHi' action:[:request |	
-		
-		request send200Response: (self sayRandomHi asUtf8) 
-				 contentType: 'application/json; charset=utf-8' do: [:resp | 
-					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
-		].
-	
-	webServer addService: '/createCart' action:[:request | | user password id |
-	
-	[user := (request fields at:'user').
-	password := (request fields at:'password').
-	
-	id := tusLibrosSystemFacade createCartFor: user authenticatedWith: password.
-	"request send200Response: (substringsAsJson)" 
-	
-	request send200Response: (('0|',(id asString) ) asUtf8) 
-			 contentType: 'application/json; charset=utf-8' do: [:resp | 
-				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
-	 ] 
-	on: Error 
-	do: [ :anError |
-		request send404Response: (anError messageText) ]].
-	! !
+	self addServiceSayHi.
+	self addServiceCreateCart.
+	self addServiceAddToCart.
+	self addServiceListCart.! !
 
 
 !RestApiExternaXXXXXXXXXX methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:30'!
@@ -545,9 +526,99 @@ stopListening
 port
 	^port! !
 
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:50:58'!
+addServiceAddToCart
+	
+	webServer addService: '/addToCart' action: [:request | self addToCart: request ].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:51:32'!
+addServiceCreateCart
+	
+	webServer addService: '/createCart' action: [:request | self createCart: request].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:52:05'!
+addServiceListCart
+	
+	webServer addService: '/listCart' action: [:request | self listCart: request ].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'add services' stamp: 'LS 12/5/2019 16:51:18'!
+addServiceSayHi
+	
+	webServer addService: '/sayHi' action:[:request | self sayHi: request ].! !
+
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:50:58'!
+addToCart: request
+
+	| id bookIsbn bookQuantity |
+	
+	[id := (request fields at:'id').
+	bookIsbn := (request fields at:'bookIsbn').
+	bookQuantity := (request fields at:'bookQuantity').
+	
+	tusLibrosSystemFacade add: bookQuantity of: bookIsbn toCartIdentifiedAs: id.
+	"request send200Response: (substringsAsJson)" 
+	
+	request send200Response: ('0|OK' asUtf8) 
+			 contentType: 'application/json; charset=utf-8' do: [:resp | 
+				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	 ] 
+	on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:51:32'!
+createCart: request
+
+	| user password id |
+	
+	[
+	user := (request fields at:'user').
+	password := (request fields at:'password').
+	
+	id := tusLibrosSystemFacade createCartFor: user authenticatedWith: password.
+	"request send200Response: (substringsAsJson)" 
+	
+	request send200Response: (('0|',(id asString) ) asUtf8) 
+			 contentType: 'application/json; charset=utf-8' do: [:resp | 
+				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	]on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:56:17'!
+listCart: request
+
+	| cartId list response |
+	
+	[
+	cartId := (request fields at:'cartId').
+	
+	list := tusLibrosSystemFacade listCartIdentifiedAs: cartId.
+	"request send200Response: (substringsAsJson)" 
+	
+	response := '0'.
+	list do: [:item | response := ('|',response,item)].
+	
+	request send200Response: (response asUtf8) 
+			 contentType: 'application/json; charset=utf-8' do: [:resp | 
+				resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	]on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
+
+!RestApiExternaXXXXXXXXXX methodsFor: 'api protocol' stamp: 'LS 12/5/2019 16:51:18'!
+sayHi: request	
+		
+	request send200Response: (self sayRandomHi asUtf8) 
+			 contentType: 'application/json; charset=utf-8' do:
+			[:resp | 
+			resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'RestApiExternaXXXXXXXXXX class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'RestApiExternaXXXXXXXXXX class' category: #'TusLibros-Model'!
 RestApiExternaXXXXXXXXXX class
 	instanceVariableNames: ''!
 
@@ -557,7 +628,7 @@ listeningOn: aPort
 	self new initializeWith: aPort.! !
 
 
-!classDefinition: #Sale category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #Sale category: #'TusLibros-Model'!
 Object subclass: #Sale
 	instanceVariableNames: 'customer ticket'
 	classVariableNames: ''
@@ -590,7 +661,7 @@ lineItemsDo: aBlock
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'Sale class' category: #'TusLibros-Model'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -600,7 +671,27 @@ doneBy: aCustomer certifiedWith: aTicket
 	^self new initializeDoneBy: aCustomer certifiedWith: aTicket ! !
 
 
-!classDefinition: #Ticket category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #SystemFacadeTestObjectsFactory category: #'TusLibros-Model'!
+Object subclass: #SystemFacadeTestObjectsFactory
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:20:08'!
+createSalesBook! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:19:51'!
+defaultCatalog! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:20:21'!
+merchantProcessor! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LS 12/5/2019 17:15:57'!
+validUsersAndPasswords! !
+
+
+!classDefinition: #Ticket category: #'TusLibros-Model'!
 Object subclass: #Ticket
 	instanceVariableNames: 'lineItems'
 	classVariableNames: ''
@@ -626,7 +717,7 @@ lineItemsDo: aBlock
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Ticket class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'Ticket class' category: #'TusLibros-Model'!
 Ticket class
 	instanceVariableNames: ''!
 
@@ -636,7 +727,7 @@ of: aCollectionOfLineItems
 	^self new initializeOf: aCollectionOfLineItems ! !
 
 
-!classDefinition: #TusLibrosSystemFacade category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: #TusLibrosSystemFacade category: #'TusLibros-Model'!
 Object subclass: #TusLibrosSystemFacade
 	instanceVariableNames: 'validUsersAndPasswords catalog lastId merchantProcessor salesBook clock cartSessions'
 	classVariableNames: ''
@@ -840,7 +931,7 @@ remove: anAmount of: aBook toCartIdentifiedAs: aCartId
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TusLibrosSystemFacade class' category: #'TusLibros-Model' stamp: 'cmmmmm 12/4/2019 19:26:28'!
+!classDefinition: 'TusLibrosSystemFacade class' category: #'TusLibros-Model'!
 TusLibrosSystemFacade class
 	instanceVariableNames: ''!
 
