@@ -234,15 +234,13 @@
               Usuario
               </Typography>
             <FormControl fullWidth className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">String</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-amount">User</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-amount"
                 value={sentence}
                 onChange={(ev)=>this.handleChange(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
                 labelWidth={60}
-                multiline
-                rows="7"
               />
             </FormControl>
 
@@ -251,15 +249,13 @@
               Contrasena
               </Typography>
             <FormControl fullWidth className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">String</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-amount">Pass</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-amount"
+                id="outlined-adornment-amount2"
                 value={sentence}
                 onChange={(ev)=>this.handleChange(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
                 labelWidth={60}
-                multiline
-                rows="7"
               />
             </FormControl>
 
@@ -450,7 +446,7 @@
       }
     
       render() {
-        let title = "Substrings Finder 6000"
+        let title = "Tus Libros V7000"
         let content = "Where am I?"
         const router = {
           current: () => this.state.path,
