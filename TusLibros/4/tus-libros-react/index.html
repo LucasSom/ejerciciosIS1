@@ -111,7 +111,7 @@
     const useStyles = makeStyles(styles);
 
     const getLocalAsJson = (path) => {
-      const port = 8082
+      const port = 8083
     
       return fetch(`http://localhost:${port}/${path}`, {
         method: "GET",
@@ -188,20 +188,20 @@
         super(props)
     
         this.state = {
-          sentence: "",
-          sentence2: "",
+          user: "",
+          password: "",
         }
       }
     
       handleChange(event) {
         this.setState({
-          sentence: event.target.value
+          user: event.target.value
         })
       };
 
       handleChange2(event) {
         this.setState({
-          sentence2: event.target.value
+          password: event.target.value
         })
       };    
 
@@ -211,11 +211,11 @@
         } = this.props
     
         const {
-          sentence,
-          sentence2,
+          user,
+          password,
         } = this.state
     
-        getLocalAsJson(`createCart?user=${sentence}&password=${sentence2}`)
+        getLocalAsJson(`createCart?user=${user}&password=${password}`)
           .then(function (response) {
             return response.json()
           })
@@ -229,8 +229,8 @@
     
       render() {
         const {
-          sentence,
-          sentence2,
+          user,
+          password,
         } = this.state
     
         const {
@@ -246,46 +246,27 @@
               <InputLabel htmlFor="outlined-adornment-amount">User</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-amount"
-                value={sentence}
+                value={user}
                 onChange={(ev)=>this.handleChange(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
                 labelWidth={60}
               />
             </FormControl>
 
-
             <Typography component="h1" gutterBottom>
               Contrasena
               </Typography>
             <FormControl fullWidth className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">Pass</InputLabel>
+              <InputLabel htmlFor="outlined-password-input">Pass</InputLabel>
               <OutlinedInput
+                type="password"
                 id="outlined-adornment-amount2"
-                value={sentence2}
+                value={password}
                 onChange={(ev)=>this.handleChange2(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
                 labelWidth={60}
               />
             </FormControl>
-
-            <TextField
-              id="standard"
-              label="User"
-              defaultValue=""
-              className={classes.textField}
-              margin="normal"
-            />
-
-
-            <TextField
-              id="standard-password-input"
-              label="Password"
-              className={classes.textField}
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-            />
-
 
             <Button
               color="inherit"
