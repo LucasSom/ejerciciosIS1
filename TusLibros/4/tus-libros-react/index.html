@@ -215,7 +215,7 @@
           sentence2,
         } = this.state
     
-        getLocalAsJson(`listCart?cartId=1`)
+        getLocalAsJson(`createCart?user=${sentence}&password=${sentence2}`)
           .then(function (response) {
             return response.json()
           })
