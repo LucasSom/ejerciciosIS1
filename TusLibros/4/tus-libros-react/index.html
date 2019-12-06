@@ -240,7 +240,7 @@
         return (
           <div>
             <Typography component="h1" gutterBottom>
-              Usuario
+              Ingrese sus Credenciales:
               </Typography>
             <FormControl fullWidth className={classes.textField} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">User</InputLabel>
@@ -249,22 +249,21 @@
                 value={user}
                 onChange={(ev)=>this.handleChange(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
-                labelWidth={60}
+                labelWidth={35}
               />
             </FormControl>
 
             <Typography component="h1" gutterBottom>
-              Contrasena
               </Typography>
             <FormControl fullWidth className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="outlined-password-input">Pass</InputLabel>
+              <InputLabel htmlFor="outlined-password-input">Password</InputLabel>
               <OutlinedInput
                 type="password"
                 id="outlined-adornment-amount2"
                 value={password}
                 onChange={(ev)=>this.handleChange2(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
-                labelWidth={60}
+                labelWidth={75}
               />
             </FormControl>
 
