@@ -895,14 +895,14 @@ signalInvalidUserAndOrPassword
 	self error: self invalidUserAndOrPasswordErrorDescription! !
 
 
-!TusLibrosSystemFacade methodsFor: 'cart session management' stamp: 'HernanWilkinson 6/21/2013 23:32'!
+!TusLibrosSystemFacade methodsFor: 'cart session management' stamp: 'LS 12/5/2019 23:20:53'!
 generateCartId
 
 	"Recuerden que esto es un ejemplo, por lo que voy a generar ids numericos consecutivos, pero en una
 	implementacion real no deberian se numeros consecutivos ni nada que genere problemas de seguridad - Hernan"
 
 	lastId := lastId + 1.
-	^lastId! !
+	^(lastId asString)! !
 
 !TusLibrosSystemFacade methodsFor: 'cart session management' stamp: 'HernanWilkinson 6/22/2013 13:02'!
 sessionDuration
