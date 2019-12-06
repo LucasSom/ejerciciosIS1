@@ -189,6 +189,7 @@
     
         this.state = {
           sentence: "",
+          sentence2: "",
         }
       }
     
@@ -197,7 +198,13 @@
           sentence: event.target.value
         })
       };
-    
+
+      handleChange2(event) {
+        this.setState({
+          sentence2: event.target.value
+        })
+      };    
+
       handleSend() {
         const {
           router,
@@ -205,9 +212,10 @@
     
         const {
           sentence,
+          sentence2,
         } = this.state
     
-        getLocalAsJson(`substrings?sentence=${sentence}`)
+        getLocalAsJson(`listCart?cartId=1`)
           .then(function (response) {
             return response.json()
           })
@@ -222,6 +230,7 @@
       render() {
         const {
           sentence,
+          sentence2,
         } = this.state
     
         const {
@@ -252,8 +261,8 @@
               <InputLabel htmlFor="outlined-adornment-amount">Pass</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-amount2"
-                value={sentence}
-                onChange={(ev)=>this.handleChange(ev)}
+                value={sentence2}
+                onChange={(ev)=>this.handleChange2(ev)}
                 startAdornment={<InputAdornment position="start">></InputAdornment>}
                 labelWidth={60}
               />
