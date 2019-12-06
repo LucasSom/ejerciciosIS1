@@ -1,0 +1,19 @@
+CreateCart
+http://localhost:8083/createCart?user=validUser&password=validUserPassword
+
+AddToCart
+http://localhost:8083/addToCart?id=1&book=validBook&bookQuantity=2
+
+ListCart
+http://localhost:8083/listCart?cartId=1
+
+ListPurchases
+http://localhost:8083/listPurchases?clientId=validUser&password=validUserPassword
+
+|server|
+server := RestApiExternaXXXXXXXXXX listeningOn: 8082.	
+
+RestApiExternaXXXXXXXXXX allInstancesDo: [:aRest | aRest stopListening ].
+RestApiExternaXXXXXXXXXX allInstancesDo: [:aRest | aRest destroy].
+RestApiExternaXXXXXXXXXX allInstances.
+

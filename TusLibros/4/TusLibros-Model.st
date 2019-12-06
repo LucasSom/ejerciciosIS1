@@ -467,7 +467,7 @@ Object subclass: #RestApiExterna
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!RestApiExterna methodsFor: 'initialization' stamp: 'LS 12/5/2019 20:06:35'!
+!RestApiExterna methodsFor: 'initialization' stamp: 'LS 12/5/2019 22:45:10'!
 initializeWith: aPortNumber
 	
 	| testObjectsFactory |
@@ -490,7 +490,8 @@ initializeWith: aPortNumber
 	self addServiceAddToCart.
 	self addServiceListCart.
 	self addServiceCheckOutCart.
-	self addServiceListPurchases.! !
+	self addServiceListPurchases.
+	self addServiceRemove.! !
 
 
 !RestApiExterna methodsFor: 'enabling services' stamp: 'cmmmmm 11/21/2019 19:53:30'!
@@ -542,6 +543,11 @@ addServiceListCart
 addServiceListPurchases
 	
 	webServer addService: '/listPurchases' action: [:request | self listPurchases: request ].! !
+
+!RestApiExterna methodsFor: 'add services' stamp: 'LS 12/5/2019 22:44:51'!
+addServiceRemove
+	
+	webServer addService: '/remove' action: [:request | self remove: request ].! !
 
 
 !RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 20:15:55'!
@@ -629,6 +635,23 @@ listPurchases: request
 	self sendResponse: response to: request.
 	
 	]on: Error 
+	do: [ :anError |
+		request send404Response: (anError messageText) ].! !
+
+!RestApiExterna methodsFor: 'api protocol' stamp: 'LS 12/5/2019 22:44:25'!
+remove: request
+	
+	| id book bookQuantity |
+	
+	[id := (request fields at:'id').
+	book := (request fields at:'book').
+	bookQuantity := (request fields at:'bookQuantity').
+	
+	tusLibrosSystemFacade remove: bookQuantity of: book toCartIdentifiedAs: id.
+	self sendResponse: '0|OK' to: request.
+	
+	 ] 
+	on: Error 
 	do: [ :anError |
 		request send404Response: (anError messageText) ].! !
 
@@ -939,6 +962,11 @@ listPurchasesOf: aUser authenticatingWith: aPassword
 				self list: aSale on: salesOrderedByBook.
 				salesOrderedByBook ] ]! !
 
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'cmmmmm 12/1/2019 16:05:47'!
+remove: anAmount of: aBook toCartIdentifiedAs: aCartId 
+
+	self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession removeFromCart: anAmount of: aBook ]! !
+
 
 !TusLibrosSystemFacade methodsFor: 'checkout support' stamp: 'HernanWilkinson 6/17/2015 20:49'!
 merchantProcessor
@@ -982,12 +1010,6 @@ initializeAuthenticatingWith: aValidUsersAndPasswords
 
 	cartSessions := Dictionary new.
 	lastId := 0.! !
-
-
-!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'cmmmmm 12/1/2019 16:05:47'!
-remove: anAmount of: aBook toCartIdentifiedAs: aCartId 
-
-	self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession removeFromCart: anAmount of: aBook ]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
