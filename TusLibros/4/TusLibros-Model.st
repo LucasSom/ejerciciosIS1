@@ -712,10 +712,15 @@ doneBy: aCustomer certifiedWith: aTicket
 
 !classDefinition: #SystemFacadeTestObjectsFactory category: #'TusLibros-Model'!
 Object subclass: #SystemFacadeTestObjectsFactory
-	instanceVariableNames: ''
+	instanceVariableNames: 'today'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
+
+!SystemFacadeTestObjectsFactory methodsFor: 'user' stamp: 'LS 12/5/2019 23:30:12'!
+customer
+
+	^'aCustomer'! !
 
 !SystemFacadeTestObjectsFactory methodsFor: 'user' stamp: 'LS 12/5/2019 17:53:37'!
 validUser
@@ -772,6 +777,38 @@ itemSellByTheStore
 itemSellByTheStorePrice
 
 	^10! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'credit card' stamp: 'LS 12/5/2019 23:25:47'!
+creditCard
+
+	^CreditCard expiringOn: self notExpiredMonthOfYear! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'credit card' stamp: 'LS 12/5/2019 23:26:03'!
+creditCardNumber
+
+	^ '1111222233334444' ! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'credit card' stamp: 'LS 12/5/2019 23:26:46'!
+creditCardOwner
+
+	^'Juan Perez'! !
+
+!SystemFacadeTestObjectsFactory methodsFor: 'credit card' stamp: 'LS 12/5/2019 23:29:23'!
+monthOfYear
+	
+	^ Month month: today monthIndex year: today yearNumber + 1! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'initialization' stamp: 'LS 12/5/2019 23:28:58'!
+initialize
+
+	today := DateAndTime now! !
+
+
+!SystemFacadeTestObjectsFactory methodsFor: 'date' stamp: 'LS 12/5/2019 23:29:52'!
+today
+	^today ! !
 
 
 !classDefinition: #Ticket category: #'TusLibros-Model'!
